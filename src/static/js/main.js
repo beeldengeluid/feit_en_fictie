@@ -9,7 +9,9 @@ $("document").ready(function () {
         }
     });
     //uncomment for testing more quickly
-    analyzeUrl('https://www.nu.nl/voetbal/4978826/oranjevrouwen-geridderd-behalen-europese-titel.html');
+    //analyzeUrl('https://www.nu.nl/voetbal/4978826/oranjevrouwen-geridderd-behalen-europese-titel.html');
+
+    //initialize the modal
     $('#modal').modal({show : false})
 });
 
@@ -49,21 +51,22 @@ function callSearchTermsAndSegments() {
 
 //draws a table based on the retrieved terms
 function generateTermTable() {
-    //clear the previous contents
+    //clear the previous contents and event listeners
     $('#searchTerms').html('');
+    $(".removeFilter").unbind( "click" );
 
     //generate the new stuff
     if(_currentTerms) {
-        var html = ['<table class="table table-bordered table-hover"><thead><tr><th>Zoekwoorden</th></tr></thead><tbody>'];
+        var html = ['<table class="table table-hover"><thead><tr><th>Zoekwoorden</th></tr></thead><tbody>'];
         $.each(_currentTerms, function (i, item) {
             html.push('<tr><td><span class="searchTerm">' + item.tuple[0] + '</span>');
             html.push('<button id="__term__'+i+'" type="button" class="btn btn-danger btn-xs pull-right removeFilter">');
-            html.push('<span class="glyphicon glyphicon-remove"></span> Remove</button></p></td></tr>');
+            html.push('<span class="glyphicon glyphicon-remove"></span> Remove</button></td></tr>');
         });
         html.push('</tbody></table>');
         $('#searchTerms').html(html.join(''));
-        $('.removeFilter').on("click", function(e) {
-            removeTerm(e.target.id);
+        $('.removeFilter').click(function(event) {
+            removeTerm(event.target.id);
         });
     }
 }
@@ -116,7 +119,7 @@ function generateRecommendationTable(e) {
 
     //regenerate the table
     var html = [];
-    html.push('<table class="table table-bordered table-hover">');
+    html.push('<table class="table table-hover">');
     html.push('<thead><tr><th><span class="glyphicon glyphicon-shopping-cart"></span></th>');
     html.push('<th>Description</th><th>View</th> </tr></thead><tbody>');
 
@@ -126,7 +129,13 @@ function generateRecommendationTable(e) {
         html.push(getDescription(item) + '</td>');
         html.push('<td>');
         if(playoutData) {
-            html.push('<a onclick="showPlayer(\''+playoutData.url+'\', '+playoutData.start+')"><span class="glyphicon glyphicon-film"></span></a>')
+            html.push('<a onclick="showPlayer(\''+playoutData.url+'\', '+playoutData.start+')">');
+            if(playoutData.type == 'video') {
+                html.push('<i class="fa fa-film interactive"></i>');
+            } else {
+                html.push('<i class="fa fa-signal interactive"></i>');
+            }
+            html.push('</a>');
         }
         html.push('</td></tr>');
     });
@@ -136,43 +145,56 @@ function generateRecommendationTable(e) {
 }
 
 function getDescription(item) {
+    var desc = 'Geen titel / omschrijving'
     var a = item.tuple[0].attributes;
     if (a.maintitles && a.description) {
         if(a.maintitles.length > a.description.length) {
-            return a.maintitles;
+            desc = a.maintitles;
         } else {
-            return a.description;
+            desc = a.description;
         }
     } else if(a.description) {
-        return a.description;
+        desc = a.description;
     } else if(a.maintitles) {
-        return a.maintitles;
+        desc = a.maintitles;
     }  else if (a.program) {
         if(a.program.summary) {
-            return a.program.summary;
+            desc = a.program.summary;
         } else if (a.program.maintitles) {
-            return a.program.maintitles
+            desc = a.program.maintitles
         }
     }
-    return 'No title or description found'
+
+    if(a.program && a.program.publication && a.program.publication[0] && a.program.publication[0].startdate) {
+        desc += ' (' + a.program.publication[0].startdate + ')';
+    }
+    return desc;
 }
 
 function getPlayoutData(item) {
     var data = null;
     var url = null;
+    var type = null;
     var a = item.tuple[0].attributes;
     if(a.program && a.program.publication && a.program.publication[0]) {
         var p = a.program.publication[0];
         if(p.distributionchannel == 'televisie' && a.carrierreference) {
             url = _v + '/' + a.carrierreference;
+            type = 'video'
         } else if (a.dmguid) {
             url = _a + '/' + a.dmguid;
+            type = 'audio';
         }
     }
     if(url) {
+        var start = (a.startoncarrier - a.startoffset) / 1000;
+        if(isNaN(start)) {
+            start = 0;
+        }
         data = {
             url : url,
-            start : (a.startoncarrier - a.startoffset) / 1000 //aantal sec
+            type : type,
+            start : start //aantal sec
         }
     }
     return data;
@@ -190,7 +212,10 @@ function showPlayer(url, secs) {
     $('#video_player').html(html.join(''));
     var vid = document.getElementById('video');
     vid.onloadedmetadata = function(){
-        console.debug('video loaded');
+        console.debug('video loaded', secs);
+        if(isNaN(secs)) {
+            secs = 0;
+        }
         vid.currentTime = secs;
         $('#modal').modal('show');
 
