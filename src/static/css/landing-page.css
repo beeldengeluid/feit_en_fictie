@@ -193,10 +193,7 @@ a.navbar-brand.topnav {
     top: -4px;
 }
 .navbar-default .navbar-nav>li>a {
-    font-size: 1rem;
-}
-.list-inline>li > a{
-    font-size: 1rem;
+    font-size: 80%;
 }
 
 .copyright.text-muted {
@@ -225,4 +222,7 @@ td {
 
 .interactive {
     cursor:pointer;
+}
+ul.list-inline {
+    padding-top: 2rem;
 }
