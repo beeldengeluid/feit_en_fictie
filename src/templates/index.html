@@ -44,7 +44,7 @@
                 <span class="icon-bar"></span>
             </button>
             <span class="siteLogo">
-                <a class="navbar-brand topnav" href="#">Feit & Fixie</a>
+                <a class="navbar-brand topnav" href="#">Feit &amp; Fixie</a>
                 <p class="siteNameDesc">Van teskst naar archiefmateriaal</p>
             </span>
 
@@ -110,6 +110,25 @@ print_r($_REQUEST); ?>
         </div>
         <!-- /.container -->
 
+        <!-- Button trigger modal -->
+
+        <!-- Modal -->
+        <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="closeModal();"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="video_player" class="text-center"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.intro-header -->
 
