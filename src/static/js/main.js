@@ -73,9 +73,11 @@ function generateTermTable() {
 
 function removeTerm(elmId) {
     var index = parseInt(elmId.substring(8));
-    _currentTerms.splice(index, 1);
-    generateTermTable();
-    callRecommendations();
+    if(!isNaN(index)) {
+        _currentTerms.splice(index, 1);
+        generateTermTable();
+        callRecommendations();
+    }
 }
 
 function generateTermExtractionURL() {
