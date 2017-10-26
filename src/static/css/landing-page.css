@@ -160,6 +160,10 @@ h6 {
 footer {
     padding: 10px 0;
     background-color: #f8f8f8;
+
+}
+
+footer#main_page{
     position: absolute;
     bottom: 0;
     width:100%;
