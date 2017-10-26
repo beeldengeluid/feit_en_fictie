@@ -1,10 +1,12 @@
 var _currentTerms = null;
 var _extractedData = null;
 
-$("document").ready(function () {
-    $("#search_article").on("click", function (e) {
+$("document").ready(function (e) {
+    $("#search_article, #search_input_field").on("click keypress", function (e) {
         var url = $('#search_input_field').val();
-        if (url) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+
+        if (url && (code === 13) || e.target.id === 'search_article') {
             analyzeUrl(url);
         }
     });
