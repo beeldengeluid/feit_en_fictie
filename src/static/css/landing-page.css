@@ -1,7 +1,6 @@
-body,
-html {
-    width: 100%;
-    height: 100%;
+body {
+    background: url(../img/intro-bg.jpg) no-repeat center center;
+    background-size: cover;
 }
 
 body,
@@ -22,6 +21,30 @@ h6 {
 .lead {
     font-size: 18px;
     font-weight: 400;
+}
+
+.intro-message {
+    position: relative;
+    padding-top: 20%;
+    padding-bottom: 20%;
+    color:#fff;
+}
+
+.intro-message > h1 {
+    margin: 1rem;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 3rem;
+    text-align: center;
+}
+
+.intro-divider {
+    width: 400px;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.intro-message > h3 {
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
 }
 
 @media(max-width:767px) {
@@ -48,39 +71,27 @@ h6 {
     }
 }
 
-.intro-header {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    text-align: left;
-    color: #c0c0c0;
-    background: url(../img/intro-bg.jpg) no-repeat center center;
-    background-size: cover;
-    opacity: 0.8;
+.network-name {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
 }
 
-.intro-message {
-    position: relative;
-    padding-top: 10%;
-    padding-bottom: 5%;
+.content-section-a {
+    padding: 50px 0;
+    background-color: #f8f8f8;
 }
 
-.intro-message > h1 {
-    margin: 1rem;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 3rem;
-    text-align: center;
+.content-section-b {
+    padding: 50px 0;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
 }
 
-.intro-divider {
-    width: 400px;
-    border-top: 1px solid #f8f8f8;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+.section-heading {
+    margin-bottom: 30px;
 }
-
-.intro-message > h3 {
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-}
-
 
 .section-heading-spacer {
     float: left;
@@ -108,28 +119,6 @@ h6 {
 .banner-social-buttons {
     float: right;
     margin-top: 0;
-}
-
-.network-name {
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
-.content-section-a {
-    padding: 50px 0;
-    background-color: #f8f8f8;
-}
-
-.content-section-b {
-    padding: 50px 0;
-    border-top: 1px solid #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
-}
-
-.section-heading {
-    margin-bottom: 30px;
 }
 
 @media(max-width:1199px) {
@@ -160,13 +149,6 @@ h6 {
 footer {
     padding: 10px 0;
     background-color: #f8f8f8;
-
-}
-
-footer#main_page{
-    position: absolute;
-    bottom: 0;
-    width:100%;
 }
 
 p.copyright {
