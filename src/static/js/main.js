@@ -63,7 +63,7 @@ function generateTermTable() {
         $.each(_currentTerms, function (i, item) {
             html.push('<tr><td><span class="searchTerm">' + item.tuple[0] + '</span>');
             html.push('<button id="__term__'+i+'" type="button" class="btn btn-danger btn-xs pull-right removeFilter">');
-            html.push('<span class="glyphicon glyphicon-remove"></span> Remove</button></td></tr>');
+            html.push('<span class="glyphicon glyphicon-remove"></span> Verwijder</button></td></tr>');
         });
         html.push('</tbody></table>');
         $('#searchTerms').html(html.join(''));
