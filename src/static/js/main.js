@@ -67,8 +67,8 @@ function generateTermTable() {
         });
         html.push('</tbody></table>');
         $('#searchTerms').html(html.join(''));
-        $('.btn-danger').click(function(event) {
-            removeTerm(event.target.id);
+        $('.removeFilter').click(function(event) {
+            removeTerm(event.currentTarget.id);
         });
     }
 }
