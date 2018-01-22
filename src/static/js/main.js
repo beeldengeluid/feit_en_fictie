@@ -137,7 +137,7 @@ function generateRecommendationTable(e) {
             if(playoutData.type == 'video') {
                 html.push('<i class="fa fa-film interactive"></i>');
             } else {
-                html.push('<i class="fa fa-signal interactive"></i>');
+                html.push('<i class="fa fa-volume-up interactive"></i>');
             }
             html.push('</a>');
         }
