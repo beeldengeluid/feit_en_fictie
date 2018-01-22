@@ -127,11 +127,12 @@ function generateRecommendationTable(e) {
 
     $.each(e.items, function (key, item) {
         var playoutData = getPlayoutData(item);
-        html.push('<tr><td><input id="checkBox" type="checkbox"></td><td>');
-        html.push(getDescription(item) +  '</td><td class="ff_date_field">');
-        html.push(getDate(item) +  '</td>');
-        html.push('<td class="ff_play_field">');
+
         if(playoutData) {
+            html.push('<tr><td><input id="checkBox" type="checkbox"></td><td>');
+            html.push(getDescription(item) +  '</td><td class="ff_date_field">');
+            html.push(getDate(item) +  '</td>');
+            html.push('<td class="ff_play_field">');
             html.push('<a onclick="showPlayer(\''+playoutData.url+'\', '+playoutData.start+')">');
             if(playoutData.type == 'video') {
                 html.push('<i class="fa fa-film interactive"></i>');
