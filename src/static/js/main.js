@@ -116,8 +116,6 @@ function callRecommendations() {
 
 //draws the table filled with recommendations
 function generateRecommendationTable(e) {
-    console.debug('generate recommendations table');
-
     //clean the previous state
     $('#recommendedSegments').html('');
 
@@ -125,13 +123,14 @@ function generateRecommendationTable(e) {
     var html = [];
     html.push('<table class="table table-hover">');
     html.push('<thead><tr><th><span class="glyphicon glyphicon-shopping-cart"></span></th>');
-    html.push('<th>Description</th><th>View</th> </tr></thead><tbody>');
+    html.push('<th>Description</th><th>Datum</th><th>View</th></tr></thead><tbody>');
 
     $.each(e.items, function (key, item) {
         var playoutData = getPlayoutData(item);
         html.push('<tr><td><input id="checkBox" type="checkbox"></td><td>');
-        html.push(getDescription(item) + '</td>');
-        html.push('<td>');
+        html.push(getDescription(item) +  '</td><td class="ff_date_field">');
+        html.push(getDate(item) +  '</td>');
+        html.push('<td class="ff_play_field">');
         if(playoutData) {
             html.push('<a onclick="showPlayer(\''+playoutData.url+'\', '+playoutData.start+')">');
             if(playoutData.type == 'video') {
@@ -168,11 +167,19 @@ function getDescription(item) {
             desc = a.program.maintitles
         }
     }
+    return desc;
+}
+
+function getDate(item) {
+    var desc = '';
+    var a = item.tuple[0].attributes;
+    // console.log(a);
 
     if(a.program && a.program.publication && a.program.publication[0] && a.program.publication[0].startdate) {
-        desc += ' (' + a.program.publication[0].startdate + ')';
+        desc += a.program.publication[0].startdate;
     }
     return desc;
+
 }
 
 function getPlayoutData(item) {
@@ -209,14 +216,14 @@ function getPlayoutData(item) {
 */
 
 function showPlayer(url, secs) {
-    console.debug(secs);
+     // console.debug(secs);
     var html = ['<video id="video" controls>']
     html.push('<source src="'+url+'"></source>')
     html.push('</video>');
     $('#video_player').html(html.join(''));
     var vid = document.getElementById('video');
     vid.onloadedmetadata = function(){
-        console.debug('video loaded', secs);
+        // console.debug('video loaded', secs);
         if(isNaN(secs)) {
             secs = 0;
         }

@@ -245,3 +245,10 @@ ul.list-inline {
 .navbar {
     min-height: 65px;
 }
+.ff_date_field {
+    min-width: 94px;
+}
+
+.ff_play_field {
+    text-align: center;
+}
