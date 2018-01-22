@@ -69,6 +69,12 @@ h6 {
     .intro-divider {
         width: 100%;
     }
+    .siteNameDesc {
+        padding: 0 15px;
+    }
+    .navbar-header {
+        min-height: 60px;
+    }
 }
 
 .network-name {
@@ -176,10 +182,11 @@ input[type=text] {
     margin: 0 auto;
 }
 
-p.siteNameDesc {
+.siteNameDesc {
     position: relative;
-    bottom: -30px;
-    font-size: 0.7rem;
+    bottom: -32px;
+    font-size: 0.8rem;
+    letter-spacing: .1rem;
 }
 .sitelogo {
     position: relative;
@@ -217,7 +224,7 @@ th {
 }
 
 td {
-    color: fff;
+    color: #fff;
 }
 
 .interactive {
@@ -225,4 +232,16 @@ td {
 }
 ul.list-inline {
     padding-top: 2rem;
+}
+.ff_site-logo {
+    letter-spacing: 2.6rem;
+}
+
+.ff_line01 {
+    letter-spacing: 0.2rem;
+}
+
+/* overwrite bootstrap defaults */
+.navbar {
+    min-height: 65px;
 }
