@@ -1,7 +1,7 @@
 var _currentTerms = null;
 var _extractedData = null;
 
-$("document").ready(function (e) {
+$("document").ready(function () {
     $("#search_article, #search_input_field").on("click keypress", function (e) {
         var url = $('#search_input_field').val();
         var code = (e.keyCode ? e.keyCode : e.which);
@@ -22,19 +22,19 @@ $("document").ready(function (e) {
 */
 
 //main function called by pressing GO!
-function analyzeUrl(url) {
+function analyzeUrl(url, addedSearchTerm) {
     $.when(
         $.ajax(_p + '/parse?url=' + url)
     ).then(function (data, textStatus, jqXHR) {
         // By passing a URL we get an object with {url: <url>, title: <title>, text: <text>}
         // Retrieve the object and build the url for the extractedTerms.
         _extractedData = data;
-        callSearchTermsAndSegments(url);
+        callSearchTermsAndSegments(addedSearchTerm || false);
     });
 }
 
 //does the term extraction and recommendation subsequently
-function callSearchTermsAndSegments() {
+function callSearchTermsAndSegments(addedSearchTerm) {
     // zoekwooden. Load search terms table.
     // build API url for on success get suggested segments
     $.ajax({
@@ -42,8 +42,17 @@ function callSearchTermsAndSegments() {
         context: document.body
     }).done(function (termsObject) {
         _currentTerms = termsObject.items;
+
+        if (addedSearchTerm) {
+            _currentTerms.push({
+                probability: 0.8,
+                rank: 100,
+                tuple: [addedSearchTerm]
+            });
+        }
+
         generateTermTable();
-        callRecommendations();
+        callRecommendations(addedSearchTerm || false);
     });
 }
 
@@ -65,20 +74,37 @@ function generateTermTable() {
             html.push('<button id="__term__'+i+'" type="button" class="btn btn-danger btn-xs pull-right removeFilter">');
             html.push('<span class="glyphicon glyphicon-remove"></span> Verwijder</button></td></tr>');
         });
-        html.push('</tbody></table>');
+
+        html.push('<td><div class="form-group">' +
+            '<input type="text" id="newSearchTerm" class="form-control" placeholder="Search"></div>' +
+            '<button id="addSearchTerm" type="button" class="btn btn-default">Zoek</button>' +
+            '</td></tbody></table>');
+
         $('#searchTerms').html(html.join(''));
         $('.removeFilter').click(function(event) {
             removeTerm(event.currentTarget.id);
         });
+        $('#addSearchTerm').click(function(e) {
+            addTerm(e);
+        })
     }
+}
+
+function addTerm() {
+    var addedSearchTerm = $('#newSearchTerm').val() || false;
+    var urlNewsArticle = $('#search_input_field').val();
+    if(addedSearchTerm) {
+        analyzeUrl(urlNewsArticle, addedSearchTerm);
+    }
+    return false;
 }
 
 function removeTerm(elmId) {
     var index = parseInt(elmId.substring(8));
-    if(!isNaN(index)) {
+    if (!isNaN(index)) {
         _currentTerms.splice(index, 1);
         generateTermTable();
-        callRecommendations();
+        callRecommendations(false);
     }
 }
 
@@ -96,18 +122,18 @@ function generateTermExtractionURL() {
 ------------------ RECOMMENDATION FUNCTIONS -------------------
 */
 
-function generateRecommendationsURL() {
+function generateRecommendationsURL(addedSearchTerm) {
     var partialUrlTerms = '';
     $.each(_currentTerms, function (i, item) {
         partialUrlTerms += item.probability + "(" + item.tuple[0] + ")" + encodeURIComponent(urlencode("|"));
     });
-    return _p + '/recommend?tuplelist=' + partialUrlTerms;
+    return _p + '/recommend?tuplelist=' + encodeURIComponent(urlencode("|"))  + partialUrlTerms;
 }
 
 
-function callRecommendations() {
+function callRecommendations(addedSearchTerm) {
     $.ajax({
-        url: generateRecommendationsURL(),
+        url: generateRecommendationsURL(addedSearchTerm),
         context: document.body
     }).done(function (e) {
         generateRecommendationTable(e);
@@ -174,7 +200,6 @@ function getDescription(item) {
 function getDate(item) {
     var desc = '';
     var a = item.tuple[0].attributes;
-    // console.log(a);
 
     if(a.program && a.program.publication && a.program.publication[0] && a.program.publication[0].startdate) {
         desc += a.program.publication[0].startdate;
@@ -215,7 +240,6 @@ function getPlayoutData(item) {
 /*
 ------------------ PLAYOUT -------------------
 */
-
 function showPlayer(url, secs) {
      // console.debug(secs);
     var html = ['<video id="video" controls>']
@@ -243,7 +267,6 @@ function closeModal() {
 /*
 ------------------ HELPER FUNCTION -------------------
 */
-
 function urlencode(text) {
     return encodeURIComponent(text).replace(/!/g, '%21')
         .replace(/'/g, '%27')
