@@ -218,6 +218,11 @@ th {
     background-color: #c9c9c9;
     color: #000;
 }
+
+.table-hover>tbody>tr.addNewTermField:hover {
+    background-color: transparent;
+    color: #000;
+}
 .table-responsive {
     background: rgba(81,77,76, 0.2);
     color: #fff;
@@ -234,7 +239,7 @@ ul.list-inline {
     padding-top: 2rem;
 }
 .ff_site-logo {
-    letter-spacing: 2.6rem;
+    letter-spacing: 1.7rem;
 }
 
 .ff_line01 {
@@ -245,10 +250,33 @@ ul.list-inline {
 .navbar {
     min-height: 65px;
 }
+
 .ff_date_field {
     min-width: 94px;
 }
 
 .ff_play_field {
     text-align: center;
+}
+
+td.searchTermFormCell {
+    padding: 10px 0 !important;
+}
+
+td.searchTermFormCell .form-group .form-control{
+    display: inline-block;
+    width: 76%;
+}
+
+button#addSearchTerm {
+    width: 24%;
+    vertical-align: top;
+}
+
+#addSearchTerm.btn {
+
+    border-radius:0 4px 4px 0 ;
+}
+#newSearchTerm.form-control {
+    border-radius: 4px 0 0 4px;
 }

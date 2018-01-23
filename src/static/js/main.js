@@ -75,10 +75,10 @@ function generateTermTable() {
             html.push('<span class="glyphicon glyphicon-remove"></span> Verwijder</button></td></tr>');
         });
 
-        html.push('<td><div class="form-group">' +
-            '<input type="text" id="newSearchTerm" class="form-control" placeholder="Search"></div>' +
+        html.push('<tr class="addNewTermField"><td class="searchTermFormCell"><div class="form-group">' +
+            '<input type="text" id="newSearchTerm" class="form-control" placeholder="Search">' +
             '<button id="addSearchTerm" type="button" class="btn btn-default">Zoek</button>' +
-            '</td></tbody></table>');
+            '</div></td></tr></tbody></table>');
 
         $('#searchTerms').html(html.join(''));
         $('.removeFilter').click(function(event) {
