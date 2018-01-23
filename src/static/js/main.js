@@ -83,16 +83,31 @@ function generateTermTable() {
     }
 }
 
+
+function isPresent(array, word) {
+    var isPresent = true;
+    $.each(array, function(key, value) {
+        if(value.tuple[0] === word) {
+            isPresent = false;
+            return false;
+        }
+    });
+    return isPresent;
+}
+
 function addTerm() {
     var addedSearchTerm = $('#newSearchTerm').val() || false;
+
     if(addedSearchTerm) {
-        _currentTerms.push({
-            probability: 0.99,
-            rank: 11,
-            tuple: [addedSearchTerm]
-        });
-        generateTermTable();
-        callRecommendations(false);
+        if(isPresent(_currentTerms, addedSearchTerm)){
+            _currentTerms.push({
+                probability: 0.99,
+                rank: 11,
+                tuple: [addedSearchTerm]
+            });
+            generateTermTable();
+            callRecommendations(false);
+        }
     }
     return false;
 }
