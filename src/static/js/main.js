@@ -1,5 +1,6 @@
 var _currentTerms = null;
 var _extractedData = null;
+var _userZoekTerms = [];
 
 $("document").ready(function () {
     $("#search_article, #search_input_field").on("click keypress", function (e) {
@@ -22,19 +23,19 @@ $("document").ready(function () {
 */
 
 //main function called by pressing GO!
-function analyzeUrl(url, addedSearchTerm) {
+function analyzeUrl(url, _userZoekTerms) {
     $.when(
         $.ajax(_p + '/parse?url=' + url)
     ).then(function (data, textStatus, jqXHR) {
         // By passing a URL we get an object with {url: <url>, title: <title>, text: <text>}
         // Retrieve the object and build the url for the extractedTerms.
         _extractedData = data;
-        callSearchTermsAndSegments(addedSearchTerm || false);
+        callSearchTermsAndSegments(_userZoekTerms || false);
     });
 }
 
 //does the term extraction and recommendation subsequently
-function callSearchTermsAndSegments(addedSearchTerm) {
+function callSearchTermsAndSegments(_userZoekTerms) {
     // zoekwooden. Load search terms table.
     // build API url for on success get suggested segments
     $.ajax({
@@ -42,17 +43,18 @@ function callSearchTermsAndSegments(addedSearchTerm) {
         context: document.body
     }).done(function (termsObject) {
         _currentTerms = termsObject.items;
-
-        if (addedSearchTerm) {
-            _currentTerms.push({
-                probability: 0.8,
-                rank: 100,
-                tuple: [addedSearchTerm]
+        if (_userZoekTerms) {
+            $.each(_userZoekTerms, function (key, value) {
+                _currentTerms.push({
+                    probability: 0.99,
+                    rank: 100 + key,
+                    tuple: [value]
+                });
             });
         }
 
         generateTermTable();
-        callRecommendations(addedSearchTerm || false);
+        callRecommendations(_userZoekTerms || false);
     });
 }
 
@@ -71,17 +73,19 @@ function generateTermTable() {
         var html = ['<table class="table table-hover"><thead><tr><th>Zoekwoorden</th></tr></thead><tbody>'];
         $.each(_currentTerms, function (i, item) {
             html.push('<tr><td><span class="searchTerm">' + item.tuple[0] + '</span>');
-            html.push('<button id="__term__'+i+'" type="button" class="btn btn-danger btn-xs pull-right removeFilter">');
+            html.push('<button id="__term__'+i+'" type="button" data-value=' + item.tuple[0] + ' class="btn btn-danger btn-xs pull-right removeFilter">');
             html.push('<span class="glyphicon glyphicon-remove"></span> Verwijder</button></td></tr>');
         });
 
         html.push('<tr class="addNewTermField"><td class="searchTermFormCell"><div class="form-group">' +
-            '<input type="text" id="newSearchTerm" class="form-control" placeholder="Search">' +
-            '<button id="addSearchTerm" type="button" class="btn btn-default">Zoek</button>' +
+            '<input type="text" id="newSearchTerm" class="form-control" placeholder="Zoekwoord toevoegen">' +
+            '<button id="addSearchTerm" type="button" class="btn btn-default">Ga!</button>' +
             '</div></td></tr></tbody></table>');
 
         $('#searchTerms').html(html.join(''));
         $('.removeFilter').click(function(event) {
+            var valueToRemove = $(this).data('value');
+            _userZoekTerms = _userZoekTerms.filter(function(e) { return e !== valueToRemove })
             removeTerm(event.currentTarget.id);
         });
         $('#addSearchTerm').click(function(e) {
@@ -94,7 +98,8 @@ function addTerm() {
     var addedSearchTerm = $('#newSearchTerm').val() || false;
     var urlNewsArticle = $('#search_input_field').val();
     if(addedSearchTerm) {
-        analyzeUrl(urlNewsArticle, addedSearchTerm);
+        _userZoekTerms.push(addedSearchTerm);
+        analyzeUrl(urlNewsArticle, _userZoekTerms);
     }
     return false;
 }

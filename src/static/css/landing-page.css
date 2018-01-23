@@ -280,3 +280,7 @@ button#addSearchTerm {
 #newSearchTerm.form-control {
     border-radius: 4px 0 0 4px;
 }
+
+#newSearchTerm.form-control::placeholder {
+    font-size: 13px;
+}
