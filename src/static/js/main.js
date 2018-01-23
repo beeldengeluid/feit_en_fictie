@@ -1,6 +1,5 @@
 var _currentTerms = null;
 var _extractedData = null;
-var _userZoekTerms = [];
 
 $("document").ready(function () {
     $("#search_article, #search_input_field").on("click keypress", function (e) {
@@ -23,19 +22,19 @@ $("document").ready(function () {
 */
 
 //main function called by pressing GO!
-function analyzeUrl(url, _userZoekTerms) {
+function analyzeUrl(url) {
     $.when(
         $.ajax(_p + '/parse?url=' + url)
     ).then(function (data, textStatus, jqXHR) {
         // By passing a URL we get an object with {url: <url>, title: <title>, text: <text>}
         // Retrieve the object and build the url for the extractedTerms.
         _extractedData = data;
-        callSearchTermsAndSegments(_userZoekTerms || false);
+        callSearchTermsAndSegments();
     });
 }
 
 //does the term extraction and recommendation subsequently
-function callSearchTermsAndSegments(_userZoekTerms) {
+function callSearchTermsAndSegments() {
     // zoekwooden. Load search terms table.
     // build API url for on success get suggested segments
     $.ajax({
@@ -43,18 +42,9 @@ function callSearchTermsAndSegments(_userZoekTerms) {
         context: document.body
     }).done(function (termsObject) {
         _currentTerms = termsObject.items;
-        if (_userZoekTerms) {
-            $.each(_userZoekTerms, function (key, value) {
-                _currentTerms.push({
-                    probability: 0.99,
-                    rank: 100 + key,
-                    tuple: [value]
-                });
-            });
-        }
 
         generateTermTable();
-        callRecommendations(_userZoekTerms || false);
+        callRecommendations();
     });
 }
 
@@ -84,10 +74,9 @@ function generateTermTable() {
 
         $('#searchTerms').html(html.join(''));
         $('.removeFilter').click(function(event) {
-            var valueToRemove = $(this).data('value');
-            _userZoekTerms = _userZoekTerms.filter(function(e) { return e !== valueToRemove })
             removeTerm(event.currentTarget.id);
         });
+
         $('#addSearchTerm').click(function(e) {
             addTerm(e);
         })
@@ -96,13 +85,18 @@ function generateTermTable() {
 
 function addTerm() {
     var addedSearchTerm = $('#newSearchTerm').val() || false;
-    var urlNewsArticle = $('#search_input_field').val();
     if(addedSearchTerm) {
-        _userZoekTerms.push(addedSearchTerm);
-        analyzeUrl(urlNewsArticle, _userZoekTerms);
+        _currentTerms.push({
+            probability: 0.99,
+            rank: 11,
+            tuple: [addedSearchTerm]
+        });
+        generateTermTable();
+        callRecommendations(false);
     }
     return false;
 }
+
 
 function removeTerm(elmId) {
     var index = parseInt(elmId.substring(8));
