@@ -68,8 +68,8 @@ function generateTermTable() {
         });
 
         html.push('<tr class="addNewTermField"><td class="searchTermFormCell"><div class="form-group">' +
-            '<input type="text" id="newSearchTerm" class="form-control" placeholder="Zoekwoord toevoegen">' +
-            '<button id="addSearchTerm" type="button" class="btn btn-default">Ga!</button>' +
+            '<input type="text" id="newSearchTerm" class="form-control submitForm" placeholder="Zoekwoord toevoegen">' +
+            '<button id="addSearchTerm" type="button" class="btn btn-default submitForm">Ga!</button>' +
             '</div></td></tr></tbody></table>');
 
         $('#searchTerms').html(html.join(''));
@@ -77,9 +77,16 @@ function generateTermTable() {
             removeTerm(event.currentTarget.id);
         });
 
-        $('#addSearchTerm').click(function(e) {
-            addTerm(e);
-        })
+        // submit search term form on click or enter event.
+        $(".submitForm").on("click keypress", function (e) {
+            var searchTerm = $('#newSearchTerm').val() || false;
+            var targetID = e.target.id;
+            var code = (e.keyCode ? e.keyCode : e.which);
+
+            if ((searchTerm && targetID === 'addSearchTerm') || (targetID === 'newSearchTerm' && (code === 13))) {
+                addTerm(e);
+            }
+        });
     }
 }
 
