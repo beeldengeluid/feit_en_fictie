@@ -96,7 +96,7 @@ function isPresent(array, word) {
 }
 
 function addTerm() {
-    var addedSearchTerm = $('#newSearchTerm').val() || false;
+    var addedSearchTerm = $('#newSearchTerm').val().trim() || false;
 
     if(addedSearchTerm) {
         if(isPresent(_currentTerms, addedSearchTerm)){
@@ -136,7 +136,7 @@ function generateTermExtractionURL() {
 ------------------ RECOMMENDATION FUNCTIONS -------------------
 */
 
-function generateRecommendationsURL(addedSearchTerm) {
+function generateRecommendationsURL() {
     var partialUrlTerms = '';
     $.each(_currentTerms, function (i, item) {
         partialUrlTerms += item.probability + "(" + item.tuple[0] + ")" + encodeURIComponent(urlencode("|"));
@@ -144,13 +144,16 @@ function generateRecommendationsURL(addedSearchTerm) {
     return _p + '/recommend?tuplelist=' + encodeURIComponent(urlencode("|"))  + partialUrlTerms;
 }
 
-
-function callRecommendations(addedSearchTerm) {
+function callRecommendations() {
     $.ajax({
-        url: generateRecommendationsURL(addedSearchTerm),
+        url: generateRecommendationsURL(),
         context: document.body
     }).done(function (e) {
-        generateRecommendationTable(e);
+        if(!e.error) {
+            generateRecommendationTable(e);
+        } else {
+            console.log('no search terms to display, do not refresh recommendations table');
+        }
     });
 }
 
