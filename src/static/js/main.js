@@ -1,7 +1,7 @@
 var _currentTerms = null;
 var _extractedData = null;
 
-$("document").ready(function (e) {
+$("document").ready(function () {
     $("#search_article, #search_input_field").on("click keypress", function (e) {
         var url = $('#search_input_field').val();
         var code = (e.keyCode ? e.keyCode : e.which);
@@ -29,7 +29,7 @@ function analyzeUrl(url) {
         // By passing a URL we get an object with {url: <url>, title: <title>, text: <text>}
         // Retrieve the object and build the url for the extractedTerms.
         _extractedData = data;
-        callSearchTermsAndSegments(url);
+        callSearchTermsAndSegments();
     });
 }
 
@@ -42,6 +42,7 @@ function callSearchTermsAndSegments() {
         context: document.body
     }).done(function (termsObject) {
         _currentTerms = termsObject.items;
+
         generateTermTable();
         callRecommendations();
     });
@@ -62,23 +63,69 @@ function generateTermTable() {
         var html = ['<table class="table table-hover"><thead><tr><th>Zoekwoorden</th></tr></thead><tbody>'];
         $.each(_currentTerms, function (i, item) {
             html.push('<tr><td><span class="searchTerm">' + item.tuple[0] + '</span>');
-            html.push('<button id="__term__'+i+'" type="button" class="btn btn-danger btn-xs pull-right removeFilter">');
-            html.push('<span class="glyphicon glyphicon-remove"></span> Remove</button></td></tr>');
+            html.push('<button id="__term__'+i+'" type="button" data-value=' + item.tuple[0] + ' class="btn btn-danger btn-xs pull-right removeFilter">');
+            html.push('<span class="glyphicon glyphicon-remove"></span> Verwijder</button></td></tr>');
         });
-        html.push('</tbody></table>');
+
+        html.push('<tr class="addNewTermField"><td class="searchTermFormCell"><div class="form-group">' +
+            '<input type="text" id="newSearchTerm" class="form-control submitForm" placeholder="Zoekwoord toevoegen">' +
+            '<button id="addSearchTerm" type="button" class="btn btn-default submitForm">Ga!</button>' +
+            '</div></td></tr></tbody></table>');
+
         $('#searchTerms').html(html.join(''));
         $('.removeFilter').click(function(event) {
-            removeTerm(event.target.id);
+            removeTerm(event.currentTarget.id);
+        });
+
+        // submit search term form on click or enter event.
+        $(".submitForm").on("click keypress", function (e) {
+            var searchTerm = $('#newSearchTerm').val() || false;
+            var targetID = e.target.id;
+            var code = (e.keyCode ? e.keyCode : e.which);
+
+            if ((searchTerm && targetID === 'addSearchTerm') || (targetID === 'newSearchTerm' && (code === 13))) {
+                addTerm(e);
+            }
         });
     }
 }
 
+
+function isPresent(array, word) {
+    var isPresent = true;
+    $.each(array, function(key, value) {
+        if(value.tuple[0] === word) {
+            isPresent = false;
+            return false;
+        }
+    });
+    return isPresent;
+}
+
+function addTerm() {
+    var addedSearchTerm = $('#newSearchTerm').val().trim() || false;
+
+    if(addedSearchTerm) {
+        if(isPresent(_currentTerms, addedSearchTerm)){
+            _currentTerms.push({
+                probability: 0.99,
+                rank: 11,
+                tuple: [addedSearchTerm]
+            });
+            generateTermTable();
+            callRecommendations(false);
+        }
+    }
+    return false;
+}
+
+
 function removeTerm(elmId) {
     var index = parseInt(elmId.substring(8));
-    if(!isNaN(index)) {
+    if (!isNaN(index)) {
         _currentTerms.splice(index, 1);
         generateTermTable();
-        callRecommendations();
+        callRecommendations(false);
     }
 }
 
@@ -101,23 +148,24 @@ function generateRecommendationsURL() {
     $.each(_currentTerms, function (i, item) {
         partialUrlTerms += item.probability + "(" + item.tuple[0] + ")" + encodeURIComponent(urlencode("|"));
     });
-    return _p + '/recommend?tuplelist=' + partialUrlTerms;
+    return _p + '/recommend?tuplelist=' + encodeURIComponent(urlencode("|"))  + partialUrlTerms;
 }
-
 
 function callRecommendations() {
     $.ajax({
         url: generateRecommendationsURL(),
         context: document.body
     }).done(function (e) {
-        generateRecommendationTable(e);
+        if(!e.error) {
+            generateRecommendationTable(e);
+        } else {
+            console.log('no search terms to display, do not refresh recommendations table');
+        }
     });
 }
 
 //draws the table filled with recommendations
 function generateRecommendationTable(e) {
-    console.debug('generate recommendations table');
-
     //clean the previous state
     $('#recommendedSegments').html('');
 
@@ -125,19 +173,21 @@ function generateRecommendationTable(e) {
     var html = [];
     html.push('<table class="table table-hover">');
     html.push('<thead><tr><th><span class="glyphicon glyphicon-shopping-cart"></span></th>');
-    html.push('<th>Description</th><th>View</th> </tr></thead><tbody>');
+    html.push('<th>Description</th><th>Datum</th><th>View</th></tr></thead><tbody>');
 
     $.each(e.items, function (key, item) {
         var playoutData = getPlayoutData(item);
-        html.push('<tr><td><input id="checkBox" type="checkbox"></td><td>');
-        html.push(getDescription(item) + '</td>');
-        html.push('<td>');
+
         if(playoutData) {
+            html.push('<tr><td><input id="checkBox" type="checkbox"></td><td>');
+            html.push(getDescription(item) +  '</td><td class="ff_date_field">');
+            html.push(getDate(item) +  '</td>');
+            html.push('<td class="ff_play_field">');
             html.push('<a onclick="showPlayer(\''+playoutData.url+'\', '+playoutData.start+')">');
             if(playoutData.type == 'video') {
                 html.push('<i class="fa fa-film interactive"></i>');
             } else {
-                html.push('<i class="fa fa-signal interactive"></i>');
+                html.push('<i class="fa fa-volume-up interactive"></i>');
             }
             html.push('</a>');
         }
@@ -168,11 +218,18 @@ function getDescription(item) {
             desc = a.program.maintitles
         }
     }
+    return desc;
+}
+
+function getDate(item) {
+    var desc = '';
+    var a = item.tuple[0].attributes;
 
     if(a.program && a.program.publication && a.program.publication[0] && a.program.publication[0].startdate) {
-        desc += ' (' + a.program.publication[0].startdate + ')';
+        desc += a.program.publication[0].startdate;
     }
     return desc;
+
 }
 
 function getPlayoutData(item) {
@@ -207,16 +264,15 @@ function getPlayoutData(item) {
 /*
 ------------------ PLAYOUT -------------------
 */
-
 function showPlayer(url, secs) {
-    console.debug(secs);
+     // console.debug(secs);
     var html = ['<video id="video" controls>']
     html.push('<source src="'+url+'"></source>')
     html.push('</video>');
     $('#video_player').html(html.join(''));
     var vid = document.getElementById('video');
     vid.onloadedmetadata = function(){
-        console.debug('video loaded', secs);
+        // console.debug('video loaded', secs);
         if(isNaN(secs)) {
             secs = 0;
         }
@@ -235,7 +291,6 @@ function closeModal() {
 /*
 ------------------ HELPER FUNCTION -------------------
 */
-
 function urlencode(text) {
     return encodeURIComponent(text).replace(/!/g, '%21')
         .replace(/'/g, '%27')

@@ -69,6 +69,12 @@ h6 {
     .intro-divider {
         width: 100%;
     }
+    .siteNameDesc {
+        padding: 0 15px;
+    }
+    .navbar-header {
+        min-height: 60px;
+    }
 }
 
 .network-name {
@@ -176,10 +182,11 @@ input[type=text] {
     margin: 0 auto;
 }
 
-p.siteNameDesc {
+.siteNameDesc {
     position: relative;
-    bottom: -30px;
-    font-size: 0.7rem;
+    bottom: -32px;
+    font-size: 0.8rem;
+    letter-spacing: .1rem;
 }
 .sitelogo {
     position: relative;
@@ -211,13 +218,18 @@ th {
     background-color: #c9c9c9;
     color: #000;
 }
+
+.table-hover>tbody>tr.addNewTermField:hover {
+    background-color: transparent;
+    color: #000;
+}
 .table-responsive {
     background: rgba(81,77,76, 0.2);
     color: #fff;
 }
 
 td {
-    color: fff;
+    color: #fff;
 }
 
 .interactive {
@@ -225,4 +237,50 @@ td {
 }
 ul.list-inline {
     padding-top: 2rem;
+}
+.ff_site-logo {
+    letter-spacing: 1.7rem;
+}
+
+.ff_line01 {
+    letter-spacing: 0.2rem;
+}
+
+/* overwrite bootstrap defaults */
+.navbar {
+    min-height: 65px;
+}
+
+.ff_date_field {
+    min-width: 94px;
+}
+
+.ff_play_field {
+    text-align: center;
+}
+
+td.searchTermFormCell {
+    padding: 10px 0 !important;
+}
+
+td.searchTermFormCell .form-group .form-control{
+    display: inline-block;
+    width: 76%;
+}
+
+button#addSearchTerm {
+    width: 24%;
+    vertical-align: top;
+}
+
+#addSearchTerm.btn {
+
+    border-radius:0 4px 4px 0 ;
+}
+#newSearchTerm.form-control {
+    border-radius: 4px 0 0 4px;
+}
+
+#newSearchTerm.form-control::placeholder {
+    font-size: 13px;
 }
