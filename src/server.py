@@ -7,9 +7,9 @@ app.config.from_object('settings.Config')
 @app.route('/')
 def home():
 	return render_template('index.html',
-		v=app.config['VIDEO_BASE_URL'],
-		a=app.config['AUDIO_BASE_URL'],
-		p=app.config['PROXY_BASE_URL']
+	   VIDEO_BASE_URL = app.config['VIDEO_BASE_URL'],
+	   AUDIO_BASE_URL = app.config['AUDIO_BASE_URL'],
+	   PROXY_BASE_URL = app.config['PROXY_BASE_URL']
 	)
 
 def main():
