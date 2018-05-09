@@ -3,3 +3,5 @@
 settings.py
 venv
 .idea/
+Pipfile
+Pipfile.lock
