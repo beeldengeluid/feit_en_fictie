@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from api import parse_article, ClariahSpinqueApi
+from api import parse_article, topic_for_article
+from spinque_api import ClariahSpinqueApi
 from logzero import logger
 
 app = Flask(__name__)
@@ -16,15 +17,17 @@ spinque_api = ClariahSpinqueApi(
 # Basic cache implementation
 @app.before_request
 def check_cache():
-    if request.path in cache:
-        logger.debug("Getting '%s' from cache" % request.path)
-        return json_response(cache[request.path])
+    path = request.full_path
+    if path in cache:
+        logger.debug("Getting '%s' from cache" % path)
+        return json_response(cache[path])
 
 def json_response(data):
     # First save in cache if data is anything
     if data:
-        logger.debug("Saving '%s' in cache" % request.path)
-        cache[request.path] = data
+        path = request.full_path
+        logger.debug("Saving '%s' in cache" % path)
+        cache[path] = data
 
     return jsonify(data)
 
@@ -38,7 +41,7 @@ def home():
 
 @app.route("/api/parse_article")
 def parse_article_():
-    url = request.args.get("url")
+    url = request.args["url"]
     data = parse_article(url)
     return json_response(data)
 
@@ -54,4 +57,17 @@ def topic():
     query = request.args["query"]
     result_type = request.args["result_type"]
     data = spinque_api.topic(result_type = result_type, query = query)
+    return json_response(data)
+
+@app.route("/api/topic_for_article")
+def topic_for_article_():
+    url = request.args["url"]
+    result_type = request.args["result_type"]
+
+    data = topic_for_article(
+        spinque_api = spinque_api,
+        url = url,
+        result_type = result_type
+    )
+
     return json_response(data)

@@ -1,7 +1,5 @@
 from newspaper import Article
 from logzero import logger
-from urllib.parse import quote
-import requests
 
 def parse_article(url):
     logger.debug(f"Parsing article with url <{url}>")
@@ -15,50 +13,29 @@ def parse_article(url):
         "url" : url
     }
 
-class ClariahSpinqueApi:
-    DEFAULT_COUNT = 10
-    TERM_EXTRACT_ENDPOINT = "/q/TAG:termExtract/p/title/{title}/p/text/{text}/results"
-    TOPIC_ENDPOINT = "/q/TAG:recommend{result_type}/p/topic/{query}/results"
-    TOPIC_RESULT_TYPES = ("programs", "segments")
+# This is basically doing three calls in one for better performance
+# on the frontend
+def topic_for_article(spinque_api, url, result_type):
+    logger.debug("Getting topic for article < %s >" % url)
+    article = parse_article(url)
 
-    def __init__(self, endpoint, user, password, config):
-        self.endpoint = endpoint
-        self.user = user
-        self.password = password
-        self.config = config
+    logger.debug("Now getting terms")
+    terms = spinque_api.extract_terms(
+        text = article["text"],
+        title = article["title"]
+    )
 
-    def _request(self, method, count=None):
-        if count is None:
-            count = self.DEFAULT_COUNT
+    # Convert dict format to a string
+    termstring = [f'{i["probability"]}({i["tuple"][0]})' for i in terms["items"]]
+    termstring = "|".join(terms)
 
-        url = f'{self.endpoint}{method}'
+    logger.debug("And getting the topic for these terms")
+    result = spinque_api.topic(result_type, terms)
 
-        params = {
-            "count" : count,
-            "config" : self.config
-        }
+    # And add the results from the other API calls as well
+    result.update({
+        "article" : article,
+        "terms" : terms
+    })
 
-        r = requests.get(url, params=params, auth=(self.user, self.password))
-
-        logger.debug(f"Made Spinque API request < {r.url} >")
-
-        return r.json()
-
-    def extract_terms(self, title, text, count = None):
-        method = self.TERM_EXTRACT_ENDPOINT.format(
-            title=quote(title),
-            text=quote(text)
-        )
-
-        return self._request(method, count)
-
-    """
-    `query` is a string with probabilities and terms, formatted like this:
-    0.27597002(onderzoekers)|0.24492039(syrië)|0.13638654(grote)
-    """
-    def topic(self, result_type, query, count = None):
-        method = self.TOPIC_ENDPOINT.format(
-            result_type=result_type.capitalize(), query = query
-        )
-
-        return self._request(method, count)
+    return result
