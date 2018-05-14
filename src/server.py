@@ -33,8 +33,8 @@ def extract_terms():
     return jsonify(data)
 
 @app.route('/topic')
-def recommend():
-    tuple_list = request.args["tuple_list"]
-    result_type = request.args["type"]
-    data = spinque_api.topic(result_type = result_type, tuple_list = tuple_list)
+def topic():
+    query = request.args["query"]
+    result_type = request.args["result_type"]
+    data = spinque_api.topic(result_type = result_type, query = query)
     return jsonify(data)
