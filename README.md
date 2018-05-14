@@ -9,4 +9,4 @@
     pipenv shell
 ```
 This will create a new virtual environment using Python 3.6, install the required packages and run a shell.
-* Run the production server with `python src/server.py`, to run in debug mode / development environment try `python src/server.py -d`
+* There are two shell scripts you can use to run either a production or a dev server: `run-dev` and `run-production` in the root of this folder

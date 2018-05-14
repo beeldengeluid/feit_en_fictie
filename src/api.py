@@ -14,7 +14,7 @@ def parse_article(url):
     }
 
 # This is basically doing three calls in one for better performance
-# on the frontend
+# on the frontend or for lazy people
 def topic_for_article(spinque_api, url, result_type):
     logger.debug("Getting topic for article < %s >" % url)
     article = parse_article(url)
