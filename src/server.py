@@ -1,8 +1,15 @@
-from flask import Flask, render_template
-import argparse
+from flask import Flask, render_template, request, jsonify
+from api import parse_article, ClariahSpinqueApi
 
 app = Flask(__name__)
 app.config.from_object('settings.Config')
+
+spinque_api = ClariahSpinqueApi(
+    endpoint = app.config["SPINQUE_API"],
+    user = app.config["SPINQUE_USER"],
+    password = app.config["SPINQUE_PW"],
+    config = app.config["SPINQUE_CONFIG_ID"]
+)
 
 @app.route('/')
 def home():
@@ -12,33 +19,22 @@ def home():
 	   PROXY_BASE_URL = app.config['PROXY_BASE_URL']
 	)
 
-def main():
-    parser = argparse.ArgumentParser(description = "Feit en fictie server")
+@app.route("/parse_article")
+def parse_article_():
+    url = request.args.get("url")
+    data = parse_article(url)
+    return jsonify(data)
 
-    parser.add_argument(
-        '-e', '--env', default="production",
-        help="Environment we're running in", choices=('production', 'development')
-    )
+@app.route('/extract_terms')
+def extract_terms():
+    title = request.args["title"]
+    text = request.args["text"]
+    data = spinque_api.extract_terms(title = title, text = text)
+    return jsonify(data)
 
-    parser.add_argument(
-        '-d', '--dev', action="store_true",
-        help="Sets environment to development"
-    )
-
-    parser.add_argument('--host', default=app.config['APP_HOST'])
-    parser.add_argument('--port', default=app.config['APP_PORT'])
-    args = parser.parse_args()
-
-    app.env = args.env
-
-    # Setting environment to development implies running in debug mode
-    if app.env == "development" or args.dev:
-        app.debug = True
-
-    app.run(
-        host = args.host,
-        port = args.port
-    )
-
-if __name__ == '__main__':
-    main()
+@app.route('/topic')
+def recommend():
+    tuple_list = request.args["tuple_list"]
+    result_type = request.args["type"]
+    data = spinque_api.topic(result_type = result_type, tuple_list = tuple_list)
+    return jsonify(data)
