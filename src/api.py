@@ -52,51 +52,13 @@ class ClariahSpinqueApi:
 
         return self._request(method, count)
 
-
+    """
+    `query` is a string with probabilities and terms, formatted like this:
+    0.27597002(onderzoekers)|0.24492039(syrië)|0.13638654(grote)
+    """
     def topic(self, result_type, query, count = None):
         method = self.TOPIC_ENDPOINT.format(
             result_type=result_type.capitalize(), query = query
         )
 
         return self._request(method, count)
-
-"""
-def recommend(self, tupleList, count, resultType):
-    url = '%s/q/TAG:%s/p/topic/%s/results?count=%s&config=%s' % (
-        self.config['SPINQUE_API'],
-        resultType,
-        tupleList,
-        count,
-        self.config['SPINQUE_CONFIG_ID']
-    )
-    base64string = base64.b64encode('%s:%s' % (self.config['SPINQUE_USER'], self.config['SPINQUE_PW']))
-    headers = {
-        'Authorization' : 'Basic %s' % base64string
-    }
-    resp = requests.get(url, headers=headers)
-    if resp.status_code == 200:
-        data = json.loads(resp.text)
-        return data
-    return {'error' : 'not tested yet'}
-
-
-def extract_terms(self, title, text, count):
-    url = '%s/q/TAG:termExtract/p/title/%s/p/text/%s/results?count=%s&config=%s' % (
-        self.config['SPINQUE_API'],
-        title,
-        text,
-        count,
-        self.config['SPINQUE_CONFIG_ID']
-    )
-    base64string = base64.b64encode('%s:%s' % (self.config['SPINQUE_USER'], self.config['SPINQUE_PW']))
-    headers = {
-        'Authorization' : 'Basic %s' % base64string
-    }
-    print url
-    resp = requests.get(url, headers=headers)
-    print resp.status_code
-    if resp.status_code == 200:
-        data = json.loads(resp.text)
-        return data
-    return {'error' : 'not tested yet'}
-"""
