@@ -1,0 +1,10 @@
+$font-opensans: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-monospace: "Menlo", "Courier New", courier, monospace;
+
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/opensans-regular.woff2') format('woff2'),
+         url('../fonts/opensans-regular.woff') format('woff');
+}

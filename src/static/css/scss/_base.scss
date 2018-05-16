@@ -1,10 +1,15 @@
 body {
+    font-family: $font-opensans;
     overflow-x: hidden;
     font-size: 2rem;
 }
 
 a {
     text-decoration: none;
+}
+
+main {
+    padding: 3rem 1rem;
 }
 
 main[v-cloak] {

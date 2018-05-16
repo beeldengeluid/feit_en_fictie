@@ -31,12 +31,22 @@ button {
 input, select, textarea, button {
   font: inherit; }
 
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: normal;
+  font-style: normal;
+  src: url("../fonts/opensans-regular.woff2") format("woff2"), url("../fonts/opensans-regular.woff") format("woff"); }
+
 body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-x: hidden;
   font-size: 2rem; }
 
 a {
   text-decoration: none; }
+
+main {
+  padding: 3rem 1rem; }
 
 main[v-cloak]:before {
   font-family: sans-serif;
@@ -60,3 +70,35 @@ main[v-cloak]:before {
 
 main[v-cloak] > * {
   display: none; }
+
+.header {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100rem;
+  text-align: center; }
+  .header__title {
+    font-size: 6rem;
+    color: #498ec9; }
+  .header__lead {
+    font-size: 2.4rem;
+    margin-top: 1rem; }
+
+.search {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100rem;
+  margin-top: 3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .search__query, .search__button {
+    padding: 1rem; }
+  .search__query {
+    width: 100%;
+    font-family: "Menlo", "Courier New", courier, monospace;
+    font-size: 2rem;
+    border: 1px solid #999; }
+  .search__button {
+    background: #498ec9;
+    color: white;
+    padding: 1rem; }

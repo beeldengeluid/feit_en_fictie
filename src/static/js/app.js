@@ -1,7 +1,2 @@
-import { test } from './test.js'
-
-async function main() {
-    test();
-}
-
-main();
+import view from './view.js';
+new view("main");

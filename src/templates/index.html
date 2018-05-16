@@ -14,9 +14,31 @@
     <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
-    <h1>hoi</h1>
     <main>
-        <test></test>
+        <header class="header">
+            <h1 class="header__title">Feit en Fictie</h1>
+
+            <p class="header__lead">
+                Vul een URL naar een nieuwsbron in en zie materiaal uit het
+                archief van <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a>
+                wat er aan gerelateerd is.
+            </p>
+        </header>
+
+        <form class="search">
+            <input
+                class="search__query"
+                v-model="query"
+                placeholder="Plak hier de link naar je nieuwsartikel"
+            />
+
+            <button
+                v-on:click="search"
+                class="search__button"
+            >Zoek</button>
+        </form>
+
+        <ul class="results"></ul>
     </main>
     <script src="static/bundle.js"></script>
 </body>
