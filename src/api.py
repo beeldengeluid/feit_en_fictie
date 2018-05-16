@@ -1,5 +1,6 @@
 from newspaper import Article
 from logzero import logger
+import json
 
 def parse_article(url):
     logger.debug(f"Parsing article with url <{url}>")
@@ -27,9 +28,9 @@ def media_for_article(spinque_api, url):
 
     # Convert dict format to a string
     termstring = [f'{i["probability"]}({i["tuple"][0]})' for i in terms["items"]]
-    termstring = "|".join(terms)
+    termstring = "|".join(termstring)
 
-    logger.debug("And getting the topic for these terms")
+    logger.debug("And getting the topic for these terms: %s" % termstring)
     result = spinque_api.search_media(termstring)
 
     # And add the results from the other API calls as well

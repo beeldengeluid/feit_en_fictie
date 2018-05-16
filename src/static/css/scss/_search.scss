@@ -38,6 +38,7 @@
     &__examples ul {
         margin-top: 1rem;
         text-align: center;
+        @include child-margins(1rem);
     }
 
     &__examples li {

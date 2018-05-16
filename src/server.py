@@ -24,17 +24,20 @@ spinque_api = ClariahSpinqueApi(
     config = app.config["SPINQUE_CONFIG_ID"]
 )
 
-# Basic cache implementation
+USE_CACHE = app.config["CACHE_REQUESTS"]
+
 @app.before_request
 def check_cache():
-    path = request.full_path
-    if path in cache:
-        logger.debug("Getting '%s' from cache" % path)
-        return json_response(cache[path])
+    # Basic cache implementation
+    if USE_CACHE:
+        path = request.full_path
+        if path in cache:
+            logger.debug("Getting '%s' from cache" % path)
+            return json_response(cache[path])
 
 def json_response(data):
-    # First save in cache if data is anything
-    if data:
+    # First save in cache if data is anything and we have a cache
+    if USE_CACHE and data:
         path = request.full_path
         logger.debug("Saving '%s' in cache" % path)
         cache[path] = data
