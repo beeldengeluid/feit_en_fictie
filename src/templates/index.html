@@ -38,7 +38,7 @@
                 />
 
                 <button
-                    v-on:click="search"
+                    v-on:click="setQuery"
                     class="search__button"
                 >Zoek</button>
             </div>
@@ -51,7 +51,7 @@
 
                 <ul>
                     <li>
-                        <a v-on:click="query = 'https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html'">
+                        <a v-on:click="setQuery('https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html')">
                             Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
                         </a>
                     </li>
@@ -65,23 +65,34 @@
             <h2 class="loading__title">Laden...</h2>
         </div>
 
-        <ul
+        <div
             class="results"
             v-if="results"
         >
-            <li
-                v-for="(item, index) in results"
-                v-bind:key="index"
-            >
-                {# FIXME: this shouldn't be like this, use .vue components instead #}
+            <ul>
+                <li
+                    v-for="(item, index) in results"
+                    v-bind:key="index"
+                >
+                    {# FIXME: this shouldn't be like this, use .vue components instead #}
 
-                {% raw %}
-                    <h3 v-if="item.maintitles">{{item.maintitles}}</h3>
-                    <h3 v-else>Geen titel</h3>
-                    <p>{{item.summary}}</p>
-                {% endraw %}
-            </li>
-        </ul>
+                    {% raw %}
+                        <h3 v-if="item.maintitles">{{item.maintitles}}</h3>
+                        <h3 v-else>Geen titel</h3>
+                        <p>{{item.summary}}</p>
+                    {% endraw %}
+                </li>
+            </ul>
+        </div>
+
+        <footer class="footer">
+            <a
+                v-show="results"
+                href="#"
+                class="footer__again">
+                Nogmaals?
+            </a>
+        </footer>
     </main>
     <script src="static/bundle.js"></script>
 </body>

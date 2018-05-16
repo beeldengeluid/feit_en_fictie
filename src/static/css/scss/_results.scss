@@ -1,8 +1,11 @@
 .results {
     @include margin-center;
     max-width: 100rem;
-    @include child-margins(2rem);
     margin-top: 3rem;
+
+    ul {
+        @include child-margins(2rem);
+    }
 
     li {
         list-style: none;
