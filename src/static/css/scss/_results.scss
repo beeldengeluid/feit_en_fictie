@@ -1,3 +1,10 @@
 .results {
+    @include margin-center;
+    max-width: 100rem;
+    @include child-margins(2rem);
+    margin-top: 3rem;
 
+    li {
+        list-style: none;
+    }
 }

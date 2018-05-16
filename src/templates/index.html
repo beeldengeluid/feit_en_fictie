@@ -14,31 +14,74 @@
     <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
-    <main>
+    <main v-cloak>
         <header class="header">
             <h1 class="header__title">Feit en Fictie</h1>
 
-            <p class="header__lead">
+            <p class="header__lead" v-show="!loading && !results">
                 Vul een URL naar een nieuwsbron in en zie materiaal uit het
                 archief van <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a>
                 wat er aan gerelateerd is.
             </p>
         </header>
 
-        <form class="search">
-            <input
-                class="search__query"
-                v-model="query"
-                placeholder="Plak hier de link naar je nieuwsartikel"
-            />
+        <form
+            v-show="!loading"
+            class="search"
+            v-on:submit.prevent="noop"
+        >
+            <div class="search__input">
+                <input
+                    class="search__query"
+                    v-model="query"
+                    placeholder="Plak hier de link naar je nieuwsartikel"
+                />
 
-            <button
-                v-on:click="search"
-                class="search__button"
-            >Zoek</button>
+                <button
+                    v-on:click="search"
+                    class="search__button"
+                >Zoek</button>
+            </div>
+
+            <div
+                v-show="!results"
+                class="search__examples"
+            >
+                <h2 class="search__examples-title">Voorbeelden</h2>
+
+                <ul>
+                    <li>
+                        <a v-on:click="query = 'https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html'">
+                            Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </form>
 
-        <ul class="results"></ul>
+        <div class="loading"
+             v-show="loading">
+            <img src="static/img/loading.gif" alt="Laden..." />
+            <h2 class="loading__title">Laden...</h2>
+        </div>
+
+        <ul
+            class="results"
+            v-if="results"
+        >
+            <li
+                v-for="(item, index) in results"
+                v-bind:key="index"
+            >
+                {# FIXME: this shouldn't be like this, use .vue components instead #}
+
+                {% raw %}
+                    <h3 v-if="item.maintitles">{{item.maintitles}}</h3>
+                    <h3 v-else>Geen titel</h3>
+                    <p>{{item.summary}}</p>
+                {% endraw %}
+            </li>
+        </ul>
     </main>
     <script src="static/bundle.js"></script>
 </body>

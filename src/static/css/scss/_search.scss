@@ -2,7 +2,11 @@
     @include margin-center;
     max-width: 100rem;
     margin-top: 3rem;
-    display: flex;
+
+    &__input {
+        width: 100%;
+        display: flex;
+    }
 
     &__query,
     &__button {
@@ -20,5 +24,25 @@
         background: $c-1;
         color: white;
         padding: 1rem;
+    }
+
+    &__examples {
+        max-width: 80rem;
+        @include margin-center;
+        margin-top: 3rem;
+    }
+
+    &__examples-title {
+        font-size: 2.6rem;
+        text-align: center;
+    }
+
+    &__examples ul {
+        margin-top: 1rem;
+    }
+
+    &__examples a {
+        color: blue;
+        cursor: pointer;
     }
 }

@@ -50,7 +50,7 @@ main {
 
 main[v-cloak]:before {
   font-family: sans-serif;
-  content: 'Loading...';
+  content: 'Een momentje...';
   color: black;
   font-size: 5rem;
   padding: 1rem;
@@ -83,14 +83,26 @@ main[v-cloak] > * {
     font-size: 2.4rem;
     margin-top: 1rem; }
 
+.results {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100rem;
+  margin-top: 3rem; }
+  .results > * + * {
+    margin-top: 2rem; }
+  .results li {
+    list-style: none; }
+
 .search {
   margin-left: auto;
   margin-right: auto;
   max-width: 100rem;
-  margin-top: 3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex; }
+  margin-top: 3rem; }
+  .search__input {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
   .search__query, .search__button {
     padding: 1rem; }
   .search__query {
@@ -102,3 +114,23 @@ main[v-cloak] > * {
     background: #498ec9;
     color: white;
     padding: 1rem; }
+  .search__examples {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3rem; }
+  .search__examples-title {
+    font-size: 2.6rem;
+    text-align: center; }
+  .search__examples ul {
+    margin-top: 1rem; }
+  .search__examples a {
+    color: blue;
+    cursor: pointer; }
+
+.loading {
+  margin: 3rem auto;
+  text-align: center; }
+  .loading__title {
+    font-size: 3rem;
+    color: #498ec9; }

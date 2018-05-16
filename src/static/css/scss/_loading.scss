@@ -1,0 +1,9 @@
+.loading {
+    margin: 3rem auto;
+    text-align: center;
+
+    &__title {
+        font-size: 3rem;
+        color: $c-1;
+    }
+}
