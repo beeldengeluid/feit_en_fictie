@@ -15,7 +15,7 @@ def parse_article(url):
 
 # This is basically doing three calls in one for better performance
 # on the frontend or for lazy people
-def topic_for_article(spinque_api, url, result_type):
+def media_for_article(spinque_api, url):
     logger.debug("Getting topic for article < %s >" % url)
     article = parse_article(url)
 
@@ -30,12 +30,13 @@ def topic_for_article(spinque_api, url, result_type):
     termstring = "|".join(terms)
 
     logger.debug("And getting the topic for these terms")
-    result = spinque_api.topic(result_type, terms)
+    result = spinque_api.search_media(termstring)
 
     # And add the results from the other API calls as well
     result.update({
         "article" : article,
-        "terms" : terms
+        "terms" : terms,
+        "url" : url
     })
 
     return result

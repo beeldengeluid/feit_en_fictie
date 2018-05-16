@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Feit &amp; Fixie</title>
+
+    <!-- API endpoints -->
+    <meta name="VIDEO_BASE_URL" content="{{VIDEO_BASE_URL}}" />
+    <meta name="AUDIO_BASE_URL" content="{{AUDIO_BASE_URL}}" />
+    <meta name="PROXY_BASE_URL" content="{{PROXY_BASE_URL}}" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span class="siteLogo">
+                    <a class="navbar-brand topnav ff_site-logo" href="#">SPECX</a>
+                    <p class="siteNameDesc"><span class="ff_line01">Smart Production using</span> <br> <span class="ff_line02">EnhanCed video eXploration</span>
+    </p>
+                </span>
+
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#about">Informatie</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Header -->
+    <a name="about"></a>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <h1>Van Internet naar het Beeld en Geluid archief</h1>
+
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                <input id="search_input_field" name="searchUrl" type="text" class="form-control" placeholder="Enter the url of a news item">
+                                <span class="input-group-btn">
+                                    <button id="search_article" class="btn btn-default" type="button">Ga!</button>
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-12 -->
+                    </div><!-- /.row -->
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="table-responsive" id="searchTerms">
+
+                </div><!--end of .table-responsive-->
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                <div class="col-xs-12">
+                    <div class="table-responsive" id="recommendedSegments">
+
+                    </div><!--end of .table-responsive-->
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <!-- Button trigger modal -->
+
+        <!-- Modal -->
+        <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="closeModal();"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="video_player" class="text-center"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="closeModal();">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+    <a name="contact"></a>
+
+    <!-- Footer -->
+    <footer id="main_page">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+
+                        <li>
+                            <a href="#about">Informatie</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Beeld en Geluid 2017. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
