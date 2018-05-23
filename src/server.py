@@ -78,6 +78,18 @@ def extract_terms():
 
     return json_response(data)
 
+@app.route("/api/recommend_segments")
+def recommend_segments_():
+    check_params("query")
+    query = request.args.get("query")
+
+    try:
+        data = spinque_api.recommend_segments(query = query)
+    except ApiException:
+        return json_response({ "error" : "Api exception"})
+
+    return json_response(data)
+
 """
 Example: http://localhost:5000/api/search_media?query=0.27597002(onderzoekers)|0.24492039(syri%C3%AB)|0.13638654(grote)|0.10364231(bronnen)|0.09170949(chemische)
 """
