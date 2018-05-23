@@ -1,0 +1,13 @@
+.video-player {
+    &__error {
+        color: white;
+        background: $c-1;
+        padding: 3rem;
+        text-align: center;
+        @include child-margins(3rem);
+    }
+
+    &__error-title {
+        font-size: 3rem;
+    }
+}
