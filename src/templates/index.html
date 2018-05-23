@@ -16,7 +16,7 @@
     {# FIXME: this shouldn't be like this, use .vue components instead #}
     {% raw %}
     <main v-cloak>
-        <section 
+        <section
             class="searchscreen"
             v-show="state === 'search'">
             <header class="header">
@@ -44,7 +44,7 @@
                     />
 
                     <button
-                        v-on:click="setQuery"
+                        v-on:click="setQuery()"
                         class="search__button"
                     >Zoek</button>
                 </div>
@@ -128,9 +128,9 @@
         </section>
 
         <section
-            class="player" 
+            class="player"
             v-if="state === 'player'">
-            
+
             <button
                 class="player__close"
                 v-on:click="back">

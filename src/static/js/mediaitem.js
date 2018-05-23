@@ -4,7 +4,18 @@ const DIST_CHANNEL_TELEVISION = 'televisie';
 
 export class MediaItem {
     constructor(item) {
-        this.item = item.tuple[1].attributes;
+        item.tuple.forEach((tuple) => {
+            const type = tuple.class[0].replace('http://example.org/', '');
+            this[type] = tuple;
+        });
+
+        if (this.segment) {
+            this.item = this.segment.attributes;
+        } else if (this.program) {
+            this.item = this.program.attributes;
+        } else {
+            throw new Error('Could not find a proper type for this item');
+        }
     }
 
     getData() {
