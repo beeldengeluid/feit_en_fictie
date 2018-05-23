@@ -42,7 +42,29 @@ export class MediaItem {
     }
 
     get description() {
-        return this.item.description;
+        const item = this.item;
+
+        if (item.maintitles && item.description) {
+            if (item.maintitles.length > item.description.length) {
+                return item.maintitles;
+            } else {
+                return item.description;
+            }
+        } else if (item.description) {
+            return item.description;
+        } else if (item.maintitles) {
+            return item.maintitles;
+        } else if (item.program) {
+            if (item.program.summary) {
+                return item.program.summary;
+            } else if (item.program.maintitles) {
+                return item.program.maintitles;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     get hasPublication() {
@@ -66,6 +88,8 @@ export class MediaItem {
     get publication() {
         if (this.hasPublication) {
             return this.item.program.publication[0];
+        } else {
+            return null;
         }
     }
 
@@ -84,6 +108,10 @@ export class MediaItem {
     }
 
     get title() {
-        return this.item.maintitles;
+        if (this.item.maintitles) {
+            return this.item.maintitles;
+        } else {
+            return null;
+        }
     }
 }
