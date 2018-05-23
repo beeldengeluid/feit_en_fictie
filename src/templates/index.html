@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
+    {# FIXME: this shouldn't be like this, use .vue components instead #}
+    {% raw %}
     <main v-cloak>
         <header class="header">
             <h1 class="header__title">
@@ -92,13 +94,22 @@
                     v-for="(item, index) in results"
                     v-bind:key="index"
                 >
-                    {# FIXME: this shouldn't be like this, use .vue components instead #}
+                    <a class="results__item">
+                        <img />
+                        <div class="results__caption">
+                            <h3 class="results__title">
+                                {{item.title}}
+                            </h3>
 
-                    {% raw %}
-                        <h3 v-if="item.maintitles">{{item.maintitles}}</h3>
-                        <h3 v-else>Geen titel</h3>
-                        <p>{{item.summary}}</p>
-                    {% endraw %}
+                            <time class="results__date">
+                                {{item.date}}
+                            </time>
+
+                            <p class="results__description">
+                                {{item.description}}
+                            </p>
+                        </div>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -112,6 +123,7 @@
             </a>
         </footer>
     </main>
+    {% endraw %}
     <script src="static/bundle.js"></script>
 </body>
 </html>

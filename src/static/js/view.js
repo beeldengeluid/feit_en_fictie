@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import { noop } from 'lodash';
 import { mediaForArticle } from './api.js';
-import { ERR_API_ERROR } from './messages.js'
+import { messages, ERR_API_ERROR } from './messages.js'
 
 const DEFAULT_DATA = {
     error : null,
     loading : false,
+    messages,
     query : null,
-    searchresults : null
+    results : null
 };
 
 export default function(el) {
@@ -28,20 +29,11 @@ export default function(el) {
             go.call(this);
         },
 
-        computed : {
-            results() {
-                if (!this.searchresults) return null;
-
-                return this.searchresults.items.map((item) => {
-                    return item.tuple[0].attributes;
-                });
-            }
-        },
-
         methods : {
             noop,
 
             reset() {
+                this.data = Object.assign(DEFAULT_DATA);
                 this.query = null;
                 this.searchresults = null;
                 this.error = null;
@@ -61,7 +53,7 @@ export default function(el) {
                     this.loading = false;
                 }
 
-                this.searchresults = results;
+                this.results = results;
             },
 
             setQuery(query) {
