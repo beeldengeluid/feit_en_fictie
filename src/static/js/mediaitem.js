@@ -23,6 +23,8 @@ export class MediaItem {
             'avtype' : this.avtype,
             'date' : this.date,
             'description' : this.description,
+            'hasPublication' : this.hasPublication,
+            'publication' : this.publication,
             'playerId' : this.playerId,
             'startTime' : this.startTime,
             'title' : this.title
@@ -61,29 +63,27 @@ export class MediaItem {
             } else {
                 return item.description;
             }
+        } else if (item.summary) {
+            return item.summary
         } else if (item.description) {
             return item.description;
         } else if (item.maintitles) {
             return item.maintitles;
         } else if (item.program) {
-            if (item.program.summary) {
-                return item.program.summary;
-            } else if (item.program.maintitles) {
-                return item.program.maintitles;
-            } else {
-                return null;
-            }
+                if (item.program.summary) {
+                    return item.program.summary;
+                } else if (item.program.maintitles) {
+                    return item.program.maintitles;
+                } else {
+                    return null;
+                }
         } else {
             return null;
         }
     }
 
     get hasPublication() {
-        return Boolean(
-            this.item.program &&
-            this.item.program.publication &&
-            this.item.program.publication[0]
-        );
+        return !!this.publicationType;
     }
 
     get playerId() {
@@ -98,7 +98,28 @@ export class MediaItem {
 
     get publication() {
         if (this.hasPublication) {
-            return this.item.program.publication[0];
+            if (this.publicationType === 'program') {
+                return this.item.program.publication[0];
+            } else {
+                return this.item.publication[0];
+            }
+        } else {
+            return null;
+        }
+    }
+
+    get publicationType() {
+        if (
+            this.item.program &&
+            this.item.program.publication &&
+            this.item.program.publication[0]
+        ) {
+            return 'program';
+        } else if(
+            this.item.publication &&
+            this.item.publication[0]
+        ) {
+            return 'publication';
         } else {
             return null;
         }
@@ -121,6 +142,8 @@ export class MediaItem {
     get title() {
         if (this.item.maintitles) {
             return this.item.maintitles;
+        } else if (this.item.description) {
+            return this.item.description;
         } else {
             return null;
         }

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { clone, noop } from 'lodash';
 import { mediaForArticle } from './api.js';
-import { messages, ERR_API_ERROR } from './messages.js'
+import { messages, NO_DESCRIPTION, NO_TITLE, ERR_API_ERROR } from './messages.js'
 import { $ } from './util.js';
 import VideoPlayer from './components/video-player.vue';
 
@@ -94,6 +94,14 @@ export default function(el) {
                         item.playhref = `#play:${item.avtype}:${item.playerId}:${startInSeconds}`;
                     } else {
                         item.playhref = null;
+                    }
+
+                    if (!item.title) {
+                        item.title = NO_TITLE;
+                    }
+
+                    if (!item.description) {
+                        item.description = NO_DESCRIPTION;
                     }
 
                     return item;
