@@ -31,7 +31,7 @@ def media_for_article(spinque_api, url):
     termstring = "|".join(termstring)
 
     logger.debug("And getting the topic for these terms: %s" % termstring)
-    result = spinque_api.recommend_segments(termstring)
+    result = spinque_api.search_media(termstring)
 
     # And add the results from the other API calls as well
     result.update({

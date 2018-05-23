@@ -65,9 +65,6 @@ class ClariahSpinqueApi:
     """
     `query` is a string with probabilities and terms, formatted like this:
     0.27597002(onderzoekers)|0.24492039(syrië)|0.13638654(grote)
-
-    This method only works with feitfixi_beta config, which is too slow to be
-    actually useful at the moment
     """
     def search_media(self, query, count = None):
         method = self.SEARCH_MEDIA.format(query = query)
