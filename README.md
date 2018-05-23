@@ -9,4 +9,9 @@
     pipenv shell
 ```
 This will create a new virtual environment using Python 3.6, install the required packages and run a shell.
-* There are two shell scripts you can use to run either a production or a dev server: `run-dev` and `run-production` in the root of this folder
+* You need to install the frontend packages by using `npm`, simply do
+```bash
+    npm install
+```
+In the root of the project.
+* There are two shell scripts you can use to run either a production or a dev server: `run-dev` and `run-production` in the root of this folder.
