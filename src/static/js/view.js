@@ -3,6 +3,7 @@ import { clone, noop } from 'lodash';
 import { mediaForArticle } from './api.js';
 import { messages, ERR_API_ERROR } from './messages.js'
 import { $ } from './util.js';
+import VideoPlayer from './components/video-player.vue';
 
 const AUDIO_BASE_URL = $('meta[name="AUDIO_BASE_URL"]').getAttribute('content');
 const VIDEO_BASE_URL = $('meta[name="VIDEO_BASE_URL"]').getAttribute('content');
@@ -21,6 +22,10 @@ export default function(el) {
     return new Vue({
         el,
 
+        components : {
+            VideoPlayer
+        },
+
         mounted() {
             function go() {
                 if (!!window.location.hash) {
@@ -28,7 +33,7 @@ export default function(el) {
 
                     if (path.startsWith('play')) {
                         const parts = path.replace('play:', '').split(':');
-                        this.play(parts[0], parts[1]);
+                        this.play(...parts);
                     } else {
                         this.query = path;
                         this.search();
@@ -40,7 +45,11 @@ export default function(el) {
                 this.state = window.location.href.includes('#play:') ? 'player' : 'search';
             }
 
-            window.addEventListener('hashchange', go.bind(this));
+            window.addEventListener('hashchange', () => {
+                this.firstRoute = false;
+                go.call(this);
+            });
+
             go.call(this);
         },
 
@@ -51,9 +60,10 @@ export default function(el) {
 
             noop,
 
-            play(type, id) {
+            play(type, id, startTime) {
                 if (type === 'video') {
                     this.player = {
+                        startTime : parseInt(startTime),
                         type : 'video',
                         url : `${VIDEO_BASE_URL}/${id}`
                     };
@@ -80,7 +90,8 @@ export default function(el) {
 
                 this.results = results.map((item) => {
                     if (item.playerId) {
-                        item.playhref = `#play:${item.avtype}:${item.playerId}`;
+                        const startInSeconds = item.startTime / 1000;
+                        item.playhref = `#play:${item.avtype}:${item.playerId}:${startInSeconds}`;
                     } else {
                         item.playhref = null;
                     }
@@ -99,6 +110,8 @@ export default function(el) {
             }
         },
 
-        data : clone(DEFAULT_DATA)
+        data : Object.assign(DEFAULT_DATA, {
+            firstRoute : true
+        })
     });
 }

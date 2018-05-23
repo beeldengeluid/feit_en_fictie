@@ -139,12 +139,11 @@
 
             <div class="player__player"
                  v-if="player">
-                <video
+                <video-player
                     v-if="player.type === 'video'"
-                    class="player__video"
-                    controls
                     v-bind:src="player.url"
-                ></video>
+                    v-bind:autoplay="!firstRoute"
+                    v-bind:start="player.startTime"></video-player>
             </div>
         </section>
     </main>

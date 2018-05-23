@@ -2,7 +2,7 @@
 import "regenerator-runtime/runtime";
 import 'es6-promise/auto';
 import 'whatwg-fetch';
-import 'intersection-observer';
+// import 'intersection-observer';
 import 'mdn-polyfills/Array.from';
 import 'mdn-polyfills/Array.prototype.includes';
 import 'mdn-polyfills/Element.prototype.matches';
