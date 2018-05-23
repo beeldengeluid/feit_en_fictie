@@ -71,7 +71,7 @@ export default function(el) {
             },
 
             reset() {
-                Object.assign(this, DEFAULT_DATA);
+                Object.assign(this, clone(DEFAULT_DATA));
             },
 
             async search() {
@@ -110,7 +110,7 @@ export default function(el) {
             }
         },
 
-        data : Object.assign(DEFAULT_DATA, {
+        data : Object.assign(clone(DEFAULT_DATA), {
             firstRoute : true
         })
     });
