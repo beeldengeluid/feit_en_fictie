@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { noop } from 'lodash';
+import { clone, noop } from 'lodash';
 import { mediaForArticle } from './api.js';
 import { messages, ERR_API_ERROR } from './messages.js'
 
@@ -33,10 +33,7 @@ export default function(el) {
             noop,
 
             reset() {
-                this.data = Object.assign(DEFAULT_DATA);
-                this.query = null;
-                this.searchresults = null;
-                this.error = null;
+                Object.assign(this, DEFAULT_DATA);
             },
 
             async search() {
@@ -66,6 +63,6 @@ export default function(el) {
             }
         },
 
-        data : Object.assign(DEFAULT_DATA)
+        data : clone(DEFAULT_DATA)
     });
 }
