@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, abort
 from api import parse_article, media_for_article
-from spinque_api import ClariahSpinqueApi
+from spinque_api import ClariahSpinqueApi, ApiException
 from logzero import logger
 
 # This should probably be a decorator, but i don't know how
@@ -70,7 +70,12 @@ def extract_terms():
     check_params("title", "text")
     title = request.args.get("title")
     text = request.args.get("text")
-    data = spinque_api.extract_terms(title = title, text = text)
+
+    try:
+        data = spinque_api.extract_terms(title = title, text = text)
+    except ApiException:
+        return json_response({ "error" : "Api exception" })
+
     return json_response(data)
 
 """
@@ -80,7 +85,12 @@ Example: http://localhost:5000/api/search_media?query=0.27597002(onderzoekers)|0
 def search_media():
     check_params("query")
     query = request.args.get("query")
-    data = spinque_api.search_media(query = query)
+
+    try:
+        data = spinque_api.search_media(query = query)
+    except ApiException:
+        return json_response({ "error" : "Api exception"} )
+
     return json_response(data)
 
 """

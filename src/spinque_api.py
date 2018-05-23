@@ -2,6 +2,9 @@ from logzero import logger
 from urllib.parse import quote
 import requests
 
+class ApiException:
+    pass
+
 class ClariahSpinqueApi:
     DEFAULT_COUNT = 10
     MAX_TEXT_LENGTH = 2000
@@ -31,6 +34,9 @@ class ClariahSpinqueApi:
         r = requests.get(url, params=params, auth=(self.user, self.password))
 
         logger.debug(f"Made Spinque API request < {r.url} >")
+
+        if r.status_code != 200:
+            raise ApiException
 
         return r.json()
 
