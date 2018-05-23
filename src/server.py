@@ -48,8 +48,7 @@ def json_response(data):
 def home():
 	return render_template('index.html',
 	   VIDEO_BASE_URL = app.config['VIDEO_BASE_URL'],
-	   AUDIO_BASE_URL = app.config['AUDIO_BASE_URL'],
-	   PROXY_BASE_URL = app.config['PROXY_BASE_URL']
+	   AUDIO_BASE_URL = app.config['AUDIO_BASE_URL']
 	)
 
 """

@@ -4,7 +4,6 @@ class Config:
 
    VIDEO_BASE_URL = '<url here>'
    AUDIO_BASE_URL = '<url here>'
-   PROXY_BASE_URL = '<url here>'
 
    SPINQUE_API = '<url here>'
    SPINQUE_CONFIG_ID = 'config_id_here'
