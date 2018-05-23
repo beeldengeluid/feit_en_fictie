@@ -8,10 +8,6 @@ a {
     text-decoration: none;
 }
 
-main {
-    padding: 3rem 1rem;
-}
-
 main[v-cloak] {
     &:before {
         font-family: sans-serif;

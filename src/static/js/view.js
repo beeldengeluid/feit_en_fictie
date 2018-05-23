@@ -2,13 +2,19 @@ import Vue from 'vue';
 import { clone, noop } from 'lodash';
 import { mediaForArticle } from './api.js';
 import { messages, ERR_API_ERROR } from './messages.js'
+import { $ } from './util.js';
+
+const AUDIO_BASE_URL = $('meta[name="AUDIO_BASE_URL"]').getAttribute('content');
+const VIDEO_BASE_URL = $('meta[name="VIDEO_BASE_URL"]').getAttribute('content');
 
 const DEFAULT_DATA = {
     error : null,
     loading : false,
     messages,
+    player : null,
     query : null,
-    results : null
+    results : null,
+    state : null
 };
 
 export default function(el) {
@@ -18,11 +24,20 @@ export default function(el) {
         mounted() {
             function go() {
                 if (!!window.location.hash) {
-                    this.query = decodeURIComponent(window.location.hash.slice(1));
-                    this.search();
+                    const path = decodeURIComponent(window.location.hash.slice(1));
+
+                    if (path.startsWith('play')) {
+                        const parts = path.replace('play:', '').split(':');
+                        this.play(parts[0], parts[1]);
+                    } else {
+                        this.query = path;
+                        this.search();
+                    }
                 } else {
                     this.reset();
                 }
+
+                this.state = window.location.href.includes('#play:') ? 'player' : 'search';
             }
 
             window.addEventListener('hashchange', go.bind(this));
@@ -30,7 +45,20 @@ export default function(el) {
         },
 
         methods : {
+            back() {
+                window.history.back();
+            },
+
             noop,
+
+            play(type, id) {
+                if (type === 'video') {
+                    this.player = {
+                        type : 'video',
+                        url : `${VIDEO_BASE_URL}/${id}`
+                    };
+                }
+            },
 
             reset() {
                 Object.assign(this, DEFAULT_DATA);
@@ -50,7 +78,15 @@ export default function(el) {
                     this.loading = false;
                 }
 
-                this.results = results;
+                this.results = results.map((item) => {
+                    if (item.playerId) {
+                        item.playhref = `#play:${item.avtype}:${item.playerId}`;
+                    } else {
+                        item.playhref = null;
+                    }
+
+                    return item;
+                });
             },
 
             setQuery(query) {

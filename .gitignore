@@ -8,3 +8,4 @@ node_modules
 src/static/bundle.js
 src/static/css/style.css
 yarn.lock
+package-lock.json

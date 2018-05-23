@@ -16,111 +16,137 @@
     {# FIXME: this shouldn't be like this, use .vue components instead #}
     {% raw %}
     <main v-cloak>
-        <header class="header">
-            <h1 class="header__title">
-                <a href="#">Feit en Fictie</a>
-            </h1>
+        <section 
+            class="searchscreen"
+            v-show="state === 'search'">
+            <header class="header">
+                <h1 class="header__title">
+                    <a href="#">Feit en Fictie</a>
+                </h1>
 
-            <p class="header__lead" v-show="!loading && !results && !error">
-                Vul een URL naar een nieuwsbron in en zie materiaal uit het
-                archief van <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a>
-                wat er aan gerelateerd is.
-            </p>
-        </header>
+                <p class="header__lead" v-show="!loading && !results && !error">
+                    Vul een URL naar een nieuwsbron in en zie materiaal uit het
+                    archief van <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a>
+                    wat er aan gerelateerd is.
+                </p>
+            </header>
 
-        <form
-            v-show="!loading && !error"
-            class="search"
-            v-on:submit.prevent="noop"
-        >
-            <div class="search__input">
-                <input
-                    class="search__query"
-                    v-model="query"
-                    placeholder="Plak hier de link naar je nieuwsartikel"
-                />
+            <form
+                v-show="!loading && !error"
+                class="search"
+                v-on:submit.prevent="noop"
+            >
+                <div class="search__input">
+                    <input
+                        class="search__query"
+                        v-model="query"
+                        placeholder="Plak hier de link naar je nieuwsartikel"
+                    />
 
-                <button
-                    v-on:click="setQuery"
-                    class="search__button"
-                >Zoek</button>
+                    <button
+                        v-on:click="setQuery"
+                        class="search__button"
+                    >Zoek</button>
+                </div>
+
+                <div
+                    v-show="!results"
+                    class="search__examples"
+                >
+                    <h2 class="search__examples-title">Voorbeelden</h2>
+
+                    <ul>
+                        <li>
+                            <a v-on:click="setQuery('https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html')">
+                                Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
+                            </a>
+                        </li>
+                        <li>
+                            <a v-on:click="setQuery('https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/')">
+                                Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent
+                            </a>
+                        </li>
+                        <li>
+                            <a v-on:click="setQuery('https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima')">
+                                Britse media vol lof over outfit modekoningin Màxima
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+
+            <div class="loading"
+                 v-show="loading">
+                <img src="static/img/loading.gif" alt="Laden..." />
+                <h2 class="loading__title">Laden...</h2>
+            </div>
+
+            <div class="error"
+                 v-show="error">
+                <p v-html="error"></p>
+                <a href="#" class="error__button">Probeer nogmaals</a>
             </div>
 
             <div
-                v-show="!results"
-                class="search__examples"
+                class="results"
+                v-if="results"
             >
-                <h2 class="search__examples-title">Voorbeelden</h2>
-
                 <ul>
-                    <li>
-                        <a v-on:click="setQuery('https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html')">
-                            Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
-                        </a>
-                    </li>
-                    <li>
-                        <a v-on:click="setQuery('https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/')">
-                            Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent
-                        </a>
-                    </li>
-                    <li>
-                        <a v-on:click="setQuery('https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima')">
-                            Britse media vol lof over outfit modekoningin Màxima
+                    <li
+                        v-for="(item, index) in results"
+                        v-bind:key="index"
+                    >
+                        <a v-bind:href="item.playhref"
+                           class="results__item">
+                            <img />
+                            <div class="results__caption">
+                                <h3 class="results__title">
+                                    {{item.title}}
+                                </h3>
+
+                                <time class="results__date">
+                                    {{item.date}}
+                                </time>
+
+                                <p class="results__description">
+                                    {{item.description}}
+                                </p>
+                            </div>
                         </a>
                     </li>
                 </ul>
             </div>
-        </form>
 
-        <div class="loading"
-             v-show="loading">
-            <img src="static/img/loading.gif" alt="Laden..." />
-            <h2 class="loading__title">Laden...</h2>
-        </div>
+            <footer class="footer">
+                <a
+                    v-show="results"
+                    href="#"
+                    class="footer__again">
+                    Nogmaals?
+                </a>
+            </footer>
+        </section>
 
-        <div class="error"
-             v-show="error">
-            <p v-html="error"></p>
-            <a href="#" class="error__button">Probeer nogmaals</a>
-        </div>
+        <section
+            class="player" 
+            v-if="state === 'player'">
+            
+            <button
+                class="player__close"
+                v-on:click="back">
+                &times;
+            </button>
 
-        <div
-            class="results"
-            v-if="results"
-        >
-            <ul>
-                <li
-                    v-for="(item, index) in results"
-                    v-bind:key="index"
-                >
-                    <a class="results__item">
-                        <img />
-                        <div class="results__caption">
-                            <h3 class="results__title">
-                                {{item.title}}
-                            </h3>
-
-                            <time class="results__date">
-                                {{item.date}}
-                            </time>
-
-                            <p class="results__description">
-                                {{item.description}}
-                            </p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <footer class="footer">
-            <a
-                v-show="results"
-                href="#"
-                class="footer__again">
-                Nogmaals?
-            </a>
-        </footer>
+            <div class="player__player"
+                 v-if="player">
+                <video
+                    v-if="player.type === 'video'"
+                    class="player__video"
+                    controls
+                    v-bind:src="player.url"
+                ></video>
+            </div>
+        </section>
     </main>
     {% endraw %}
     <script src="static/bundle.js"></script>
