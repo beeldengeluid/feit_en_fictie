@@ -16,9 +16,11 @@
 <body>
     <main v-cloak>
         <header class="header">
-            <h1 class="header__title">Feit en Fictie</h1>
+            <h1 class="header__title">
+                <a href="#">Feit en Fictie</a>
+            </h1>
 
-            <p class="header__lead" v-show="!loading && !results">
+            <p class="header__lead" v-show="!loading && !results && !error">
                 Vul een URL naar een nieuwsbron in en zie materiaal uit het
                 archief van <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a>
                 wat er aan gerelateerd is.
@@ -26,7 +28,7 @@
         </header>
 
         <form
-            v-show="!loading"
+            v-show="!loading && !error"
             class="search"
             v-on:submit.prevent="noop"
         >
@@ -73,6 +75,12 @@
              v-show="loading">
             <img src="static/img/loading.gif" alt="Laden..." />
             <h2 class="loading__title">Laden...</h2>
+        </div>
+
+        <div class="error"
+             v-show="error">
+            <p v-html="error"></p>
+            <a href="#" class="error__button">Probeer nogmaals</a>
         </div>
 
         <div

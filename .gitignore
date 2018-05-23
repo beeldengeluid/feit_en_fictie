@@ -8,3 +8,4 @@ Pipfile.lock
 node_modules
 src/static/bundle.js
 src/static/css/style.css
+yarn.lock

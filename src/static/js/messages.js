@@ -1,0 +1,1 @@
+export const ERR_API_ERROR = 'Er ging iets mis met het laden. Probeer het later nog eens.';

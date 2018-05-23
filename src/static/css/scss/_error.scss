@@ -1,0 +1,10 @@
+.error {
+    @include flex-center;
+    @include child-margins(3rem);
+    margin: 3rem auto;
+    text-align: center;
+
+    &__button {
+        @include button;
+    }
+}

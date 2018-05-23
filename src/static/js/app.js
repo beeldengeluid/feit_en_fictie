@@ -1,2 +1,2 @@
 import view from './view.js';
-new view("main");
+window.__view__ = new view("main");
