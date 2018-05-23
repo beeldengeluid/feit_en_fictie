@@ -22,3 +22,8 @@ Or
 ```bash
     pipenv run ./run-dev
 ```
+
+## Development
+You can use the `run-dev` script to run the development version of the server.
+
+To develop the frontend, use the `npm run watch` command to build CSS and Javascript on save.

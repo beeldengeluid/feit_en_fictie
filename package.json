@@ -7,13 +7,9 @@
     "build": "npm run build:js && npm run build:css",
     "build:autoprefixer": "postcss src/static/css/style.css --use autoprefixer --no-map -r",
     "build:css": "npm run build:sass && npm run build:autoprefixer",
-    "build:js": "webpack -d",
+    "build:js": "webpack -p",
     "build:sass": "node-sass src/static/css/scss/style.scss src/static/css/style.css",
-    "clean": "rm -rf dist",
-    "clean:after": "rm -rf dist/css/scss dist/js",
-    "dist": "npm run clean && webpack -p && cp -rv src/static dist && npm run clean:after",
     "postinstall": "npm run build",
-    "serve": "cd src/static && http-server",
     "watch": "chokidar 'src/static/css/scss/*.scss' -c 'npm run build:css' & webpack -dw"
   },
   "dependencies": {
