@@ -8,18 +8,8 @@
             <search-input class="results-header__search"></search-input>
         </header>
 
-        <!-- These two divs should be components -->
-        <div class="error"
-             v-show="error">
-            <p v-html="error"></p>
-            <a href="#" class="error__button">Probeer nogmaals</a>
-        </div>
-
-        <div class="loading"
-             v-show="loading">
-            <img src="static/img/loading.gif" alt="Laden..." />
-            <h2 class="loading__title">Laden...</h2>
-        </div>
+        <error-message></error-message>
+        <loading-indicator></loading-indicator>
 
         <div class="screen-results__content">
             <results-list></results-list>
@@ -29,6 +19,8 @@
 </template>
 
 <script>
+    import ErrorMessage from './error-message.vue';
+    import LoadingIndicator from './loading-indicator.vue';
     import ResultsList from './results-list.vue';
     import SearchInput from './search-input.vue';
     import ViewPane from './view-pane.vue';
@@ -56,6 +48,8 @@
         },
 
         components : {
+            ErrorMessage,
+            LoadingIndicator,
             ResultsList,
             SearchInput,
             ViewPane

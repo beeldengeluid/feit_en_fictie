@@ -4,11 +4,13 @@ messages:
   HEADER_LEAD: >
       Vul een URL naar een nieuwsbron in en zie materiaal uit het archief van
       [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) er aan gerelateerd is.
+  LOADING: Laden...
   NO_DESCRIPTION: Geen beschrijving
   NO_TITLE: Geen titel
   PASTE_URL_HERE: Plak hier de link naar je nieuwsartikel
   SEARCH_LABEL: Zoek
   TITLE: Feit en fictie
+  TRY_AGAIN: Probeer het nogmaals
 
 examples:
   - title: Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
