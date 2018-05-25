@@ -4,6 +4,7 @@
 			v-if="!error"
 			v-bind:src="src"
 			controls
+			playsinline
 		></video>
 
 		<div
