@@ -23,8 +23,8 @@
                 examples : this.$store.state.examples.map((example) => {
                     example.route = {
                         name : 'results',
-                        params : {
-                            query : example.url
+                        query : {
+                            url : example.url
                         }
                     };
 

@@ -1,5 +1,6 @@
 <template>
-	<div class="video-player">
+	<div class="video-player"
+		 v-bind:is-sticky="sticky">
 		<video
 			v-if="!error"
 			v-bind:src="src"
@@ -56,6 +57,12 @@
 			start : {
 				type : Number,
 				required : false
+			},
+
+			sticky : {
+				type : Boolean,
+				required : false,
+				default : false
 			}
 		}
 	}

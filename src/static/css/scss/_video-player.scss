@@ -10,4 +10,8 @@
     &__error-title {
         font-size: 3rem;
     }
+
+    &[is-sticky] {
+        position: sticky;
+    }
 }

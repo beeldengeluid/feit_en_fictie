@@ -1,4 +1,12 @@
 .screen-results {
     padding: 1rem;
     @include child-margins(3rem);
+
+    &__content {
+        display: flex;
+
+        > * {
+            margin-right: 3rem;
+        }
+    }
 }

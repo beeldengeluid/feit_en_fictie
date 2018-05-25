@@ -9,8 +9,6 @@
         </header>
 
         <div class="screen-results__content">
-            <results-list></results-list>
-
             <!-- These two divs should be components -->
             <div class="error"
                  v-show="error">
@@ -23,6 +21,9 @@
                 <img src="static/img/loading.gif" alt="Laden..." />
                 <h2 class="loading__title">Laden...</h2>
             </div>
+
+            <results-list></results-list>
+            <view-pane></view-pane>
         </div>
     </div>
 </template>
@@ -30,11 +31,12 @@
 <script>
     import ResultsList from './results-list.vue';
     import SearchInput from './search-input.vue';
+    import ViewPane from './view-pane.vue';
 
     export default {
         mounted() {
             // Is this really the best solution to make this connection?
-            this.$store.dispatch('doQuery', this.$route.params.query);
+            this.$store.dispatch('search', this.$route.query);
         },
 
         computed : {
@@ -55,7 +57,8 @@
 
         components : {
             ResultsList,
-            SearchInput
+            SearchInput,
+            ViewPane
         }
     };
 </script>

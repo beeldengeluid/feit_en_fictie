@@ -2,14 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // import { clone, noop } from 'lodash';
 // import { mediaForArticle } from './api.js';
-import { $ } from './util.js';
 import Router from './router.js';
 import Model from './model.js';
 
 Vue.use(Vuex);
-
-const AUDIO_BASE_URL = $('meta[name="AUDIO_BASE_URL"]').getAttribute('content');
-const VIDEO_BASE_URL = $('meta[name="VIDEO_BASE_URL"]').getAttribute('content');
 
 export default function(el) {
     const model = new Model();

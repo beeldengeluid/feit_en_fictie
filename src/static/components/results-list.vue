@@ -5,8 +5,9 @@
                 v-for="(item, index) in results"
                 v-bind:key="index"
             >
-                <a v-bind:href="item.playhref"
-                   class="results__item">
+                <router-link
+                    v-bind:to="item.to"
+                    class="results__item">
                     <h3 class="results__title">
                         {{item.title}}
                     </h3>
@@ -18,7 +19,7 @@
                     <p class="results__description">
                         {{item.description}}
                     </p>
-                </a>
+                </router-link>
             </li>
         </ul>
     </div>
@@ -27,6 +28,10 @@
 <script>
     export default {
         computed: {
+            query() {
+                return this.$store.state.query;
+            },
+
             results() {
                 return this.$store.state.results;
             }

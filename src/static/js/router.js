@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import ScreenHome from '../components/screen-home.vue';
 import ScreenResults from '../components/screen-results.vue';
+import ViewPane from '../components/view-pane.vue';
 
 Vue.use(VueRouter);
 
@@ -15,7 +16,7 @@ export default function(store) {
             },
             {
                 name : 'results',
-                path : '/results/:query',
+                path : '/results',
                 component : ScreenResults
             }
         ],

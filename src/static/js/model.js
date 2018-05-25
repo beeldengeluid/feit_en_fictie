@@ -2,11 +2,16 @@ import Vuex from 'vuex';
 import { clone } from 'lodash';
 import { warn } from 'loglevel';
 import { mediaForArticle } from './api.js';
+import { $ } from './util.js';
 
 const DEBUG = window.location.href.includes('debug');
 const { examples, messages } = window.__messages__;
 
 const DEFAULT_DATA = {
+    config : {
+        audioBaseUrl : $('meta[name="AUDIO_BASE_URL"]').getAttribute('content'),
+        videoBaseUrl : $('meta[name="VIDEO_BASE_URL"]').getAttribute('content')
+    },
     error : null,
     examples,
     loading : false,
@@ -54,7 +59,7 @@ export default class {
             },
 
             actions : {
-                async doQuery({ commit }, query) {
+                async queryByUrl({ commit }, query) {
                     commit('query', query);
                     commit('startLoading');
 
@@ -62,6 +67,20 @@ export default class {
 
                     try {
                         results = await mediaForArticle(query);
+
+                        results.map((item) => {
+                            item.to = {
+                                name : 'results',
+                                query : {
+                                    avtype : item.avtype,
+                                    playerId : item.playerId,
+                                    startInSeconds : item.startTime / 1000,
+                                    url : query
+                                }
+                            };
+
+                            return item;
+                        });
                     } catch (err) {
                         warn(err);
                         commit('error', 'ERR_API_ERROR');
@@ -71,6 +90,12 @@ export default class {
                     }
 
                     commit('results', results);
+                },
+
+                search({ dispatch }, query) {
+                    if (query.url) {
+                        dispatch('queryByUrl', query.url);
+                    }
                 }
             }
         });
