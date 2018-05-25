@@ -4,7 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Feit &amp; Fixie, of Feit en Fictie, of iets anders</title>
+    <title>Feit &amp; Fictie</title>
+
+<!--
+    __________              .__       .___
+    \______   \ ____   ____ |  |    __| _/   ____   ____
+     |    |  _// __ \_/ __ \|  |   / __ |  _/ __ \ /    \
+     |    |   \  ___/\  ___/|  |__/ /_/ |  \  ___/|   |  \
+     |______  /\___  >\___  >____/\____ |   \___  >___|  /
+            \/     \/     \/           \/       \/     \/
+      ________       .__        .__    .___
+     /  _____/  ____ |  |  __ __|__| __| _/
+    /   \  ____/ __ \|  | |  |  \  |/ __ |
+    \    \_\  \  ___/|  |_|  |  /  / /_/ |
+     \______  /\___  >____/____/|__\____ |
+            \/     \/                   \/
+
+    Code by Hay Kranen @ Netherlands Institute for Sound and Vision -->
 
     <!-- API endpoints -->
     <meta name="VIDEO_BASE_URL" content="{{VIDEO_BASE_URL}}" />
@@ -17,121 +33,10 @@
     <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
-    {# FIXME: this shouldn't be like this, use .vue components instead #}
-    {% raw %}
     <main v-cloak>
         <router-view></router-view>
     </main>
-    <!--
-    <main v-cloak>
-        <section
-            class="searchscreen"
-            v-show="state === 'search'">
-            <ff-header
-                v-bind:show-lead="!loading && !results && !error"></ff-header>
 
-            <ff-search
-                v-show="!loading && !error"></ff-search>
-
-            <div
-                v-show="!results"
-                class="search__examples"
-            >
-                <h2 class="search__examples-title">Voorbeelden</h2>
-
-                <ul>
-                    <li v-for="example in examples">
-                        <a v-bind:href="'#' + encodeURIComponent(example.url)">
-                            {{example.title}}
-                        </a>
-                    </li>
-                    <li>
-                        <a v-on:click="setQuery('https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/')">
-                            Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent
-                        </a>
-                    </li>
-                    <li>
-                        <a v-on:click="setQuery('https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima')">
-                            Britse media vol lof over outfit modekoningin Màxima
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="loading"
-                 v-show="loading">
-                <img src="static/img/loading.gif" alt="Laden..." />
-                <h2 class="loading__title">Laden...</h2>
-            </div>
-
-            <div class="error"
-                 v-show="error">
-                <p v-html="error"></p>
-                <a href="#" class="error__button">Probeer nogmaals</a>
-            </div>
-
-            <div
-                class="results"
-                v-if="results && !loading && !error"
-            >
-                <ul>
-                    <li
-                        v-for="(item, index) in results"
-                        v-bind:key="index"
-                    >
-                        <a v-bind:href="item.playhref"
-                           class="results__item">
-                            <img />
-                            <div class="results__caption">
-                                <h3 class="results__title">
-                                    {{item.title}}
-                                </h3>
-
-                                <time class="results__date">
-                                    {{item.date}}
-                                </time>
-
-                                <p class="results__description">
-                                    {{item.description}}
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <footer class="footer">
-                <a
-                    v-show="results"
-                    href="#"
-                    class="footer__again">
-                    Nogmaals?
-                </a>
-            </footer>
-        </section>
-
-        <section
-            class="player"
-            v-if="state === 'player'">
-
-            <button
-                class="player__close"
-                v-on:click="back">
-                &times;
-            </button>
-
-            <div class="player__player"
-                 v-if="player">
-                <video-player
-                    v-if="player.type === 'video'"
-                    v-bind:src="player.url"
-                    v-bind:autoplay="!firstRoute"
-                    v-bind:start="player.startTime"></video-player>
-            </div>
-        </section>
-    </main>
-    -->
-    {% endraw %}
     <script src="static/bundle.js"></script>
 </body>
 </html>
