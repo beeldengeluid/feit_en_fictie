@@ -49,7 +49,7 @@ export default class {
             },
 
             actions : {
-                async queryByUrl({ commit }, query) {
+                async queryByUrl({ state, commit }, query) {
                     commit('query', query);
                     commit('startLoading');
 
@@ -59,15 +59,19 @@ export default class {
                         results = await mediaForArticle(query);
 
                         results.map((item) => {
-                            item.to = {
-                                name : 'results',
-                                query : {
-                                    avtype : item.avtype,
-                                    playerId : item.playerId,
-                                    startInSeconds : item.startTime / 1000,
-                                    url : query
+                            Object.assign(item, {
+                                description : item.description || state.messages.NO_DESCRIPTION,
+                                title : item.title || state.messages.NO_TITLE,
+                                to : {
+                                    name : 'results',
+                                    query : {
+                                        avtype : item.avtype,
+                                        playerId : item.playerId,
+                                        startInSeconds : item.startTime / 1000,
+                                        url : query
+                                    }
                                 }
-                            };
+                            });
 
                             return item;
                         });

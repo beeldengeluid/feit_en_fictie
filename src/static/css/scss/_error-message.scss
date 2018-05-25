@@ -1,8 +1,11 @@
 .error-message {
+    background: $c-2;
+    color: white;
     @include flex-center;
     @include child-margins(3rem);
     margin: 3rem auto;
     text-align: center;
+    padding: 1rem;
 
     &__button {
         @include button;

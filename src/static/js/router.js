@@ -22,7 +22,12 @@ export default function(store) {
             {
                 name : 'results',
                 path : '/results',
-                component : ScreenResults
+                component : ScreenResults,
+                beforeEnter : (to, from, next) => {
+                    // Always clean up when entering here
+                    store.commit('reset');
+                    next();
+                }
             }
         ]
     });
