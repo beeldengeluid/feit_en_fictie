@@ -1,9 +1,12 @@
 import Vuex from 'vuex';
+import { clone } from 'lodash';
 
 const DEBUG = window.location.href.includes('debug');
+const { examples, messages } = window.__messages__;
 
 const DEFAULT_DATA = {
     error : null,
+    examples,
     loading : false,
     messages,
     player : null,
@@ -21,12 +24,15 @@ export default class {
         return new Vuex.Store({
             strict : DEBUG,
 
-            state : this.getData(),
+            state : clone(DEFAULT_DATA),
 
             getters : {
             },
 
             mutations : {
+                query(state, query) {
+                    state.query = query;
+                }
             }
         });
     }

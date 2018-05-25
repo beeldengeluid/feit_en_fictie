@@ -1,0 +1,25 @@
+.examples-list {
+    max-width: 80rem;
+    @include margin-center;
+    margin-top: 3rem;
+
+    &__title {
+        font-size: 2.6rem;
+        text-align: center;
+    }
+
+    ul {
+        margin-top: 1rem;
+        text-align: center;
+        @include child-margins(1rem);
+    }
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        color: blue;
+        cursor: pointer;
+    }
+}

@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import ScreenHome from './components/screen-home.vue';
-import ScreenMedia from './components/screen-media.vue';
-import ScreenUrl from './components/screen-url.vue';
+import ScreenHome from '../components/screen-home.vue';
+// import ScreenMedia from './components/screen-media.vue';
+// import ScreenUrl from './components/screen-url.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +13,7 @@ export default function(store) {
                 name : 'home',
                 path : '/',
                 component : ScreenHome
-            },
+            }/*,
             {
                 name : 'url',
                 path : '/url/:url',
@@ -23,7 +23,7 @@ export default function(store) {
                 name : 'media',
                 path : '/media/:media',
                 component : ScreenMedia
-            }
+            }*/
         ],
 
         scrollBehavior (to, from, savedPosition) {

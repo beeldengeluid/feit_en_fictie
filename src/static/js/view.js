@@ -1,13 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { clone, noop } from 'lodash';
-import { mediaForArticle } from './api.js';
-import { messages, NO_DESCRIPTION, NO_TITLE, ERR_API_ERROR } from './messages.js'
+// import { clone, noop } from 'lodash';
+// import { mediaForArticle } from './api.js';
 import { $ } from './util.js';
 import Router from './router.js';
-import examples from './examples.js';
-import FfHeader from './components/ff-header.vue';
-import VideoPlayer from './components/video-player.vue';
+import Model from './model.js';
 
 Vue.use(Vuex);
 
@@ -15,7 +12,8 @@ const AUDIO_BASE_URL = $('meta[name="AUDIO_BASE_URL"]').getAttribute('content');
 const VIDEO_BASE_URL = $('meta[name="VIDEO_BASE_URL"]').getAttribute('content');
 
 export default function(el) {
-    const store = this.model.getStore();
+    const model = new Model();
+    const store = model.getStore();
     const router = new Router(store);
 
     return new Vue({
@@ -25,11 +23,7 @@ export default function(el) {
 
         store,
 
-        components : {
-            FfHeader,
-            VideoPlayer
-        },
-
+        /*
         mounted() {
             function go() {
                 if (!!window.location.hash) {
@@ -56,8 +50,10 @@ export default function(el) {
 
             go.call(this);
         },
+        */
 
         methods : {
+            /*
             back() {
                 window.history.back();
             },
@@ -120,10 +116,13 @@ export default function(el) {
 
                 window.location.hash = encodeURIComponent(this.query);
             }
+            */
         },
 
+        /*
         data : Object.assign(clone(DEFAULT_DATA), {
             firstRoute : true
         })
+        */
     });
 }

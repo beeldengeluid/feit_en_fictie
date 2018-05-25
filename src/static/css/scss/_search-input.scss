@@ -1,0 +1,26 @@
+.search-input {
+    @include margin-center;
+    max-width: 100rem;
+    margin-top: 3rem;
+
+    &__input {
+        width: 100%;
+        display: flex;
+    }
+
+    &__query,
+    &__button {
+        padding: 1rem;
+    }
+
+    &__query {
+        width: 100%;
+        font-family: $font-monospace;
+        font-size: 2rem;
+        border: 1px solid #999;
+    }
+
+    &__button {
+        @include button;
+    }
+}

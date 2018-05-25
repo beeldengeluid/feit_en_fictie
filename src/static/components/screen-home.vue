@@ -1,15 +1,21 @@
 <template>
     <div class="screen-home">
-        <ff-header></ff-header>
+        <home-header></home-header>
+        <search-input></search-input>
+        <examples-list></examples-list>
     </div>
 </template>
 
 <script>
-    import FfHeader from './ff-header.vue';
+import HomeHeader from './home-header.vue';
+import SearchInput from './search-input.vue';
+import ExamplesList from './examples-list.vue';
 
-    export default {
-        components : {
-            FfHeader
-        }
-    };
+export default {
+    components : {
+        HomeHeader,
+        SearchInput,
+        ExamplesList
+    }
+};
 </script>

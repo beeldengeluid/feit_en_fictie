@@ -20,6 +20,10 @@
     {# FIXME: this shouldn't be like this, use .vue components instead #}
     {% raw %}
     <main v-cloak>
+        <router-view></router-view>
+    </main>
+    <!--
+    <main v-cloak>
         <section
             class="searchscreen"
             v-show="state === 'search'">
@@ -126,6 +130,7 @@
             </div>
         </section>
     </main>
+    -->
     {% endraw %}
     <script src="static/bundle.js"></script>
 </body>

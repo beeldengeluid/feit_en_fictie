@@ -1,13 +1,14 @@
 messages:
   ERR_API_ERROR: Er ging iets mis met het laden. Probeer het later nog eens.
-  NO_DESCRIPTION: Geen beschrijving
-  NO_TITLE: Geen titel
+  EXAMPLES_LABEL: Voorbeelden
   HEADER_LEAD: >
       Vul een URL naar een nieuwsbron in en zie materiaal uit het archief van
-      <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a> wat
-      er aan gerelateerd is.
-  TITLE: Feit en fictie
+      [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) er aan gerelateerd is.
+  NO_DESCRIPTION: Geen beschrijving
+  NO_TITLE: Geen titel
   PASTE_URL_HERE: Plak hier de link naar je nieuwsartikel
+  SEARCH_LABEL: Zoek
+  TITLE: Feit en fictie
 
 examples:
   - title: Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
