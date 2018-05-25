@@ -1,12 +1,30 @@
 .screen-results {
-    padding: 1rem;
-    @include child-margins(3rem);
-
     &__content {
         display: flex;
+    }
 
-        > * {
+    @include respond-until($screen-sm) {
+        &__content {
+            flex-direction: column;
+        }
+
+        .results-list {
+            order: 1;
+        }
+    }
+
+    @include respond-from($screen-sm) {
+        &__content > * {
             margin-right: 3rem;
         }
+
+        .view-pane {
+            align-self: flex-start;
+            padding-top: 2rem;
+        }
+    }
+
+    .results-list {
+        padding: 1rem;
     }
 }

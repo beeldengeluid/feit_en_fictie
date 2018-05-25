@@ -1,4 +1,8 @@
 .video-player {
+    video {
+        max-width: 100%;
+    }
+
     &__error {
         color: white;
         background: $c-1;
@@ -9,9 +13,5 @@
 
     &__error-title {
         font-size: 3rem;
-    }
-
-    &[is-sticky] {
-        position: sticky;
     }
 }

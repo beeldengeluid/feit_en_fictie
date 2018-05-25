@@ -4,7 +4,6 @@
             v-if="type === 'video'"
             v-bind:src="src"
             v-bind:autoplay="true"
-            v-bind:sticky="true"
             v-bind:start="start"></video-player>
     </div>
 </template>

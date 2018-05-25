@@ -1,5 +1,7 @@
 .results-header {
+    background: $c-1;
     display: flex;
+    padding: 1rem;
 
     &__logo {
         font-size: 3rem;
@@ -7,8 +9,17 @@
         flex-shrink: 0;
     }
 
+    &__logo a {
+        color: white;
+    }
+
     &__search {
         width: 100%;
         max-width: 80rem;
+    }
+
+    @include respond-until($screen-sm) {
+        @include flex-center;
+        @include child-margins(1rem);
     }
 }
