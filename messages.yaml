@@ -1,0 +1,20 @@
+messages:
+  ERR_API_ERROR: Er ging iets mis met het laden. Probeer het later nog eens.
+  NO_DESCRIPTION: Geen beschrijving
+  NO_TITLE: Geen titel
+  HEADER_LEAD: >
+      Vul een URL naar een nieuwsbron in en zie materiaal uit het archief van
+      <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a> wat
+      er aan gerelateerd is.
+  TITLE: Feit en fictie
+  PASTE_URL_HERE: Plak hier de link naar je nieuwsartikel
+
+examples:
+  - title: Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
+    url: https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html'
+
+  - title: 'Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent'
+    url: https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/
+
+  - title: Britse media vol lof over outfit modekoningin Màxima
+    url: https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima

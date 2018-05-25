@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, abort
 from api import parse_article, media_for_article
 from spinque_api import ClariahSpinqueApi, ApiException
 from logzero import logger
+import yaml
+import json
 
 # This should probably be a decorator, but i don't know how
 def check_params(*args):
@@ -16,6 +18,9 @@ def check_params(*args):
 app = Flask(__name__)
 cache = {}
 app.config.from_object('settings.Config')
+
+with open("messages.yaml") as f:
+    MESSAGES = yaml.load(f)
 
 spinque_api = ClariahSpinqueApi(
     endpoint = app.config["SPINQUE_API"],
@@ -46,10 +51,15 @@ def json_response(data):
 
 @app.route('/')
 def home():
-	return render_template('index.html',
-	   VIDEO_BASE_URL = app.config['VIDEO_BASE_URL'],
-	   AUDIO_BASE_URL = app.config['AUDIO_BASE_URL']
-	)
+    return render_template('index.html',
+       VIDEO_BASE_URL = app.config['VIDEO_BASE_URL'],
+       AUDIO_BASE_URL = app.config['AUDIO_BASE_URL'],
+       MESSAGES = json.dumps(MESSAGES)
+    )
+
+@app.route('/api/messages')
+def messages():
+    return json_response(MESSAGES)
 
 """
 Example: http://localhost:5000/api/parse_article?url=https://www.nu.nl/midden-oostenconflict/5264750/25-doden-en-minstens-duizend-gewonden-bij-palestijnse-protesten-gazastrook.html

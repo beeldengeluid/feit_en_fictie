@@ -1,28 +1,32 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import { clone, noop } from 'lodash';
 import { mediaForArticle } from './api.js';
 import { messages, NO_DESCRIPTION, NO_TITLE, ERR_API_ERROR } from './messages.js'
 import { $ } from './util.js';
+import Router from './router.js';
+import examples from './examples.js';
+import FfHeader from './components/ff-header.vue';
 import VideoPlayer from './components/video-player.vue';
+
+Vue.use(Vuex);
 
 const AUDIO_BASE_URL = $('meta[name="AUDIO_BASE_URL"]').getAttribute('content');
 const VIDEO_BASE_URL = $('meta[name="VIDEO_BASE_URL"]').getAttribute('content');
 
-const DEFAULT_DATA = {
-    error : null,
-    loading : false,
-    messages,
-    player : null,
-    query : null,
-    results : null,
-    state : null
-};
-
 export default function(el) {
+    const store = this.model.getStore();
+    const router = new Router(store);
+
     return new Vue({
         el,
 
+        router,
+
+        store,
+
         components : {
+            FfHeader,
             VideoPlayer
         },
 

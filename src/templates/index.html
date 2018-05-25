@@ -10,6 +10,10 @@
     <meta name="VIDEO_BASE_URL" content="{{VIDEO_BASE_URL}}" />
     <meta name="AUDIO_BASE_URL" content="{{AUDIO_BASE_URL}}" />
 
+    <script>
+        window.__messages__ = {{ MESSAGES | safe }}
+    </script>
+
     <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
@@ -19,61 +23,36 @@
         <section
             class="searchscreen"
             v-show="state === 'search'">
-            <header class="header">
-                <h1 class="header__title">
-                    <a href="#">Feit en Fictie</a>
-                </h1>
+            <ff-header
+                v-bind:show-lead="!loading && !results && !error"></ff-header>
 
-                <p class="header__lead" v-show="!loading && !results && !error">
-                    Vul een URL naar een nieuwsbron in en zie materiaal uit het
-                    archief van <a href="https://www.beeldengeluid.nl/">Beeld&nbsp;en&nbsp;Geluid</a>
-                    wat er aan gerelateerd is.
-                </p>
-            </header>
+            <ff-search
+                v-show="!loading && !error"></ff-search>
 
-            <form
-                v-show="!loading && !error"
-                class="search"
-                v-on:submit.prevent="noop"
+            <div
+                v-show="!results"
+                class="search__examples"
             >
-                <div class="search__input">
-                    <input
-                        class="search__query"
-                        v-model="query"
-                        placeholder="Plak hier de link naar je nieuwsartikel"
-                    />
+                <h2 class="search__examples-title">Voorbeelden</h2>
 
-                    <button
-                        v-on:click="setQuery()"
-                        class="search__button"
-                    >Zoek</button>
-                </div>
-
-                <div
-                    v-show="!results"
-                    class="search__examples"
-                >
-                    <h2 class="search__examples-title">Voorbeelden</h2>
-
-                    <ul>
-                        <li>
-                            <a v-on:click="setQuery('https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html')">
-                                Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
-                            </a>
-                        </li>
-                        <li>
-                            <a v-on:click="setQuery('https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/')">
-                                Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent
-                            </a>
-                        </li>
-                        <li>
-                            <a v-on:click="setQuery('https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima')">
-                                Britse media vol lof over outfit modekoningin Màxima
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </form>
+                <ul>
+                    <li v-for="example in examples">
+                        <a v-bind:href="'#' + encodeURIComponent(example.url)">
+                            {{example.title}}
+                        </a>
+                    </li>
+                    <li>
+                        <a v-on:click="setQuery('https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/')">
+                            Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent
+                        </a>
+                    </li>
+                    <li>
+                        <a v-on:click="setQuery('https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima')">
+                            Britse media vol lof over outfit modekoningin Màxima
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
             <div class="loading"
                  v-show="loading">
