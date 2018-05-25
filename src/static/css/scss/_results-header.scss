@@ -1,7 +1,11 @@
 .results-header {
     background: $c-1;
-    display: flex;
     padding: 1rem;
+    @include child-margins(1rem);
+
+    &__masthead {
+        display: flex;
+    }
 
     &__logo {
         font-size: 3rem;

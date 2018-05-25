@@ -1,14 +1,19 @@
 <template>
     <div class="screen-results">
         <header class="results-header">
-            <h1 class="results-header__logo">
-                <router-link v-bind:to="{ name : 'home' }">{{title}}</router-link>
-            </h1>
+            <div class="results-header__masthead">
+                <h1 class="results-header__logo">
+                    <router-link v-bind:to="{ name : 'home' }">{{title}}</router-link>
+                </h1>
 
-            <search-input class="results-header__search"></search-input>
+                <search-input class="results-header__search"></search-input>
+            </div>
+
+            <terms-list type="inverted"></terms-list>
         </header>
 
         <error-message></error-message>
+
         <loading-indicator></loading-indicator>
 
         <div class="screen-results__content">
@@ -23,6 +28,7 @@
     import LoadingIndicator from './loading-indicator.vue';
     import ResultsList from './results-list.vue';
     import SearchInput from './search-input.vue';
+    import TermsList from './terms-list.vue';
     import ViewPane from './view-pane.vue';
 
     export default {
@@ -52,6 +58,7 @@
             LoadingIndicator,
             ResultsList,
             SearchInput,
+            TermsList,
             ViewPane
         }
     };

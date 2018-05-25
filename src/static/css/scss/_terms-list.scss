@@ -1,0 +1,28 @@
+.terms-list {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    &__title:after {
+        content: ':';
+    }
+
+    ul {
+        display: flex;
+        margin: 0 1rem;
+    }
+
+    li {
+        list-style: none;
+        margin: 0 .5rem;
+        border: 1px solid white;
+        padding: .5rem;
+        font-size: 1.8rem;
+    }
+
+    &__inverted {
+        color: white;
+    }
+}

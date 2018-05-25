@@ -20,6 +20,41 @@ export default class {
             state : model.getInitialState(),
 
             getters : {
+                resultItems(state) {
+                    if (!state.results) {
+                        return null;
+                    }
+
+                    return state.results.items.map((item) => {
+                        // Note that we make a new object here to avoid
+                        // mutating state
+                        item = Object.assign({}, item, {
+                            description : item.description || state.messages.NO_DESCRIPTION,
+                            title : item.title || state.messages.NO_TITLE,
+                            to : {
+                                name : 'results',
+                                query : {
+                                    avtype : item.avtype,
+                                    playerId : item.playerId,
+                                    startInSeconds : item.startTime / 1000,
+                                    url : state.query
+                                }
+                            }
+                        });
+
+                        return item;
+                    });
+                },
+
+                terms(state) {
+                    if (!state.results) {
+                        return null;
+                    }
+
+                    return state.results.terms.items.map((item) => {
+                        return item.tuple[0];
+                    });
+                }
             },
 
             mutations : {
@@ -57,24 +92,7 @@ export default class {
 
                     try {
                         results = await mediaForArticle(query);
-
-                        results.map((item) => {
-                            Object.assign(item, {
-                                description : item.description || state.messages.NO_DESCRIPTION,
-                                title : item.title || state.messages.NO_TITLE,
-                                to : {
-                                    name : 'results',
-                                    query : {
-                                        avtype : item.avtype,
-                                        playerId : item.playerId,
-                                        startInSeconds : item.startTime / 1000,
-                                        url : query
-                                    }
-                                }
-                            });
-
-                            return item;
-                        });
+                        commit('results', results);
                     } catch (err) {
                         warn(err);
                         commit('error', 'ERR_API_ERROR');
@@ -82,8 +100,6 @@ export default class {
                     } finally {
                         commit('stopLoading');
                     }
-
-                    commit('results', results);
                 },
 
                 search({ dispatch }, query) {

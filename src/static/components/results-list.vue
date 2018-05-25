@@ -28,12 +28,8 @@
 <script>
     export default {
         computed: {
-            query() {
-                return this.$store.state.query;
-            },
-
             results() {
-                return this.$store.state.results;
+                return this.$store.getters.resultItems;
             }
         }
     }

@@ -10,8 +10,10 @@ export async function mediaForArticle(url) {
     const endpoint = `api/media_for_article?url=${url}`;
     const data = await getJson(endpoint);
 
-    return data.items.map((itemData) => {
+    data.items = data.items.map((itemData) => {
         const item = new MediaItem(itemData);
         return item.getData();
     });
+
+    return data;
 }
