@@ -1,26 +1,10 @@
 import Vuex from 'vuex';
-import { clone } from 'lodash';
 import { warn } from 'loglevel';
 import { mediaForArticle } from './api.js';
 import { $ } from './util.js';
 
-const DEBUG = window.location.href.includes('debug');
+const DEBUG = true; // CHANGE THIS
 const { examples, messages } = window.__messages__;
-
-const DEFAULT_DATA = {
-    config : {
-        audioBaseUrl : $('meta[name="AUDIO_BASE_URL"]').getAttribute('content'),
-        videoBaseUrl : $('meta[name="VIDEO_BASE_URL"]').getAttribute('content')
-    },
-    error : null,
-    examples,
-    loading : false,
-    messages,
-    player : null,
-    query : null,
-    results : null,
-    state : null
-};
 
 export default class {
     constructor(...args) {
@@ -28,10 +12,12 @@ export default class {
     }
 
     createStore() {
+        const model = this;
+
         return new Vuex.Store({
             strict : DEBUG,
 
-            state : clone(DEFAULT_DATA),
+            state : model.getInitialState(),
 
             getters : {
             },
@@ -47,6 +33,10 @@ export default class {
 
                 results(state, results) {
                     state.results = results;
+                },
+
+                reset(state) {
+                    Object.assign(state, model.getInitialState());
                 },
 
                 stopLoading(state) {
@@ -99,6 +89,23 @@ export default class {
                 }
             }
         });
+    }
+
+    getInitialState() {
+        return {
+            config : {
+                audioBaseUrl : $('meta[name="AUDIO_BASE_URL"]').getAttribute('content'),
+                videoBaseUrl : $('meta[name="VIDEO_BASE_URL"]').getAttribute('content')
+            },
+            error : null,
+            examples,
+            loading : false,
+            messages,
+            player : null,
+            query : null,
+            results : null,
+            state : null
+        };
     }
 
     getStore() {

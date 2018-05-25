@@ -1,7 +1,7 @@
 <template>
     <header class="home-header">
         <h1 class="home-header__title">
-            <a href="#">{{title}}</a>
+            <router-link v-bind:to="{ name : 'home' }">{{title}}</router-link>
         </h1>
 
         <p class="home-header__lead"

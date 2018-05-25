@@ -12,7 +12,12 @@ export default function(store) {
             {
                 name : 'home',
                 path : '/',
-                component : ScreenHome
+                component : ScreenHome,
+                beforeEnter : (to, from, next) => {
+                    // Always clean up when entering here
+                    store.commit('reset');
+                    next();
+                }
             },
             {
                 name : 'results',
