@@ -6,9 +6,9 @@
 
         <ul>
             <li v-for="example in examples">
-                <a v-bind:href="'#' + encodeURIComponent(example.url)">
+                <router-link v-bind:to="example.route">
                     {{example.title}}
-                </a>
+                </router-link>
             </li>
         </ul>
     </div>
@@ -19,7 +19,17 @@
         data() {
             return {
                 examplesLabel : this.$store.state.messages.EXAMPLES_LABEL,
-                examples : this.$store.state.examples
+
+                examples : this.$store.state.examples.map((example) => {
+                    example.route = {
+                        name : 'results',
+                        params : {
+                            query : example.url
+                        }
+                    };
+
+                    return example;
+                })
             };
         }
     }

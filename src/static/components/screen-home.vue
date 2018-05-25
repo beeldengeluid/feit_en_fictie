@@ -1,7 +1,7 @@
 <template>
     <div class="screen-home">
         <home-header></home-header>
-        <search-input></search-input>
+        <search-input class="search-input--fullwidth"></search-input>
         <examples-list></examples-list>
     </div>
 </template>

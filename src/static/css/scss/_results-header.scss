@@ -1,0 +1,14 @@
+.results-header {
+    display: flex;
+
+    &__logo {
+        font-size: 3rem;
+        margin-right: 3rem;
+        flex-shrink: 0;
+    }
+
+    &__search {
+        width: 100%;
+        max-width: 80rem;
+    }
+}

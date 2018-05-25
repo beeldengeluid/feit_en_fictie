@@ -7,7 +7,7 @@ async function getJson(url) {
 }
 
 export async function mediaForArticle(url) {
-    const endpoint = `api/media_for_article?url=${encodeURIComponent(url)}`;
+    const endpoint = `api/media_for_article?url=${url}`;
     const data = await getJson(endpoint);
 
     return data.items.map((itemData) => {

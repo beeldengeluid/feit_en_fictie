@@ -1,5 +1,7 @@
 import Vuex from 'vuex';
 import { clone } from 'lodash';
+import { warn } from 'loglevel';
+import { mediaForArticle } from './api.js';
 
 const DEBUG = window.location.href.includes('debug');
 const { examples, messages } = window.__messages__;
@@ -30,8 +32,45 @@ export default class {
             },
 
             mutations : {
+                error(state, error) {
+                    state.error = state.messages[error];
+                },
+
                 query(state, query) {
                     state.query = query;
+                },
+
+                results(state, results) {
+                    state.results = results;
+                },
+
+                stopLoading(state) {
+                    state.loading = false;
+                },
+
+                startLoading(state) {
+                    state.loading = true;
+                }
+            },
+
+            actions : {
+                async doQuery({ commit }, query) {
+                    commit('query', query);
+                    commit('startLoading');
+
+                    let results = null;
+
+                    try {
+                        results = await mediaForArticle(query);
+                    } catch (err) {
+                        warn(err);
+                        commit('error', 'ERR_API_ERROR');
+                        return;
+                    } finally {
+                        commit('stopLoading');
+                    }
+
+                    commit('results', results);
                 }
             }
         });

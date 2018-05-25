@@ -17,16 +17,21 @@
 
 <script>
     export default {
+        computed : {
+            query() {
+                return this.$store.state.query;
+            }
+        },
+
         data() {
             return {
-                query : this.$store.state.query,
                 searchLabel : this.$store.state.messages.SEARCH_LABEL
             };
         },
 
         methods : {
             setQuery() {
-                this.$store.commit('query', this.query);
+                this.$store.dispatch('query', this.query);
             }
         }
     }

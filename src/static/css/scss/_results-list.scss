@@ -1,0 +1,11 @@
+.results-list {
+    max-width: 100rem;
+
+    ul {
+        @include child-margins(2rem);
+    }
+
+    li {
+        list-style: none;
+    }
+}
