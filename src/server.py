@@ -20,9 +20,6 @@ app = Flask(__name__)
 cache = {}
 app.config.from_object('settings.Config')
 
-with open("messages.yaml") as f:
-    MESSAGES = yaml.load(f)
-
 spinque_api = ClariahSpinqueApi(
     endpoint = app.config["SPINQUE_API"],
     user = app.config["SPINQUE_USER"],
@@ -54,8 +51,7 @@ def json_response(data):
 def home():
     return render_template('index.html',
        VIDEO_BASE_URL = app.config['VIDEO_BASE_URL'],
-       AUDIO_BASE_URL = app.config['AUDIO_BASE_URL'],
-       MESSAGES = json.dumps(MESSAGES)
+       AUDIO_BASE_URL = app.config['AUDIO_BASE_URL']
     )
 
 
@@ -89,10 +85,6 @@ def media_for_article_():
     )
 
     return json_response(data)
-
-@app.route('/api/messages')
-def messages():
-    return json_response(MESSAGES)
 
 @app.route("/api/opengraph")
 def opengraph_():

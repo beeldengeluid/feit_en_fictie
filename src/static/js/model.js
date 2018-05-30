@@ -1,10 +1,10 @@
 import Vuex from 'vuex';
 import { warn } from 'loglevel';
 import { mediaForArticle } from './api.js';
-import { $ } from './util.js';
+import { $, getJson } from './util.js';
 
 const DEBUG = true; // CHANGE THIS
-const { examples, messages } = window.__messages__;
+const DATA_PATH = 'static/data/data.json';
 
 export default class {
     constructor(...args) {
@@ -116,6 +116,8 @@ export default class {
     }
 
     getInitialState() {
+        const { examples, messages } = this.data;
+
         return {
             config : {
                 audioBaseUrl : $('meta[name="AUDIO_BASE_URL"]').getAttribute('content'),
@@ -138,5 +140,12 @@ export default class {
         }
 
         return this.store;
+    }
+
+    load() {
+        return new Promise(async (resolve) => {
+            this.data = await getJson(DATA_PATH);
+            resolve();
+        });
     }
 }

@@ -14,8 +14,6 @@ def parse_html(html):
         if not name and not prop:
             continue
 
-        print(name, prop)
-
         # Check if one of the attributes have the 'og:' namespace
         if name and name[0:3] == "og:":
             key = name.replace("og:", "")

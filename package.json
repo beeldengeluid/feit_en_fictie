@@ -4,17 +4,21 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:js && npm run build:css",
+    "build": "npm run build:js && npm run build:css && npm run build:yaml",
     "build:autoprefixer": "postcss src/static/css/style.css --use autoprefixer --no-map -r",
     "build:css": "npm run build:sass && npm run build:autoprefixer",
     "build:js": "webpack -p",
     "build:sass": "node-sass src/static/css/scss/style.scss src/static/css/style.css",
+    "build:yaml" : "js-yaml src/static/data/data.yaml > src/static/data/data.json",
     "postinstall": "npm run build",
-    "watch": "chokidar 'src/static/css/scss/*.scss' -c 'npm run build:css' & webpack -dw"
+    "watch:scss" : "chokidar 'src/static/css/scss/*.scss' -c 'npm run build:css'",
+    "watch:yaml" : "chokidar 'src/static/data/*.yaml' -c 'npm run build:yaml'",
+    "watch": "npm run watch:scss & npm run watch:yaml & webpack -dw"
   },
   "dependencies": {
     "es6-promise": "^4.2.4",
     "intersection-observer": "^0.5.0",
+    "js-yaml": "^3.11.0",
     "lodash": "^4.17.10",
     "loglevel": "^1.6.1",
     "mdn-polyfills": "^5.6.0",
