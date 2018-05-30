@@ -1,0 +1,27 @@
+.opengraph-card {
+    border: 1px solid $c-1;
+    border-radius: 1rem;
+
+    &__image {
+        width: 100%;
+    }
+
+    &__title {
+        font-size: 2.4rem;
+    }
+
+    &__caption {
+        @include child-margins(1rem);
+        padding: 1rem;
+    }
+
+    @include respond-from($screen-sm) {
+        max-width: 80rem;
+        display: flex;
+
+        &__image {
+            max-width: 40rem;
+            align-self: center;
+        }
+    }
+}

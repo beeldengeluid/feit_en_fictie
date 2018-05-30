@@ -16,6 +16,8 @@
 
         <loading-indicator></loading-indicator>
 
+        <opengraph-card></opengraph-card>
+
         <div class="screen-results__content">
             <results-list></results-list>
             <view-pane></view-pane>
@@ -26,6 +28,7 @@
 <script>
     import ErrorMessage from './error-message.vue';
     import LoadingIndicator from './loading-indicator.vue';
+    import OpengraphCard from './opengraph-card.vue';
     import ResultsList from './results-list.vue';
     import SearchInput from './search-input.vue';
     import TermsList from './terms-list.vue';
@@ -56,6 +59,7 @@
         components : {
             ErrorMessage,
             LoadingIndicator,
+            OpengraphCard,
             ResultsList,
             SearchInput,
             TermsList,

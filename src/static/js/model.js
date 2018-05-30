@@ -20,6 +20,10 @@ export default class {
             state : model.getInitialState(),
 
             getters : {
+                opengraph(state) {
+                    return state.results ? state.results.opengraph : null;
+                },
+
                 resultItems(state) {
                     if (!state.results) {
                         return null;
