@@ -27,7 +27,7 @@
 
 			if (this.start) {
 				player.addEventListener('loadedmetadata', () => {
-					this.$el.currentTime = this.start;
+					player.currentTime = this.start;
 
 					if (this.autoplay) {
 						player.play();

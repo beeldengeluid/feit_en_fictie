@@ -13,6 +13,7 @@ def strip_html(html):
 
 def parse_article(url):
     logger.debug(f"Parsing article with url <{url}>")
+
     article = Article(
         url=url,
         keep_article_html=True,
