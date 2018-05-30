@@ -13,7 +13,7 @@
                 class="results-header__metadata"
                 v-show="!loading">
                 <p>Op basis van dit artikel:</p>
-                <opengraph-card></opengraph-card>
+                <opengraph-card class="site-card--small"></opengraph-card>
 
                 <p>Heb ik deze termen gevonden:</p>
                 <terms-list type="inverted"></terms-list>

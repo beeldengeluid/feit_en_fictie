@@ -2,9 +2,30 @@
     border: 1px solid white;
     background: white;
     color: black;
+    overflow: hidden;
+    display: flex;
+    max-height: 30rem;
+
+    &--small {
+        max-width: 40vw;
+        font-size: 15px;
+        max-height: 20rem;
+    }
+
+    &--small &__title {
+        font-size: 1.6rem;
+    }
+
+    &--small &__image {
+        max-width: 20rem;
+    }
 
     &__image {
-        width: 100%;
+        width: 25vw;
+        max-width: 30rem;
+        object-fit: cover;
+        display: block;
+        border: 1rem solid white;
     }
 
     &__title {
@@ -22,15 +43,5 @@
 
     &__domain > * {
         color: $c-3;
-    }
-
-    @include respond-from($screen-sm) {
-        max-width: 80rem;
-        display: flex;
-
-        &__image {
-            max-width: 40rem;
-            align-self: center;
-        }
     }
 }

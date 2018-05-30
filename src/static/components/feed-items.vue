@@ -1,5 +1,9 @@
 <template>
     <div class="feed-items">
+        <h3 class="feed-items__title">
+            {{title}}
+        </h3>
+
         <ul>
             <li v-for="(item, index) in items">
                 <router-link
@@ -13,6 +17,7 @@
 </template>
 
 <script>
+    import { truncate } from 'lodash';
     import SiteCard from './site-card.vue';
 
     export default {
@@ -28,13 +33,22 @@
 
                     item.site = {
                         title : item.title,
-                        description : item.description,
+                        description : truncate(item.description, {
+                            length: 200,
+                            separator : /,?\.* +/
+                        }),
                         image : item.thumb,
                         domain : item.source
                     };
 
                     return item;
                 })
+            }
+        },
+
+        data() {
+            return {
+                title : this.$store.state.messages.FEED_ITEMS_LABEL
             }
         },
 

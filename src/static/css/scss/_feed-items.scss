@@ -1,3 +1,19 @@
 .feed-items {
+    max-width: 120rem;
+    @include margin-center;
+    display: flex;
+    flex-wrap: wrap;
 
+    ul {
+        margin-top: 2rem;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    &__title {
+        width: 100%;
+        text-align: center;
+    }
 }
