@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import { warn } from 'loglevel';
-import { mediaForArticle } from './api.js';
+import { getFeedItems, mediaForArticle } from './api.js';
 import { $, getJson } from './util.js';
 
 const DEBUG = true; // CHANGE THIS
@@ -125,6 +125,7 @@ export default class {
             },
             error : null,
             examples,
+            feedItems : this.feedItems,
             loading : false,
             messages,
             player : null,
@@ -145,6 +146,13 @@ export default class {
     load() {
         return new Promise(async (resolve) => {
             this.data = await getJson(DATA_PATH);
+
+            try {
+                this.feedItems = await getFeedItems();
+            } catch(e) {
+                this.feedItems = null;
+            }
+
             resolve();
         });
     }

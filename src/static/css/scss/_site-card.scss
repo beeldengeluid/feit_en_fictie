@@ -1,4 +1,4 @@
-.opengraph-card {
+.site-card {
     border: 1px solid white;
     background: white;
     color: black;
@@ -16,7 +16,11 @@
         padding: 1rem;
     }
 
-    &__domain a {
+    &__description {
+        @include child-margins(1rem);
+    }
+
+    &__domain > * {
         color: $c-3;
     }
 

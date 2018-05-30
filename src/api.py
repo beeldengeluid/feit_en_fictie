@@ -1,8 +1,19 @@
 from bs4 import BeautifulSoup
 from logzero import logger
 from newspaper import Article
+from rss import get_feed
 import opengraph
 import json
+
+def get_feeds(feeds, limit = None):
+    for feed in feeds:
+        url = feed["url"]
+        feed["items"] = get_feed(url)
+
+        if limit:
+            feed["items"] = feed["items"][0:limit]
+
+    return feeds
 
 def get_opengraph_data(url):
     return opengraph.load_by_url(url)

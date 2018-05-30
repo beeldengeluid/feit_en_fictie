@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "35ba0b8d2f4d8b7750cac4b7fc04c7c4dbd45d640a9a9c78e323fc86c25cbb8c"
+            "sha256": "77d5788cf32309701a751a88e9ae1671ef5d9f89ae10d4aaf0edf55a55a5a6d2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -63,6 +63,13 @@
                 "sha256:3b5103e8789da9e936a68d993b70df732d06b8bb9a337a05ed4eb52c17ef7206"
             ],
             "version": "==1.0.3"
+        },
+        "dataknead": {
+            "hashes": [
+                "sha256:4c8358267efd37a09cecfca7de3ba042fac4a8db8067a10edb5d2a4a98a9f179"
+            ],
+            "index": "pypi",
+            "version": "==0.2.0"
         },
         "feedfinder2": {
             "hashes": [
@@ -307,6 +314,14 @@
             ],
             "index": "pypi",
             "version": "==0.14.1"
+        },
+        "xmltodict": {
+            "hashes": [
+                "sha256:8f8d7d40aa28d83f4109a7e8aa86e67a4df202d9538be40c0cb1d70da527b0df",
+                "sha256:add07d92089ff611badec526912747cf87afd4f9447af6661aca074eeaf32615"
+            ],
+            "index": "pypi",
+            "version": "==0.11.0"
         }
     },
     "develop": {}

@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, jsonify, abort
-from api import parse_article, media_for_article
+from api import parse_article, media_for_article, get_feeds
 from spinque_api import ClariahSpinqueApi, ApiException
 from logzero import logger
 import opengraph
-import yaml
 import json
 
 # This should probably be a decorator, but i don't know how
@@ -73,6 +72,11 @@ def extract_terms():
     except ApiException:
         return json_response({ "error" : "Api exception" })
 
+    return json_response(data)
+
+@app.route("/api/feeds")
+def feeds():
+    data = get_feeds(app.config["FEEDS"], limit = app.config["FEEDS_ITEM_LIMIT"])
     return json_response(data)
 
 """
