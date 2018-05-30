@@ -1,5 +1,14 @@
+from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
+
+def get_domain(url):
+    parsed = urlparse(url)
+    return parsed.netloc.replace("www.", "")
+
+def strip_html(html):
+    soup = BeautifulSoup(html)
+    return soup.get_text()
 
 def parse_html(html):
     soup = BeautifulSoup(html, "html5lib")
@@ -24,7 +33,11 @@ def parse_html(html):
             continue
 
         val = tag.get("content")
-        data[key] = val
+        data[key] = strip_html(val)
+
+    # Not part of the spec, but handy to have nonetheless
+    if "url" in data:
+        data["domain"] = get_domain(data["url"])
 
     return data
 

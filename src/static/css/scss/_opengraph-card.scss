@@ -1,6 +1,7 @@
 .opengraph-card {
-    border: 1px solid $c-1;
-    border-radius: 1rem;
+    border: 1px solid white;
+    background: white;
+    color: black;
 
     &__image {
         width: 100%;
@@ -13,6 +14,10 @@
     &__caption {
         @include child-margins(1rem);
         padding: 1rem;
+    }
+
+    &__domain a {
+        color: $c-3;
     }
 
     @include respond-from($screen-sm) {

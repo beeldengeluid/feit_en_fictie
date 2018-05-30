@@ -13,11 +13,12 @@ class ClariahSpinqueApi:
     TERM_EXTRACT_ENDPOINT = "/q/TAG:termExtract/p/title/{title}/p/text/{text}/results"
     TOPIC_RESULT_TYPES = ("programs", "segments")
 
-    def __init__(self, endpoint, user, password, config):
+    def __init__(self, endpoint, user, password, config, stop_words = None):
         self.endpoint = endpoint
         self.user = user
         self.password = password
         self.config = config
+        self.stop_words = stop_words
 
     def _request(self, method, count=None):
         if count is None:
@@ -52,7 +53,16 @@ class ClariahSpinqueApi:
             text=quote(text)
         )
 
-        return self._request(method, count)
+        results = self._request(method, count)
+
+        # Remove stop words if applicable
+        if self.stop_words:
+            results["items"] = [i for i in results["items"] if not self.has_stopword(i)]
+
+        return results
+
+    def has_stopword(self, item):
+        return item["tuple"][0] in self.stop_words
 
     """
     `query` is a string with probabilities and terms, formatted like this:

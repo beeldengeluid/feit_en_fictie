@@ -19,6 +19,18 @@
                 v-if="target.description"
                 class="opengraph-card__description"
             >{{target.description}}</p>
+
+
+            <p
+                v-if="target.domain"
+                class="opengraph-card__domain"
+            >
+                <a
+                    v-bind:href="target.url"
+                    target="blank">
+                    {{target.domain}}
+                </a>
+            </p>
         </figcaption>
     </figure>
 </template>

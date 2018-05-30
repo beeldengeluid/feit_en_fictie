@@ -9,14 +9,26 @@
                 <search-input class="results-header__search"></search-input>
             </div>
 
-            <terms-list type="inverted"></terms-list>
+            <div
+                class="results-header__metadata"
+                v-show="!loading">
+                <p>Op basis van dit artikel:</p>
+                <opengraph-card></opengraph-card>
+
+                <p>Heb ik deze termen gevonden:</p>
+                <terms-list type="inverted"></terms-list>
+            </div>
         </header>
 
         <error-message></error-message>
 
         <loading-indicator></loading-indicator>
 
-        <opengraph-card></opengraph-card>
+        <p
+            class="screen-results__message"
+            v-show="!loading">
+            En vond ik deze resultaten in het archief van Beeld en Geluid:
+        </p>
 
         <div class="screen-results__content">
             <results-list></results-list>

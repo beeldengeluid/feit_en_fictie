@@ -1,5 +1,6 @@
 .results-header {
     background: $c-1;
+    color: white;
     padding: 1rem;
     @include child-margins(1rem);
 
@@ -20,6 +21,10 @@
     &__search {
         width: 100%;
         max-width: 80rem;
+    }
+
+    &__metadata {
+        @include child-margins(1rem);
     }
 
     @include respond-until($screen-sm) {

@@ -1,21 +1,36 @@
-from newspaper import Article
+from bs4 import BeautifulSoup
 from logzero import logger
+from newspaper import Article
 import opengraph
 import json
 
 def get_opengraph_data(url):
     return opengraph.load_by_url(url)
 
+def strip_html(html):
+    soup = BeautifulSoup(html)
+    return soup.get_text()
+
 def parse_article(url):
     logger.debug(f"Parsing article with url <{url}>")
-    article = Article(url=url, keep_article_html=True)
+    article = Article(
+        url=url,
+        keep_article_html=True,
+        MAX_TEXT = 2000,
+        MAX_SUMMARY = 2000
+    )
+
     article.download()
     article.parse()
 
+    # The Spinque API barks over html in title or text, so let's fix that
+    text = strip_html(article.text)
+    title = strip_html(article.title)
+
     return {
         "html": article.html,
-        "text" : article.text,
-        "title" : article.title,
+        "text" : text,
+        "title" : title,
         "url" : url
     }
 

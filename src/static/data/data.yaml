@@ -15,11 +15,18 @@ messages:
   TRY_AGAIN: Probeer het nogmaals
 
 examples:
-  - title: Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin (nu.nl)
+  - title: Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin
     url: https://www.nu.nl/wielrennen/5269019/leider-yates-wint-elfde-etappe-giro-ditalia-dumoulin.html
+    source: nu.nl
 
-  - title: 'Glunderende minister van Financiën op Verantwoordingsdag: begrotingsoverschot naar 1,1 procent'
-    url: https://www.volkskrant.nl/nieuws-achtergrond/glunderende-minister-van-financien-op-verantwoordingsdag-begrotingsoverschot-naar-1-1-procent~b8664dad/
+  - title: Chriet's ruimtevaartspektakel gaat als een nachtkaars uit
+    url: https://www.delpher.nl/nl/kranten/view?coll=ddd&identifier=ddd:010948827:mpeg21:a0236
+    source: Delpher
+
+  - title: Volkert van der G. wil in het buitenland gaan wonen
+    url: https://www.volkskrant.nl/nieuws-achtergrond/volkert-van-der-g-wil-in-het-buitenland-gaan-wonen-br-br-~b2c5ab9f/
+    source: de Volkskrant
 
   - title: Britse media vol lof over outfit modekoningin Màxima
     url: https://www.telegraaf.nl/nieuws/2045441/britse-media-vol-lof-over-outfit-modekoningin-maxima
+    source: de Telegraaf
