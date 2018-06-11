@@ -32,7 +32,9 @@
             En vond ik deze resultaten in het archief van Beeld en Geluid:
         </p>
 
-        <div class="screen-results__content">
+        <div 
+            v-show="!loading"
+            class="screen-results__content">
             <results-list></results-list>
             <view-pane></view-pane>
         </div>
@@ -51,7 +53,7 @@
     export default {
         mounted() {
             // Is this really the best solution to make this connection?
-            this.$store.dispatch('search', this.$route.query);
+            this.search();
         },
 
         computed : {
@@ -61,6 +63,18 @@
 
             loading() {
                 return this.$store.state.loading;
+            }
+        },
+
+        methods : {
+            search() {
+                this.$store.dispatch('search', this.$route.query);   
+            }
+        },
+
+        watch : {
+            $route() {
+                this.search();
             }
         },
 
