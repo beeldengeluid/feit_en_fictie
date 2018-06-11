@@ -1,10 +1,12 @@
 <template>
     <div class="screen-home">
-        <home-header></home-header>
-        <search-input class="search-input--fullwidth"></search-input>
+        <div class="screen-home__header">
+            <home-header></home-header>
+            <search-input class="search-input--fullwidth"></search-input>
+        </div>
 
         <!-- Show the feed list if we've got items, otherwise show examples -->
-        <feed-items v-if="feedItems"></feed-items>
+        <feed-items class="buffer-top-3" v-if="feedItems"></feed-items>
         <examples-list v-if="!feedItems"></examples-list>
     </div>
 </template>

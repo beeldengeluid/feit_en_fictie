@@ -6,7 +6,9 @@
                     <router-link v-bind:to="{ name : 'home' }">{{title}}</router-link>
                 </h1>
 
-                <search-input class="results-header__search"></search-input>
+                <search-input 
+                    type="compact"
+                    class="results-header__search"></search-input>
             </div>
 
             <div

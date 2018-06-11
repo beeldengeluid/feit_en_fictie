@@ -1,11 +1,11 @@
 messages:
+  ENTER_URL: Vul een URL naar een nieuwsbericht in
   ERR_API_ERROR: Er ging iets mis met het laden. Probeer het later nog eens.
   ERR_INVALID_QUERY_GIVEN: Invoer is ongeldig.
   EXAMPLES_LABEL: Voorbeelden
   FEED_ITEMS_LABEL: Of kies een van deze actuele nieuwsberichten
   HEADER_LEAD: >
-      Vul een URL naar een nieuwsbron in en zie materiaal uit het archief van
-      [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) wat er aan gerelateerd is.
+    Zoek door het archief van [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) op basis van nieuwsberichten.
   LOADING: Laden...
   NO_DESCRIPTION: Geen beschrijving
   NO_TITLE: Geen titel
@@ -14,6 +14,7 @@ messages:
   TERMS_LABEL: Zoektermen
   TITLE: Feit en fictie
   TRY_AGAIN: Probeer het nogmaals
+  URL_PLACEHOLDER: http://www.nieuws.nl/een/url/hier
 
 examples:
   - title: Leider Yates wint elfde etappe Giro d'Italia voor Dumoulin

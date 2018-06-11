@@ -3,11 +3,17 @@
         class="search-input"
         v-on:submit.prevent="submit"
     >
+        <p 
+            v-if="type === 'default'"
+            class="search-input__lead">
+            {{enterUrlLabel}}
+        </p>
+
         <div class="search-input__input">
             <input
                 class="search-input__query"
                 v-bind:value="value"
-                placeholder=""
+                v-bind:placeholder="searchPlaceholder"
             />
 
             <button class="search-input__button">{{searchLabel}}</button>
@@ -28,8 +34,12 @@
         },
 
         data() {
+            const messages = this.$store.state.messages;
+
             return {
-                searchLabel : this.$store.state.messages.SEARCH_LABEL
+                enterUrlLabel : messages.ENTER_URL,
+                searchLabel : messages.SEARCH_LABEL,
+                searchPlaceholder : messages.URL_PLACEHOLDER
             };
         },
 
@@ -54,6 +64,16 @@
 
         components : {
             ErrorMessage
+        },
+
+        props : {
+            type : {
+                type : String,
+                validator(val) {
+                    return ['compact', 'default'].includes(val);
+                },
+                default: 'default'
+            }
         }
     }
 </script>

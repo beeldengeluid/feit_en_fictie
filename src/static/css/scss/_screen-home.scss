@@ -1,4 +1,16 @@
 .screen-home {
-    padding: 3rem 1rem;
-    @include child-margins(3rem);
+	&__header {
+		background: $c-1;
+    	padding: 3rem 1rem;
+    	@include child-margins(3rem);
+    }
+
+    &__header,
+    &__header a {
+		color: white;    	
+    }
+
+    &__header a {
+    	text-decoration: underline;;
+    }
 }

@@ -9,10 +9,10 @@
     "build:css": "npm run build:sass && npm run build:autoprefixer",
     "build:js": "webpack -p",
     "build:sass": "node-sass src/static/css/scss/style.scss src/static/css/style.css",
-    "build:yaml" : "js-yaml src/static/data/data.yaml > src/static/data/data.json",
+    "build:yaml": "js-yaml src/static/data/data.yaml > src/static/data/data.json",
     "postinstall": "npm run build",
-    "watch:scss" : "chokidar 'src/static/css/scss/*.scss' -c 'npm run build:css'",
-    "watch:yaml" : "chokidar 'src/static/data/*.yaml' -c 'npm run build:yaml'",
+    "watch:scss": "chokidar 'src/static/css/scss/*.scss' -c 'npm run build:css'",
+    "watch:yaml": "chokidar 'src/static/data/*.yaml' -c 'npm run build:yaml'",
     "watch": "npm run watch:scss & npm run watch:yaml & webpack -dw"
   },
   "dependencies": {
