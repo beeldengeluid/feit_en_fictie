@@ -1,4 +1,5 @@
 # Feit en Fictie
+Search through the Beeld and Geluid archives using topics and articles from the news.
 
 ## Installation
 * Check out this repository into a fresh directory
