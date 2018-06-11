@@ -1,14 +1,11 @@
+from util import strip_html
 from urllib.parse import urlparse
-import requests
 from bs4 import BeautifulSoup
+import requests
 
 def get_domain(url):
     parsed = urlparse(url)
     return parsed.netloc.replace("www.", "")
-
-def strip_html(html):
-    soup = BeautifulSoup(html)
-    return soup.get_text()
 
 def parse_html(html):
     soup = BeautifulSoup(html, "html5lib")

@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from logzero import logger
 from newspaper import Article
 from rss import get_feed
+from util import strip_html
 import opengraph
 import json
 
@@ -17,10 +18,6 @@ def get_feeds(feeds, limit = None):
 
 def get_opengraph_data(url):
     return opengraph.load_by_url(url)
-
-def strip_html(html):
-    soup = BeautifulSoup(html)
-    return soup.get_text()
 
 def parse_article(url):
     logger.debug(f"Parsing article with url <{url}>")

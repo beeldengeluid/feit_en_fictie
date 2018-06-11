@@ -1,3 +1,4 @@
+from util import strip_html
 from dataknead import Knead
 import requests
 import xmltodict
@@ -29,6 +30,8 @@ def get_feed(url):
     # Do some magic for the thumbnails
     for item in items:
         item["thumb"] = get_thumb(item)
+        item["title"] = strip_html(item["title"])
+        item["description"] = strip_html(item["description"])
 
     if items and len(items) > 0:
         return items
