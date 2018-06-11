@@ -31,7 +31,6 @@ def parse_article(url):
 
     article.download()
     article.parse()
-    article.nlp()
 
     # The Spinque API barks over html in title or text, so let's fix that
     text = strip_html(article.text)
@@ -39,7 +38,6 @@ def parse_article(url):
 
     return {
         "authors" : article.authors,
-        "keywords" : article.keywords,
         "html": article.html,
         "summary" : article.summary,
         "text" : text,
