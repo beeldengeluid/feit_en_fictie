@@ -16,7 +16,7 @@
             <p
                 v-if="site.description"
                 class="site-card__description"
-                v-html="site.description"></p>
+                v-html="description"></p>
 
             <p
                 v-if="site.domain"
@@ -38,7 +38,18 @@
 </template>
 
 <script>
+    import { truncate } from 'lodash';
+
     export default {
+        computed : {
+            description() {
+                return truncate(this.site.description, {
+                    length: 200,
+                    separator : /,?\.* +/
+                });
+            }
+        },
+
         props : {
             site : {
                 required : true,
