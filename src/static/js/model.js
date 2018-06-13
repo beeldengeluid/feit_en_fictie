@@ -1,6 +1,10 @@
 import Vuex from 'vuex';
 import { warn } from 'loglevel';
-import { getFeedItems, mediaForArticle } from './api.js';
+import {
+    getFeedItems,
+    mediaForArticle,
+    stringToTerms
+} from './api.js';
 import { $, getJson } from './util.js';
 
 const DEBUG = true; // CHANGE THIS
@@ -55,9 +59,7 @@ export default class {
                         return null;
                     }
 
-                    return state.results.terms.items.map((item) => {
-                        return item.tuple[0];
-                    });
+                    return state.results.terms.items.map(i => i.tuple[0]);
                 }
             },
 
@@ -89,13 +91,21 @@ export default class {
 
             actions : {
                 async queryByUrl({ state, commit }, query) {
-                    commit('query', query);
+                    // If there are terms in the query we use that, otherwise
+                    // we simply pass the url and the api figures it all out
+                    commit('query', query.url);
                     commit('startLoading');
 
                     let results = null;
 
                     try {
-                        results = await mediaForArticle(query);
+                        results = await mediaForArticle(query.url, query.terms || false);
+
+                        // FIXME: this is awful
+                        if (query.terms) {
+                            results.terms = stringToTerms(results.terms);
+                        }
+
                         commit('results', results);
                     } catch (err) {
                         warn(err);
@@ -106,10 +116,8 @@ export default class {
                     }
                 },
 
-                search({ dispatch }, query) {
-                    if (query.url) {
-                        dispatch('queryByUrl', query.url);
-                    }
+                search({ commit, dispatch }, route) {
+                    dispatch('queryByUrl', route.query);
                 }
             }
         });

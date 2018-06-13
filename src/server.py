@@ -86,14 +86,19 @@ Example: http://localhost:5000/api/media_for_article?url=https://www.nu.nl/midde
 def media_for_article_():
     check_params("url")
     url = request.args.get("url")
+    terms = request.args.get("terms", None)
 
     data = media_for_article(
         spinque_api = spinque_api,
+        termstring = terms,
         url = url
     )
 
     return json_response(data)
 
+"""
+Example: http://localhost:5000/api/opengraph?url=https://www.nrc.nl/nieuws/2018/06/13/rwanda-bepaalt-zelf-wel-of-het-arsenal-wil-sponsoren-a1606410
+"""
 @app.route("/api/opengraph")
 def opengraph_():
     check_params("url")

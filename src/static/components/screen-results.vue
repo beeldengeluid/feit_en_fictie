@@ -6,7 +6,7 @@
                     <router-link v-bind:to="{ name : 'home' }">{{title}}</router-link>
                 </h1>
 
-                <search-input 
+                <search-input
                     type="compact"
                     class="results-header__search"></search-input>
             </div>
@@ -32,7 +32,7 @@
             En vond ik deze resultaten in het archief van Beeld en Geluid:
         </p>
 
-        <div 
+        <div
             v-show="!loading"
             class="screen-results__content">
             <results-list></results-list>
@@ -68,7 +68,7 @@
 
         methods : {
             search() {
-                this.$store.dispatch('search', this.$route.query);   
+                this.$store.dispatch('search', this.$route);
             }
         },
 
