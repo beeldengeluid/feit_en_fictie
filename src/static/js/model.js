@@ -59,7 +59,12 @@ export default class {
                         return null;
                     }
 
-                    return state.results.terms.items.map(i => i.tuple[0]);
+                    return state.results.terms.items.map((term) => {
+                        return {
+                            probability : term.probability,
+                            term : term.tuple[0]
+                        };
+                    });
                 }
             },
 
@@ -70,6 +75,16 @@ export default class {
 
                 query(state, query) {
                     state.query = query;
+                },
+
+                removeTerm(state, term) {
+                    let items = state.results.terms.items;
+
+                    items = items.filter((t) => {
+                        return t.tuple[0] !== term.term;
+                    });
+
+                    state.results.terms.items = items;
                 },
 
                 results(state, results) {

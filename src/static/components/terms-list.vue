@@ -7,7 +7,11 @@
         <ul class="terms-list__list">
             <li v-for="(term, index) in terms"
                 v-bind:key="index">
-                {{term}}
+                {{term.term}}
+                <button
+                    v-on:click="remove(term)"
+                    class="terms-list__remove"
+                >&times;</button>
             </li>
         </ul>
     </div>
@@ -25,6 +29,12 @@
             return {
                 termLabel : this.$store.state.messages.TERMS_LABEL
             };
+        },
+
+        methods : {
+            remove(term) {
+                this.$store.commit('removeTerm', term);
+            }
         },
 
         props : {
