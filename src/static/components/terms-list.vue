@@ -7,7 +7,12 @@
         <ul class="terms-list__list">
             <li v-for="(term, index) in terms"
                 v-bind:key="index">
-                {{term.term}}
+                <button
+                    class="terms-list__searchonly"
+                    v-on:click="searchOnly(term)">
+                    {{term.term}}
+                </button>
+
                 <button
                     v-on:click="remove(term)"
                     class="terms-list__remove"
@@ -34,6 +39,10 @@
         methods : {
             remove(term) {
                 this.$store.commit('removeTerm', term);
+            },
+
+            searchOnly(term) {
+                this.$store.commit('onlyTerm', term);
             }
         },
 

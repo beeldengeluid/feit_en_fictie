@@ -26,7 +26,12 @@
         color: white;
     }
 
-    &__remove {
+    &__remove,
+    &__searchonly {
         color: white;
+    }
+
+    &__searchonly {
+        text-decoration: underline;
     }
 }

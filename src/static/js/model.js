@@ -69,18 +69,18 @@ export default class {
                     state.error = state.messages[error];
                 },
 
+                onlyTerm(state, term) {
+                    const terms = state.results.terms;
+                    terms.items = terms.items.filter(t => t.tuple[0] === term.term);
+                },
+
                 query(state, query) {
                     state.query = query;
                 },
 
                 removeTerm(state, term) {
-                    let items = state.results.terms.items;
-
-                    items = items.filter((t) => {
-                        return t.tuple[0] !== term.term;
-                    });
-
-                    state.results.terms.items = items;
+                    const terms = state.results.terms;
+                    terms.items = terms.items.filter(t => t.tuple[0] !== term.term);
                 },
 
                 results(state, results) {
