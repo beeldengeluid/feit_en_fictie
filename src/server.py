@@ -1,35 +1,33 @@
 from flask import Flask, render_template, request, jsonify, abort
-from api import parse_article, media_for_article, get_feeds
+from api import parse_article, media_for_article
 from spinque_api import ClariahSpinqueApi, ApiException
 from logzero import logger
+from util import check_params, get_stop_words
+from feedlist import FeedList
 import opengraph
 import json
-
-# This should probably be a decorator, but i don't know how
-def check_params(*args):
-    for arg in args:
-        if arg not in request.args:
-            response = jsonify(
-                error = "Required argument not given: '%s'" % arg
-            )
-            response.status_code = 422
-            abort(response)
+import yaml
 
 app = Flask(__name__)
-cache = {}
 app.config.from_object('settings.Config')
 
-with open(app.config["STOP_WORDS_FILE"]) as f:
-    # Remove the stupid BOM as well
-    stop_words = [w.replace("\ufeff", "") for w in f.read().splitlines()]
+cache = {}
 
-    spinque_api = ClariahSpinqueApi(
-        config = app.config["SPINQUE_CONFIG_ID"],
-        endpoint = app.config["SPINQUE_API"],
-        password = app.config["SPINQUE_PW"],
-        stop_words = stop_words,
-        user = app.config["SPINQUE_USER"]
-    )
+feedlist = FeedList(
+    ids = app.config["FEED_IDS"],
+    item_limit = app.config["FEEDS_ITEM_LIMIT"],
+    path = app.config["FEEDS_FILE"],
+)
+
+stop_words = get_stop_words(app.config["STOP_WORDS_FILE"])
+
+spinque_api = ClariahSpinqueApi(
+    config = app.config["SPINQUE_CONFIG_ID"],
+    endpoint = app.config["SPINQUE_API"],
+    password = app.config["SPINQUE_PW"],
+    stop_words = stop_words,
+    user = app.config["SPINQUE_USER"]
+)
 
 USE_CACHE = app.config["CACHE_REQUESTS"]
 
@@ -76,7 +74,7 @@ def extract_terms():
 
 @app.route("/api/feeds")
 def feeds():
-    data = get_feeds(app.config["FEEDS"], limit = app.config["FEEDS_ITEM_LIMIT"])
+    data = feedlist.get_feeds()
     return json_response(data)
 
 """

@@ -1,0 +1,16 @@
+feeds:
+  volkskrant:
+    source: de Volkskrant
+    url: https://www.volkskrant.nl/voorpagina/rss.xml
+  nunl:
+    source: NU.nl
+    url: https://www.nu.nl/rss
+  ad:
+    source: AD
+    url: https://www.ad.nl/home/rss.xml
+  nos:
+    source: NOS
+    url: http://feeds.nos.nl/nosnieuwsalgemeen
+  nrc:
+    url: https://www.nrc.nl/rss/
+    source: NRC
