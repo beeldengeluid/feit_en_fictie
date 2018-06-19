@@ -3,25 +3,13 @@ import { getJson } from './util.js';
 import { MediaItem } from './mediaitem.js';
 
 export function stringToTerms(query) {
-    const items = query.split('|').map((q, index) => {
+    return query.split('|').map((q) => {
         // FIXME: do this with regexes instead of being lazy
         const parts = q.split('(');
         const probability = parseFloat(parts[0]);
         const term = parts[1].replace(')', '');
-
-        // FIXME 2: this is pretty horrible, but just to emulate the
-        // format used by Spinque
-        return {
-            probability,
-            rank: index + 1,
-            tuple : [ term ]
-        };
+        return { probability, term };
     });
-
-    return {
-        count : items.length,
-        items
-    };
 }
 
 export async function getFeedItems() {

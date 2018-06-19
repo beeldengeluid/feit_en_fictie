@@ -52,16 +52,7 @@ export default class {
                 },
 
                 terms(state) {
-                    if (!state.results) {
-                        return null;
-                    }
-
-                    return state.results.terms.items.map((term) => {
-                        return {
-                            probability : term.probability,
-                            term : term.tuple[0]
-                        };
-                    });
+                    return state.results ? state.results.terms : null;
                 }
             },
 
@@ -71,8 +62,8 @@ export default class {
                 },
 
                 onlyTerm(state, term) {
-                    const terms = state.results.terms;
-                    terms.items = terms.items.filter(t => t.tuple[0] === term.term);
+                    const results = state.results;
+                    results.terms = results.terms.filter(t => t.term === term.term);
                 },
 
                 query(state, query) {
@@ -80,8 +71,8 @@ export default class {
                 },
 
                 removeTerm(state, term) {
-                    const terms = state.results.terms;
-                    terms.items = terms.items.filter(t => t.tuple[0] !== term.term);
+                    const results = state.results;
+                    results.terms = results.terms.filter(t => t.term !== term.term);
                 },
 
                 results(state, results) {
