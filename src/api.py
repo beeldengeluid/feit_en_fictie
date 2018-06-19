@@ -36,7 +36,7 @@ def parse_article(url):
 
 # This is basically doing three calls in one for better performance
 # on the frontend or for lazy people
-def media_for_article(spinque_api, url, termstring=None):
+def media_for_article(spinque_api, tess_api, term_api, tess_genre, url, termstring=None):
     logger.debug("Getting media for article < %s >" % url)
     article = parse_article(url)
     ogp_data = opengraph.parse_html(article["html"])
@@ -48,13 +48,18 @@ def media_for_article(spinque_api, url, termstring=None):
         terms = termstring
     else:
         logger.debug("Now getting terms")
-        terms = spinque_api.extract_terms(
-            text = article["text"],
-            title = article["title"]
-        )
+        text = article["text"]
+        title = article["text"]
+
+        if term_api == "spinque":
+            terms = spinque_api.extract_terms(text = text, title = title)
+        elif term_api == "tess":
+            terms = tess_api.extract_terms(text = text, title = title, genre = tess_genre)
+        else:
+            raise ValueException("Unknown term extraction API")
 
         # Convert dict format to a string
-        termstring = [f'{i["probability"]}({i["tuple"][0]})' for i in terms["items"]]
+        termstring = [f'{t["probability"]}({t["term"]})' for t in terms]
         termstring = "|".join(termstring)
 
     logger.debug("Getting the topic for these terms: %s" % termstring)

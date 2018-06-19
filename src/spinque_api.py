@@ -3,6 +3,12 @@ from urllib.parse import quote
 from time import time
 import requests
 
+def map_term(term):
+    return {
+        "probability" : term["probability"],
+        "term" : term["tuple"][0]
+    }
+
 class ApiException(Exception):
     pass
 
@@ -58,14 +64,14 @@ class ClariahSpinqueApi:
 
         results = self._request(method, count)
 
+        # Convert to the default term format
+        terms = map(map_term, results["items"])
+
         # Remove stop words if applicable
         if self.stop_words:
-            results["items"] = [i for i in results["items"] if not self.has_stopword(i)]
+            terms = [t for t in terms if t["term"] not in self.stop_words]
 
-        return results
-
-    def has_stopword(self, item):
-        return item["tuple"][0] in self.stop_words
+        return terms
 
     """
     `query` is a string with probabilities and terms, formatted like this:
