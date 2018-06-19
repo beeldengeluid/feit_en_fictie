@@ -1,0 +1,14 @@
+.vpro-player {
+    position: relative;
+    overflow: hidden;
+    padding-top: calc(100% * (9/16));
+    width: 50rem;
+
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        @include wh(100%);
+        border: 0;
+    }
+}

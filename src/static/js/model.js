@@ -40,6 +40,7 @@ export default class {
                             description : item.description || state.messages.NO_DESCRIPTION,
                             media : {
                                 avtype : item.avtype,
+                                externalId : item.externalId,
                                 playerId : item.playerId,
                                 startInSeconds : item.startTime / 100
                             },
@@ -89,6 +90,10 @@ export default class {
 
                 reset(state) {
                     Object.assign(state, model.getInitialState());
+                },
+
+                setNetwork(state, network) {
+                    state.network = network;
                 },
 
                 stopLoading(state) {
@@ -147,6 +152,7 @@ export default class {
             feedItems : this.feedItems,
             loading : false,
             messages,
+            network : null,
             player : null,
             query : null,
             results : null,

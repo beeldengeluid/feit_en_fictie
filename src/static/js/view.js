@@ -1,12 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Router from './router.js';
+import { checkNetwork } from './util.js';
 
 Vue.use(Vuex);
 
 export default function(el, model) {
     const store = model.getStore();
     const router = new Router(store);
+
+    checkNetwork((network) => {
+        store.commit('setNetwork', network);
+    });
 
     return new Vue({
         el,

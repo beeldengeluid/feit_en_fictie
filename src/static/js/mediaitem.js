@@ -23,6 +23,7 @@ export class MediaItem {
             'avtype' : this.avtype,
             'date' : this.date,
             'description' : this.description,
+            'externalId' : this.externalId,
             'hasPublication' : this.hasPublication,
             'publication' : this.publication,
             'playerId' : this.playerId,
@@ -80,6 +81,10 @@ export class MediaItem {
         } else {
             return null;
         }
+    }
+
+    get externalId() {
+        return this.item.externalID || null;
     }
 
     get hasPublication() {
