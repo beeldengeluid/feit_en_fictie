@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, abort
 from api import parse_article, media_for_article
 from spinque_api import ClariahSpinqueApi, ApiException
 from logzero import logger
-from util import check_params, get_stop_words
+from util import get_stop_words
 from feedlist import FeedList
 import opengraph
 import json
@@ -30,6 +30,16 @@ spinque_api = ClariahSpinqueApi(
 )
 
 USE_CACHE = app.config["CACHE_REQUESTS"]
+
+# This should probably be a decorator, but i don't know how
+def check_params(*args):
+    for arg in args:
+        if arg not in request.args:
+            response = jsonify(
+                error = "Required argument not given: '%s'" % arg
+            )
+            response.status_code = 422
+            abort(response)
 
 @app.before_request
 def check_cache():

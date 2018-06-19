@@ -1,5 +1,6 @@
 from logzero import logger
 from urllib.parse import quote
+from time import time
 import requests
 
 class ApiException(Exception):
@@ -33,9 +34,11 @@ class ClariahSpinqueApi:
 
         logger.debug(f"Going to make a Spinque API request: < {url} > ")
 
+        then = time()
         r = requests.get(url, params=params, auth=(self.user, self.password))
+        took = round(time() - then, 5)
 
-        logger.debug(f"Made Spinque API request < {r.url} >")
+        logger.debug(f"Made Spinque API request < {r.url} > in {took}s")
 
         if r.status_code != 200:
             logger.debug("Request did not work, status code %s", r.status_code)
