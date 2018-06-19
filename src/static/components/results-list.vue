@@ -22,16 +22,21 @@
 </template>
 
 <script>
-    import { map, words } from 'lodash';
+    import { highlight } from '../js/highlight.js';
 
     export default {
         computed: {
-            results() {
-                return this.$store.getters.resultItems;
+            highlightTerms() {
+                return this.terms.map((term) => {
+                    return {
+                        opacity : term.probability,
+                        word : term.term
+                    }
+                });
             },
 
-            termlabels() {
-                return map(this.terms, 'term');
+            results() {
+                return this.$store.getters.resultItems;
             },
 
             terms() {
@@ -41,21 +46,10 @@
 
         methods : {
             highlight(text) {
-                const wordlist = words(text);
-
-                wordlist.forEach((word) => {
-                    const isTerm = this.termlabels.indexOf(word.toLowerCase());
-
-                    if (isTerm !== -1) {
-                        const term = this.terms[isTerm];
-                        const prob = term.probability;
-                        const style = `background-color: rgba(255, 255, 0, ${prob})`;
-                        const html = `<mark style="${style}">${word}</mark>`;
-                        text = text.replace(word, html);
-                    }
+                return highlight({
+                    highlight : this.highlightTerms,
+                    text : text
                 });
-
-                return text;
             },
 
             play(media) {
