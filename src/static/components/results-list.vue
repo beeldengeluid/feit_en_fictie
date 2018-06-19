@@ -5,21 +5,21 @@
                 v-for="(item, index) in results"
                 v-bind:key="index"
             >
-                <router-link
-                    v-bind:to="item.to"
-                    class="results__item">
-                    <h3 class="results__title">
+                <button
+                    v-on:click="play(item.media)"
+                    class="results-list__item">
+                    <h3>
                         {{item.title}}
                     </h3>
 
-                    <time class="results__date">
+                    <time>
                         {{item.date}}
                     </time>
 
-                    <p class="results__description">
+                    <p>
                         {{item.description}}
                     </p>
-                </router-link>
+                </button>
             </li>
         </ul>
     </div>
@@ -30,6 +30,12 @@
         computed: {
             results() {
                 return this.$store.getters.resultItems;
+            }
+        },
+
+        methods : {
+            play(media) {
+                this.$emit('playmedia', media);
             }
         }
     }

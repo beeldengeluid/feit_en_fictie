@@ -38,16 +38,12 @@ export default class {
                         // mutating state
                         item = Object.assign({}, item, {
                             description : item.description || state.messages.NO_DESCRIPTION,
-                            title : item.title || state.messages.NO_TITLE,
-                            to : {
-                                name : 'results',
-                                query : {
-                                    avtype : item.avtype,
-                                    playerId : item.playerId,
-                                    startInSeconds : item.startTime / 1000,
-                                    url : state.query
-                                }
-                            }
+                            media : {
+                                avtype : item.avtype,
+                                playerId : item.playerId,
+                                startInSeconds : item.startTime / 100
+                            },
+                            title : item.title || state.messages.NO_TITLE
                         });
 
                         return item;

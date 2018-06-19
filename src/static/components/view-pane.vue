@@ -1,7 +1,7 @@
 <template>
     <div class="view-pane">
         <video-player
-            v-if="type === 'video'"
+            v-if="media && type === 'video'"
             v-bind:src="src"
             v-bind:autoplay="true"
             v-bind:start="start"></video-player>
@@ -14,22 +14,28 @@
     export default {
         computed : {
             src() {
-                const id = this.$route.query.playerId;
+                const id = this.media.playerId;
                 const baseUrl = this.$store.state.config.videoBaseUrl;
                 return `${baseUrl}/${id}`;
             },
 
             type() {
-                return this.$route.query.avtype;
+                return this.media.avtype;
             },
 
             start() {
-                return Number(this.$route.query.startInSeconds);
+                return Number(this.media.startInSeconds);
             }
         },
 
         components : {
             VideoPlayer
+        },
+
+        props : {
+            media : {
+                type: Object
+            }
         }
     };
 </script>

@@ -35,8 +35,10 @@
         <div
             v-show="!loading"
             class="screen-results__content">
-            <results-list></results-list>
-            <view-pane></view-pane>
+            <results-list v-on:playmedia="playMedia"></results-list>
+            <view-pane
+                v-show="media"
+                v-bind:media="media"></view-pane>
         </div>
     </div>
 </template>
@@ -67,6 +69,10 @@
         },
 
         methods : {
+            playMedia(media) {
+                this.media = media;
+            },
+
             search() {
                 this.$store.dispatch('search', this.$route);
             }
@@ -80,6 +86,7 @@
 
         data() {
             return {
+                media : null,
                 title : this.$store.state.messages.TITLE
             };
         },
