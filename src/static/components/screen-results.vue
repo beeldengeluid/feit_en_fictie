@@ -9,6 +9,18 @@
                 <search-input
                     type="compact"
                     class="results-header__search"></search-input>
+
+                <button
+                    v-on:click="toggleSettings"
+                    class="results-header__settingsbtn">
+                    <icon name="sliders" scale="2"></icon>
+                </button>
+            </div>
+
+            <div
+                class="results-header__settings"
+                v-show="showSettings">
+                <p>Settings</p>
             </div>
 
             <div
@@ -75,6 +87,10 @@
 
             search() {
                 this.$store.dispatch('search', this.$route);
+            },
+
+            toggleSettings() {
+                this.showSettings = !this.showSettings;
             }
         },
 
@@ -87,6 +103,7 @@
         data() {
             return {
                 media : null,
+                showSettings : false,
                 title : this.$store.state.messages.TITLE
             };
         },
