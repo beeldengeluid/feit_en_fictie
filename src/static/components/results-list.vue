@@ -1,6 +1,6 @@
 <template>
     <div class="results-list">
-        <ul>
+        <ul v-show="results && results.length">
             <li
                 v-for="(item, index) in results"
                 v-bind:key="index"
@@ -18,13 +18,22 @@
                 </button>
             </li>
         </ul>
+
+        <error-message
+            v-show="results && !results.length"
+            v-bind:message="labelNoResults"></error-message>
     </div>
 </template>
 
 <script>
     import { highlight } from '../js/highlight.js';
+    import ErrorMessage from './error-message.vue';
 
     export default {
+        components : {
+            ErrorMessage
+        },
+
         computed: {
             highlightTerms() {
                 return this.terms.map((term) => {
@@ -41,6 +50,12 @@
 
             terms() {
                 return this.$store.getters.terms;
+            }
+        },
+
+        data() {
+            return {
+                labelNoResults : this.$store.state.messages.NO_RESULTS
             }
         },
 

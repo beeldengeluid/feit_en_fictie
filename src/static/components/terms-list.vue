@@ -2,7 +2,7 @@
     <div
         class="terms-list"
         v-bind:class="[`terms-list__${type}`]"
-        v-show="terms">
+        v-show="terms && terms.length">
 
         <span class="terms-list__title">{{termLabel}}</span>
 
