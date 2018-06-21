@@ -23,6 +23,14 @@ export default function(el, model) {
 
         store,
 
+        mounted() {
+            this.$store.commit('route', this.$route);
+
+            this.$router.afterEach((to) => {
+                this.$store.commit('route', to);
+            });
+        },
+
         computed : {
             terms() {
                 return this.$store.getters.terms;

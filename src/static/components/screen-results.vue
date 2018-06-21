@@ -130,7 +130,7 @@
             return {
                 media : null,
                 showSettings : false,
-                termextractor : this.$store.state.config.termextractor,
+                termextractor : this.$store.state.termextractor,
                 title : this.$store.state.messages.TITLE
             };
         },

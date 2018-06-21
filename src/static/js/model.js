@@ -81,6 +81,10 @@ export default class {
                     Object.assign(state, model.getInitialState());
                 },
 
+                route(state, route) {
+                    state.route = route;
+                },
+
                 setNetwork(state, network) {
                     state.network = network;
                 },
@@ -91,10 +95,6 @@ export default class {
 
                 startLoading(state) {
                     state.loading = true;
-                },
-
-                termextractor(extractor) {
-                    state.termextractor = extractor;
                 }
             },
 
@@ -109,7 +109,7 @@ export default class {
 
                     try {
                         results = await mediaForArticle({
-                            termextractor : state.config.termextractor,
+                            termextractor : state.termextractor,
                             terms : query.terms || false,
                             url : query.url
                         });
@@ -131,6 +131,11 @@ export default class {
 
                 search({ commit, dispatch }, route) {
                     dispatch('queryByUrl', route.query);
+                },
+
+                termextractor({ state, dispatch }, termextractor) {
+                    state.termextractor = termextractor;
+                    dispatch('search', state.route);
                 }
             }
         });
@@ -153,7 +158,9 @@ export default class {
             player : null,
             query : null,
             results : null,
-            state : null
+            route : null,
+            state : null,
+            termextractor : this.data.config.termextractor
         };
     }
 
