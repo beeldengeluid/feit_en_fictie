@@ -1,7 +1,10 @@
 # We probably want to move this to a config.yaml at a later point
 config:
   debug: true
-  termextractor: 'spinque' # 'spinque' or 'tess'
+  extractsource: 'article'
+  extractsources: ['article', 'ogp']
+  maxTermsCount: 5
+  termextractor: 'spinque'
   termextractors: ['spinque', 'tess']
 
 messages:
@@ -9,13 +12,15 @@ messages:
   ERR_API_ERROR: Er ging iets mis met het laden. Probeer het later nog eens.
   ERR_INVALID_QUERY_GIVEN: Invoer is ongeldig.
   EXAMPLES_LABEL: Voorbeelden
+  EXTRACT_SOURCE: Bron termen
+  EXTRACT_ARTICLE: Artikel
+  EXTRACT_OGP: Opengraph
   FEED_ITEMS_LABEL: Of kies een van deze actuele nieuwsberichten
   FOUND_IN_BG_ARCHIVES: "En vond ik deze resultaten in het archief van Beeld en Geluid:"
   FOUND_TERMS: "Heb ik deze termen gevonden:"
   HEADER_LEAD: >
     Zoek door het archief van [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) op basis van nieuwsberichten.
   LOADING: Laden...
-  MAX_TERMS_COUNT: 5
   NETWORK: Netwerk
   NO_DESCRIPTION: Geen beschrijving
   NO_TITLE: Geen titel

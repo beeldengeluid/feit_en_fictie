@@ -66,6 +66,24 @@
                            v-model="playerType" />
                     {{labelPlayerNpo}}
                 </label>
+
+                <span>—</span>
+
+                <p>{{labelExtractSource}}</p>
+
+                <label>
+                    <input type="radio"
+                           value="article"
+                           v-model="extractsource" />
+                    {{labelExtractArticle}}
+                </label>
+
+                <label>
+                    <input type="radio"
+                           value="ogp"
+                           v-model="extractsource" />
+                    {{labelExtractOgp}}
+                </label>
             </div>
 
             <div
@@ -158,6 +176,12 @@
                 this.search();
             },
 
+            extractsource(source) {
+                this.$store.commit('extractsource', source);
+                // Force a search again
+                this.$store.dispatch('search');
+            },
+
             playerType(type) {
                 this.$store.commit('playerType', type);
             },
@@ -171,7 +195,11 @@
             const msg = this.$store.state.messages;
 
             return {
+                extractsource : this.$store.state.extractsource,
                 labelBasicOfArticle : msg.ON_BASIS_OF_ARTCILE,
+                labelExtractSource : msg.EXTRACT_SOURCE,
+                labelExtractArticle : msg.EXTRACT_ARTICLE,
+                labelExtractOgp : msg.EXTRACT_OGP,
                 labelFoundTerms : msg.FOUND_TERMS,
                 labelFoundInBgArchives : msg.FOUND_IN_BG_ARCHIVES,
                 labelPlayerType : msg.PLAYER_TYPE,

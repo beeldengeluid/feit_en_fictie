@@ -3,7 +3,7 @@ from api import parse_article, media_for_article
 from spinque_api import ClariahSpinqueApi, ApiException
 from tess_api import TessApi
 from logzero import logger
-from util import get_stop_words
+from util import get_stop_words, str_to_bool
 from feedlist import FeedList
 import opengraph
 import json
@@ -112,9 +112,10 @@ http://localhost:5000/api/media_for_article?url=https://www.nu.nl/midden-oostenc
 """
 @app.route("/api/media_for_article")
 def media_for_article_():
-    check_params("url", "termextractor")
+    check_params("url", "termextractor", "extractsource")
     url = request.args.get("url")
     termextractor = request.args.get("termextractor")
+    extractsource = request.args.get("extractsource")
     terms = request.args.get("terms", None)
 
     data = media_for_article(
@@ -122,6 +123,7 @@ def media_for_article_():
         tess_api = tess_api,
         tess_genre = app.config["TESS_GENRE"],
         term_api = termextractor,
+        extractsource = extractsource,
         termstring = terms,
         url = url
     )
@@ -147,7 +149,8 @@ Example: http://localhost:5000/api/parse_article?url=https://www.nu.nl/midden-oo
 def parse_article_():
     check_params("url")
     url = request.args.get("url")
-    data = parse_article(url)
+    keep_html = str_to_bool(request.args.get("keep_html", True))
+    data = parse_article(url, keep_html = keep_html)
     return json_response(data)
 
 @app.route("/api/recommend_segments")

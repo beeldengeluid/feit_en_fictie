@@ -8,8 +8,8 @@ import json
 def get_opengraph_data(url):
     return opengraph.load_by_url(url)
 
-def parse_article(url):
-    logger.debug(f"Parsing article with url <{url}>")
+def parse_article(url, keep_html = True):
+    logger.debug(f"Parsing article with url <{url}>, keeping html: {keep_html}")
 
     article = Article(
         url=url,
@@ -25,31 +25,44 @@ def parse_article(url):
     text = strip_html(article.text)
     title = strip_html(article.title)
 
-    return {
+    data = {
         "authors" : article.authors,
-        "html": article.html,
         "summary" : article.summary,
         "text" : text,
         "title" : title,
         "url" : url
     }
 
+    if keep_html:
+        data["html"] = article.html
+
+    return data
+
 # This is basically doing three calls in one for better performance
 # on the frontend or for lazy people
-def media_for_article(spinque_api, tess_api, term_api, tess_genre, url, termstring=None):
+def media_for_article(
+    spinque_api, tess_api, term_api, tess_genre, url, extractsource,
+    termstring=None
+):
     logger.debug("Getting media for article < %s >" % url)
     article = parse_article(url)
     ogp_data = opengraph.parse_html(article["html"])
 
     article.pop("html", None)
 
+    if extractsource == "article":
+        title = article["text"]
+        text = article["text"]
+    else:
+        title = ogp_data["title"]
+        text = ogp_data["description"]
+
     if termstring:
         logger.debug("We already have terms")
         terms = termstring
     else:
         logger.debug("Now getting terms")
-        text = article["text"]
-        title = article["text"]
+
 
         if term_api == "spinque":
             terms = spinque_api.extract_terms(text = text, title = title)

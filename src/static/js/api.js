@@ -28,9 +28,9 @@ export async function getFeedItems() {
     return shuffle(items);
 }
 
-export async function mediaForArticle({url, termextractor, terms = false}) {
+export async function mediaForArticle({url, termextractor, extractsource, terms = false}) {
     let endpoint = `api/media_for_article?url=${encodeURIComponent(url)}`;
-    endpoint += `&termextractor=${termextractor}`;
+    endpoint += `&termextractor=${termextractor}&extractsource=${extractsource}`;
 
     if (terms) {
         endpoint += `&terms=${terms}`;

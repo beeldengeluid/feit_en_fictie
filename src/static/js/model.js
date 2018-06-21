@@ -60,7 +60,7 @@ export default class {
                 terms(state) {
                     if (state.results) {
                         return state.results.terms.slice(
-                            0, state.config.MAX_TERMS_COUNT
+                            0, state.config.maxTermsCount
                         );
                     } else {
                         return null;
@@ -71,6 +71,10 @@ export default class {
             mutations : {
                 error(state, error) {
                     state.error = state.messages[error];
+                },
+
+                extractsource(state, source) {
+                    state.extractsource = source;
                 },
 
                 onlyTerm(state, term) {
@@ -132,6 +136,7 @@ export default class {
 
                     try {
                         results = await mediaForArticle({
+                            extractsource : state.extractsource,
                             termextractor : state.termextractor,
                             terms : query.terms || false,
                             url : query.url
@@ -168,6 +173,7 @@ export default class {
 
     getInitialState() {
         const { examples, messages } = this.data;
+        const config = this.data.config;
 
         return {
             config : Object.assign(this.data.config, {
@@ -176,6 +182,7 @@ export default class {
             }),
             error : null,
             examples,
+            extractsource : config.extractsource,
             feedItems : this.feedItems,
             loading : false,
             messages,
@@ -184,7 +191,7 @@ export default class {
             query : null,
             results : null,
             route : null,
-            termextractor : this.data.config.termextractor
+            termextractor : config.termextractor
         };
     }
 
