@@ -15,6 +15,7 @@ messages:
   HEADER_LEAD: >
     Zoek door het archief van [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) op basis van nieuwsberichten.
   LOADING: Laden...
+  MAX_TERMS_COUNT: 5
   NETWORK: Netwerk
   NO_DESCRIPTION: Geen beschrijving
   NO_TITLE: Geen titel

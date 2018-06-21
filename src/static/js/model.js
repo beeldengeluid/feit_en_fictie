@@ -58,7 +58,13 @@ export default class {
                 },
 
                 terms(state) {
-                    return state.results ? state.results.terms : null;
+                    if (state.results) {
+                        return state.results.terms.slice(
+                            0, state.config.MAX_TERMS_COUNT
+                        );
+                    } else {
+                        return null;
+                    }
                 }
             },
 

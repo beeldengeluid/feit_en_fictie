@@ -10,7 +10,13 @@
             <h2
                 v-if="site.title"
                 class="site-card__title">
-                {{site.title}}
+                <a v-if="site.url"
+                   v-bind:href="site.url"
+                   target="_blank">
+                    {{site.title}}
+                </a>
+
+                <span v-else>{{site.title}}</span>
             </h2>
 
             <p
@@ -25,7 +31,7 @@
                 <a
                     v-if="site.url"
                     v-bind:href="site.url"
-                    site="blank">
+                    target="_blank">
                     {{site.domain}}
                 </a>
 
