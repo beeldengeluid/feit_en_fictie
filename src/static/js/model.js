@@ -19,9 +19,19 @@ export default class {
         return new Vuex.Store({
             strict : this.data.debug,
 
-            state : model.getInitialState(),
+            state : Object.assign(model.getInitialState(), {
+                network : null
+            }),
 
             getters : {
+                hasStaticTerms(state) {
+                    if (state.route) {
+                        return !!state.route.query.terms;
+                    } else {
+                        return null;
+                    }
+                },
+
                 opengraph(state) {
                     return state.results ? state.results.opengraph : null;
                 },
@@ -156,7 +166,6 @@ export default class {
             feedItems : this.feedItems,
             loading : false,
             messages,
-            network : null,
             player : null,
             query : null,
             results : null,

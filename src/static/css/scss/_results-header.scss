@@ -39,6 +39,11 @@
         margin-right: 2rem;
     }
 
+    &__btn-link {
+        color: white;
+        text-decoration: underline;
+    }
+
     &__metadata {
         @include child-margins(1rem);
     }

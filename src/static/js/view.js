@@ -45,32 +45,6 @@ export default class View {
                 this.$router.afterEach((to) => {
                     this.$store.commit('route', to);
                 });
-            },
-
-            computed : {
-                terms() {
-                    return this.$store.getters.terms;
-                }
-            },
-
-            watch : {
-                terms(terms) {
-                    if (!terms) {
-                        return;
-                    }
-
-                    const termstring = terms.map((t) => {
-                        return `${t.probability}(${t.term})`
-                    }).join('|');
-
-                    this.$router.push({
-                        name : 'results',
-                        query : {
-                            terms : termstring,
-                            url : this.$route.query.url,
-                        }
-                    });
-                }
             }
         });
     }

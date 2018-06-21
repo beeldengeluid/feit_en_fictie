@@ -37,6 +37,8 @@ tess_api = TessApi(
 
 USE_CACHE = app.config["CACHE_REQUESTS"]
 
+logger.debug(f"Using cache: {USE_CACHE}")
+
 # This should probably be a decorator, but i don't know how
 def check_params(*args):
     for arg in args:

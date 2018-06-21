@@ -20,34 +20,47 @@
             <div
                 class="results-header__settings"
                 v-show="showSettings">
-                <p>Term extractor</p>
+                <div
+                    class="results-header__settings"
+                    v-show="!hasStaticTerms">
+                    <p>{{labelTermExtractor}}</p>
 
-                <label>
-                    <input type="radio"
-                           value="spinque"
-                           v-model="termextractor" />
-                    Spinque
-                </label>
+                    <label>
+                        <input type="radio"
+                               value="spinque"
+                               v-model="termextractor" />
+                        {{labelTermExtractorSpinque}}
+                    </label>
 
-                <label>
-                    <input type="radio"
-                           value="tess"
-                           v-model="termextractor" />
-                    Tess
-                </label>
+                    <label>
+                        <input type="radio"
+                               value="tess"
+                               v-model="termextractor" />
+                        {{labelTermExtractorTess}}
+                    </label>
+                </div>
+
+                <div v-show="hasStaticTerms"
+                     class="result-header__settings">
+                    <button
+                        class="results-header__btn-link"
+                        v-on:click="resetTerms">
+                        {{labelResetTerms}}
+                    </button>
+                </div>
 
                 <span>—</span>
 
-                <p>Network: {{network}}</p>
+                <p>{{labelNetwork}}: {{network}}</p>
             </div>
 
             <div
                 class="results-header__metadata"
                 v-show="!loading">
-                <p>Op basis van dit artikel:</p>
+                <p>{{labelBasicOfArticle}}</p>
                 <opengraph-card class="site-card--small"></opengraph-card>
 
-                <p>Heb ik deze termen gevonden:</p>
+                <p>{{labelFoundTerms}}</p>
                 <terms-list type="inverted"></terms-list>
             </div>
         </header>
@@ -59,7 +72,7 @@
         <p
             class="screen-results__message"
             v-show="!loading">
-            En vond ik deze resultaten in het archief van Beeld en Geluid:
+            {{labelFoundInBgArchives}}
         </p>
 
         <div
@@ -93,6 +106,10 @@
                 return this.$store.state.error;
             },
 
+            hasStaticTerms() {
+                return this.$store.getters.hasStaticTerms;
+            },
+
             loading() {
                 return this.$store.state.loading;
             },
@@ -105,6 +122,16 @@
         methods : {
             playMedia(media) {
                 this.media = media;
+            },
+
+            resetTerms() {
+                // Remove the termstring from the current page
+                this.$router.push({
+                    name : 'results',
+                    query : {
+                        url : this.$route.query.url,
+                    }
+                });
             },
 
             search() {
@@ -127,11 +154,21 @@
         },
 
         data() {
+            const msg = this.$store.state.messages;
+
             return {
+                labelBasicOfArticle : msg.ON_BASIS_OF_ARTCILE,
+                labelFoundTerms : msg.FOUND_TERMS,
+                labelFoundInBgArchives : msg.FOUND_IN_BG_ARCHIVES,
+                labelNetwork : msg.NETWORK,
+                labelResetTerms : msg.RESET_TERMS,
+                labelTermExtractor : msg.TERM_EXTRACTOR,
+                labelTermExtractorSpinque : msg.TERM_EXTRACTOR_SPINQUE,
+                labelTermExtractorTess: msg.TERM_EXTRACTOR_TESS,
                 media : null,
                 showSettings : false,
                 termextractor : this.$store.state.termextractor,
-                title : this.$store.state.messages.TITLE
+                title : msg.TITLE
             };
         },
 
