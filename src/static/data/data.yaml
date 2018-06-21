@@ -21,8 +21,8 @@ messages:
   ON_BASIS_OF_ARTCILE: "Op basis van dit artikel:"
   PASTE_URL_HERE: Plak hier de link naar je nieuwsartikel
   PLAYER_TYPE : 'Speler'
-  PLAYER_INTERNAL : 'B&G Intern (alleen op B&G netwerk beschikbaar)'
-  PLAYER_NPO : 'NPO (overal beschikbaar)'
+  PLAYER_INTERNAL : 'B&G Intern'
+  PLAYER_NPO : 'NPO'
   RESET_TERMS: Herstel termen
   SEARCH_LABEL: Zoek
   TERM_EXTRACTOR: Term extractor
