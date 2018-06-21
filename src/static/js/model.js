@@ -129,13 +129,15 @@ export default class {
                     }
                 },
 
-                search({ commit, dispatch }, route) {
-                    dispatch('queryByUrl', route.query);
+                search({ state, dispatch }) {
+                    dispatch('queryByUrl', state.route.query);
                 },
 
                 termextractor({ state, dispatch }, termextractor) {
                     state.termextractor = termextractor;
-                    dispatch('search', state.route);
+                    // Whenever we change the termextractor we need to
+                    // re-do the query
+                    dispatch('search');
                 }
             }
         });

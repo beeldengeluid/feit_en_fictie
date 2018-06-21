@@ -8,53 +8,70 @@ import { checkNetwork } from './util.js';
 Vue.use(Vuex);
 Vue.component('icon', Icon)
 
-export default function(el, model) {
-    const store = model.getStore();
-    const router = new Router(store);
+export default class View {
+    constructor(el, model) {
+        this.el = el;
+        this.model = model;
+        this.store = model.getStore();
+        this.checkNetwork();
+        this.router = new Router(this.store);
+        this.view = this.getView();
 
-    checkNetwork((network) => {
-        store.commit('setNetwork', network);
-    });
+        // Wait until the router is ready to mount the vue instance,
+        // and also add the route to the store so we can easily query
+        // that later
+        this.router.onReady(() => {
+            this.store.commit('route', this.router.currentRoute);
+            this.view.$mount(this.el);
+        });
+    }
 
-    return new Vue({
-        el,
+    checkNetwork() {
+        checkNetwork((network) => {
+            this.store.commit('setNetwork', network);
+        });
+    }
 
-        router,
+    getView() {
+        return new Vue({
+            'router' : this.router,
 
-        store,
+            'store' : this.store,
 
-        mounted() {
-            this.$store.commit('route', this.$route);
+            /// Pass route to the store for easier reference later on
+            mounted() {
+                this.$store.commit('route', this.$route);
 
-            this.$router.afterEach((to) => {
-                this.$store.commit('route', to);
-            });
-        },
-
-        computed : {
-            terms() {
-                return this.$store.getters.terms;
-            }
-        },
-
-        watch : {
-            terms(terms) {
-                if (!terms) {
-                    return;
-                }
-
-                const termstring = terms.map((t) => {
-                    return `${t.probability}(${t.term})`
-                }).join('|');
-
-                this.$router.push({
-                    name : 'results',
-                    query : {
-                        terms : termstring,
-                        url : this.$route.query.url,
-                    }
+                this.$router.afterEach((to) => {
+                    this.$store.commit('route', to);
                 });
+            },
+
+            computed : {
+                terms() {
+                    return this.$store.getters.terms;
+                }
+            },
+
+            watch : {
+                terms(terms) {
+                    if (!terms) {
+                        return;
+                    }
+
+                    const termstring = terms.map((t) => {
+                        return `${t.probability}(${t.term})`
+                    }).join('|');
+
+                    this.$router.push({
+                        name : 'results',
+                        query : {
+                            terms : termstring,
+                            url : this.$route.query.url,
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
+    }
 };

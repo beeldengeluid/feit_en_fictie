@@ -108,7 +108,7 @@
             },
 
             search() {
-                this.$store.dispatch('search', this.$route);
+                this.$store.dispatch('search');
             },
 
             toggleSettings() {
