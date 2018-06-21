@@ -91,6 +91,10 @@ export default class {
 
                 startLoading(state) {
                     state.loading = true;
+                },
+
+                termextractor(extractor) {
+                    state.termextractor = extractor;
                 }
             },
 

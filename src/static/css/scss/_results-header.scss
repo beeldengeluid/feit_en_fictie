@@ -31,6 +31,14 @@
         fill: white;
     }
 
+    &__settings {
+        display: flex;
+    }
+
+    &__settings > * {
+        margin-right: 2rem;
+    }
+
     &__metadata {
         @include child-margins(1rem);
     }

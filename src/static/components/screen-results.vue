@@ -20,7 +20,25 @@
             <div
                 class="results-header__settings"
                 v-show="showSettings">
-                <p>Settings</p>
+                <p>Term extractor</p>
+
+                <label>
+                    <input type="radio"
+                           value="spinque"
+                           v-model="termextractor" />
+                    Spinque
+                </label>
+
+                <label>
+                    <input type="radio"
+                           value="tess"
+                           v-model="termextractor" />
+                    Tess
+                </label>
+
+                <span>—</span>
+
+                <p>Network: {{network}}</p>
             </div>
 
             <div
@@ -77,6 +95,10 @@
 
             loading() {
                 return this.$store.state.loading;
+            },
+
+            network() {
+                return this.$store.state.network || 'searching...';
             }
         },
 
@@ -97,6 +119,10 @@
         watch : {
             $route() {
                 this.search();
+            },
+
+            termextractor(extractor) {
+                this.$store.dispatch('termextractor', extractor);
             }
         },
 
@@ -104,6 +130,7 @@
             return {
                 media : null,
                 showSettings : false,
+                termextractor : this.$store.state.config.termextractor,
                 title : this.$store.state.messages.TITLE
             };
         },

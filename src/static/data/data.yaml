@@ -1,7 +1,7 @@
 # We probably want to move this to a config.yaml at a later point
 config:
   debug: true
-  termextractor: 'spinque' # 'spinque' or 'tess'
+  termextractor: 'tess' # 'spinque' or 'tess'
   termextractors: ['spinque', 'tess']
 
 messages:
