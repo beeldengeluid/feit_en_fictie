@@ -19,9 +19,7 @@ export default class {
         return new Vuex.Store({
             strict : this.data.debug,
 
-            state : Object.assign(model.getInitialState(), {
-                network : null
-            }),
+            state : model.getInitialState(),
 
             getters : {
                 hasStaticTerms(state) {
@@ -74,6 +72,14 @@ export default class {
                     results.terms = results.terms.filter(t => t.term === term.term);
                 },
 
+                playerType(state, type) {
+                    if (state.playerTypes.includes(type)) {
+                        state.playerType = type;
+                    } else {
+                        throw new Error('Unknown playertype');
+                    }
+                },
+
                 query(state, query) {
                     state.query = query;
                 },
@@ -88,15 +94,16 @@ export default class {
                 },
 
                 reset(state) {
-                    Object.assign(state, model.getInitialState());
+                    Object.assign(state, {
+                        error : null,
+                        loading : false,
+                        query : null,
+                        results : null
+                    });
                 },
 
                 route(state, route) {
                     state.route = route;
-                },
-
-                setNetwork(state, network) {
-                    state.network = network;
                 },
 
                 stopLoading(state) {
@@ -166,11 +173,11 @@ export default class {
             feedItems : this.feedItems,
             loading : false,
             messages,
-            player : null,
+            playerType : 'internal',
+            playerTypes : ['internal', 'npo'],
             query : null,
             results : null,
             route : null,
-            state : null,
             termextractor : this.data.config.termextractor
         };
     }

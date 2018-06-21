@@ -2,13 +2,13 @@
     <div class="view-pane"
          v-if="media && type === 'video'">
         <video-player
-            v-if="network === 'nibg'"
+            v-if="playerType === 'internal'"
             v-bind:src="src"
             v-bind:autoplay="true"
             v-bind:start="start"></video-player>
 
         <vpro-player
-            v-if="network === 'internet'"
+            v-if="playerType === 'npo'"
             v-bind:pomsid="externalId"
             v-bind:start="start"></vpro-player>
     </div>
@@ -24,8 +24,8 @@
                 return this.media.externalId;
             },
 
-            network() {
-                return this.$store.state.network;
+            playerType() {
+                return this.$store.state.playerType;
             },
 
             src() {

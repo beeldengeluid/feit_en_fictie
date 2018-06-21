@@ -51,7 +51,21 @@
 
                 <span>—</span>
 
-                <p>{{labelNetwork}}: {{network}}</p>
+                <p>{{labelPlayerType}}</p>
+
+                <label>
+                    <input type="radio"
+                           value="internal"
+                           v-model="playerType" />
+                    {{labelPlayerInternal}}
+                </label>
+
+                <label>
+                    <input type="radio"
+                           value="npo"
+                           v-model="playerType" />
+                    {{labelPlayerNpo}}
+                </label>
             </div>
 
             <div
@@ -112,10 +126,6 @@
 
             loading() {
                 return this.$store.state.loading;
-            },
-
-            network() {
-                return this.$store.state.network || 'searching...';
             }
         },
 
@@ -148,6 +158,10 @@
                 this.search();
             },
 
+            playerType(type) {
+                this.$store.commit('playerType', type);
+            },
+
             termextractor(extractor) {
                 this.$store.dispatch('termextractor', extractor);
             }
@@ -160,12 +174,15 @@
                 labelBasicOfArticle : msg.ON_BASIS_OF_ARTCILE,
                 labelFoundTerms : msg.FOUND_TERMS,
                 labelFoundInBgArchives : msg.FOUND_IN_BG_ARCHIVES,
-                labelNetwork : msg.NETWORK,
+                labelPlayerType : msg.PLAYER_TYPE,
+                labelPlayerInternal : msg.PLAYER_INTERNAL,
+                labelPlayerNpo : msg.PLAYER_NPO,
                 labelResetTerms : msg.RESET_TERMS,
                 labelTermExtractor : msg.TERM_EXTRACTOR,
                 labelTermExtractorSpinque : msg.TERM_EXTRACTOR_SPINQUE,
                 labelTermExtractorTess: msg.TERM_EXTRACTOR_TESS,
                 media : null,
+                playerType : this.$store.state.playerType,
                 showSettings : false,
                 termextractor : this.$store.state.termextractor,
                 title : msg.TITLE
