@@ -31,7 +31,7 @@ messages:
   PLAYER_NPO : 'NPO'
   RESET_TERMS: Herstel termen
   SEARCH_LABEL: Zoek
-  TERM_EXTRACTOR: Term extractor
+  TERM_EXTRACTOR: Termextractie
   TERM_EXTRACTOR_SPINQUE: Spinque
   TERM_EXTRACTOR_TESS: Tess
   TERMS_LABEL: Zoektermen
