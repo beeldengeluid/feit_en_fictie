@@ -5,21 +5,19 @@ import {
     mediaForArticle,
     stringToTerms
 } from './api.js';
-import { $, getJson } from './util.js';
-
-const DEBUG = true; // CHANGE THIS
-const DATA_PATH = 'static/data/data.json';
+import { $ } from './util.js';
 
 export default class {
-    constructor(...args) {
+    constructor(data) {
         this.store = null;
+        this.data = data;
     }
 
     createStore() {
         const model = this;
 
         return new Vuex.Store({
-            strict : DEBUG,
+            strict : this.data.debug,
 
             state : model.getInitialState(),
 
@@ -106,7 +104,11 @@ export default class {
                     let results = null;
 
                     try {
-                        results = await mediaForArticle(query.url, query.terms || false);
+                        results = await mediaForArticle({
+                            termextractor : state.config.termextractor,
+                            terms : query.terms || false,
+                            url : query.url
+                        });
 
                         // FIXME: this is awful
                         if (query.terms) {
@@ -134,10 +136,10 @@ export default class {
         const { examples, messages } = this.data;
 
         return {
-            config : {
+            config : Object.assign(this.data.config, {
                 audioBaseUrl : $('meta[name="AUDIO_BASE_URL"]').getAttribute('content'),
                 videoBaseUrl : $('meta[name="VIDEO_BASE_URL"]').getAttribute('content')
-            },
+            }),
             error : null,
             examples,
             feedItems : this.feedItems,
@@ -161,8 +163,6 @@ export default class {
 
     load() {
         return new Promise(async (resolve) => {
-            this.data = await getJson(DATA_PATH);
-
             try {
                 this.feedItems = await getFeedItems();
             } catch(e) {

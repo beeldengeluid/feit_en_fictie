@@ -1,8 +1,16 @@
 import view from './view.js';
 import Model from './model.js';
+import { getJson } from './util.js';
 
-const model = new Model();
+async function main() {
+    const DATA_PATH = 'static/data/data.json';
+    const data = await getJson(DATA_PATH);
+    const model = new Model(data);
 
-model.load().then(() => {
-    window.__view__ = new view("main", model);
-});
+    model.load().then(() => {
+        window.__view__ = new view("main", model);
+        window.__model__ = model;
+    });
+}
+
+main();

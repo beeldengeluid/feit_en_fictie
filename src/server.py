@@ -78,12 +78,12 @@ http://localhost:5000/api/extract_terms?title=Tientallen%20doden%20en%20honderde
 """
 @app.route('/api/extract_terms')
 def extract_terms():
-    check_params("title", "text")
+    check_params("title", "text", "termextractor")
     title = request.args.get("title")
     text = request.args.get("text")
+    extractor = request.args.get("termextractor")
 
     try:
-        extractor = app.config["TERM_EXTRACTOR"]
         if extractor == "spinque":
             data = spinque_api.extract_terms(title = title, text = text)
         elif extractor == "tess":
@@ -110,15 +110,16 @@ http://localhost:5000/api/media_for_article?url=https://www.nu.nl/midden-oostenc
 """
 @app.route("/api/media_for_article")
 def media_for_article_():
-    check_params("url")
+    check_params("url", "termextractor")
     url = request.args.get("url")
+    termextractor = request.args.get("termextractor")
     terms = request.args.get("terms", None)
 
     data = media_for_article(
         spinque_api = spinque_api,
         tess_api = tess_api,
         tess_genre = app.config["TESS_GENRE"],
-        term_api = app.config["TERM_EXTRACTOR"],
+        term_api = termextractor,
         termstring = terms,
         url = url
     )
