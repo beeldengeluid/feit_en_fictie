@@ -3,6 +3,7 @@ config:
   debug: true
   extractsource: 'article'
   extractsources: ['article', 'ogp']
+  maxDescriptionWords: 150
   maxTermsCount: 5
   termextractor: 'spinque'
   termextractors: ['spinque', 'tess']

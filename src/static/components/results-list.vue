@@ -14,7 +14,7 @@
                         {{item.date}}
                     </time>
 
-                    <p v-html="highlight(item.description)"></p>
+                    <p v-html="trim(highlight(item.description))"></p>
                 </button>
             </li>
         </ul>
@@ -27,6 +27,7 @@
 
 <script>
     import { highlight } from '../js/highlight.js';
+    import { trim } from '../js/trimwords.js';
     import ErrorMessage from './error-message.vue';
 
     export default {
@@ -69,6 +70,13 @@
 
             play(media) {
                 this.$emit('playmedia', media);
+            },
+
+            trim(str) {
+                return trim({
+                    maxWords : this.$store.state.config.maxDescriptionWords,
+                    string : str
+                });
             }
         }
     }
