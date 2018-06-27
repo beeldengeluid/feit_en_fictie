@@ -52,7 +52,10 @@
                         <span v-if="typeLabel(record.hit.type)">
                             op basis van {{typeLabel(record.hit.type)}}
                         </span>
-                        dit fragment:
+                        dit fragment
+                        <span v-if="record.media.startInHms">
+                            vanaf {{record.media.startInHms}}
+                        </span>
                     </p>
 
                     <div class="results-list__inset">

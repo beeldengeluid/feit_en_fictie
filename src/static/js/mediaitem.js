@@ -120,7 +120,8 @@ export class MediaItem {
             duration : this.duration,
             externalId : this.externalId,
             playerId : this.playerId,
-            startInSeconds : this.startTime / 100
+            startInSeconds : this.startTime / 1000,
+            startInHms : secondsToHms(this.startTime / 1000)
         };
     }
 
@@ -145,9 +146,9 @@ export class MediaItem {
     get startTime() {
         if (this.playerId) {
             if (this.hit.type === 'subtitle') {
-                return this.hit.TimeCodeIn;
+                return this.hit.TimeCodeIn - this.publication.starttime;
             } else if (this.hit.type === 'transcript') {
-                return this.hit.startoncarrier - this.hit.startoffset;
+                return this.hit.starttime - this.publication.starttime;
             }
         } else {
             return null;
