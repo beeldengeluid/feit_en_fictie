@@ -1,3 +1,6 @@
+import { map } from 'lodash';
+import { secondsToHms } from './util.js';
+
 const AVTYPE_AUDIO = 'audio';
 const AVTYPE_VIDEO = 'video';
 const DIST_CHANNEL_TELEVISION = 'televisie';
@@ -77,12 +80,26 @@ export class MediaItem {
         }
     }
 
+    get broadcasters() {
+        if (this.hasPublication) {
+            return map(this.publication.broadcaster, 'name');
+        }
+    }
+
     get date() {
         if (this.hasPublication) {
             return this.publication.startdate.split('-').reverse().join('-');
         } else {
             return null;
         }
+    }
+
+    get distributionchannel() {
+        return this.hasPublication ? this.publication.distributionchannel : null;
+    }
+
+    get duration() {
+        return this.program.duration ? secondsToHms(this.program.duration / 1000) : null;
     }
 
     get externalId() {
@@ -97,6 +114,10 @@ export class MediaItem {
     get media() {
         return {
             avtype : this.avtype,
+            broadcasters : this.broadcasters,
+            distributionchannel : this.distributionchannel,
+            date : this.date,
+            duration : this.duration,
             externalId : this.externalId,
             playerId : this.playerId,
             startInSeconds : this.startTime / 100

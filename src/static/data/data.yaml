@@ -9,6 +9,10 @@ config:
   termextractors: ['spinque', 'tess']
 
 messages:
+  BROADCASTERS: "Omroepen"
+  DATE: "Datum"
+  DISTRIBUTION_CHANNEL: "Medium"
+  DURATION: "Lengte"
   ENTER_URL: Vul een URL naar een nieuwsbericht in
   ERR_API_ERROR: Er ging iets mis met het laden. Probeer het later nog eens.
   ERR_INVALID_QUERY_GIVEN: Invoer is ongeldig.

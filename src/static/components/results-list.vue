@@ -11,13 +11,40 @@
                     <p class="results-list__hint">In dit programma:</p>
 
                     <div class="results-list__inset">
-                        <h3 v-html="highlight(record.program.title)"></h3>
+                        <h3 v-if="record.program.title"
+                            v-html="highlight(record.program.title)"></h3>
 
-                        <time>
-                            {{record.program.date}}
-                        </time>
+                        <h3 v-if="!record.program.title">
+                            {{messages.NO_TITLE}}
+                        </h3>
 
-                        <p v-html="trim(highlight(record.program.description))"></p>
+                        <p
+                            class="results-list__description"
+                            v-html="trim(highlight(record.program.description))"></p>
+
+                        <dl class="results-list__meta">
+                            <template v-if="record.media.date">
+                                <dt>{{messages.DATE}}</dt>
+                                <dd><time>{{record.media.date}}</time></dd>
+                            </template>
+
+                            <template v-if="record.media.broadcasters">
+                                <dt>{{messages.BROADCASTERS}}</dt>
+                                <dd>
+                                    {{record.media.broadcasters.join(',')}}
+                                </dd>
+                            </template>
+
+                            <template v-if="record.media.distributionchannel">
+                                <dt>{{messages.DISTRIBUTION_CHANNEL}}</dt>
+                                <dd>{{record.media.distributionchannel}}</dd>
+                            </template>
+
+                            <template v-if="record.media.duration">
+                                <dt>{{messages.DURATION}}</dt>
+                                <dd>{{record.media.duration}}</dd>
+                            </template>
+                        </dl>
                     </div>
 
                     <p class="results-list__hint">
@@ -30,7 +57,8 @@
 
                     <div class="results-list__inset">
                         <h3 v-html="highlight(record.hit.title)"></h3>
-                        <p v-html="highlight(record.hit.description)"></p>
+                        <p class="results-list__description"
+                           v-html="highlight(record.hit.description)"></p>
                     </div>
                 </button>
             </li>
