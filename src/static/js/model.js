@@ -35,26 +35,11 @@ export default class {
                 },
 
                 resultItems(state) {
-                    if (!state.results) {
+                    if (state.results && state.results.items) {
+                        return state.results.items;
+                    } else {
                         return null;
                     }
-
-                    return state.results.items.map((item) => {
-                        // Note that we make a new object here to avoid
-                        // mutating state
-                        item = Object.assign({}, item, {
-                            description : item.description || state.messages.NO_DESCRIPTION,
-                            media : {
-                                avtype : item.avtype,
-                                externalId : item.externalId,
-                                playerId : item.playerId,
-                                startInSeconds : item.startTime / 100
-                            },
-                            title : item.title || state.messages.NO_TITLE
-                        });
-
-                        return item;
-                    });
                 },
 
                 terms(state) {

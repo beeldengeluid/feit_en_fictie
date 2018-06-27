@@ -1,17 +1,53 @@
 const AVTYPE_AUDIO = 'audio';
 const AVTYPE_VIDEO = 'video';
 const DIST_CHANNEL_TELEVISION = 'televisie';
+const SUBTITLE_TYPE = 'http://example.org/tt888/subtitle';
+const TRANSCRIPT_TYPE = 'http://example.org/transcript';
+
+function getHitType(hit) {
+    if (hit.class.includes(SUBTITLE_TYPE)) {
+        return 'subtitle';
+    } else if (hit.class.includes(TRANSCRIPT_TYPE)) {
+        return 'transcript';
+    } else {
+        return null;
+    }
+}
+
+function parseProgram(program) {
+    const attrs = program.attributes;
+
+    return Object.assign(attrs, {
+        title : attrs.maintitles || null,
+        description : attrs.description || attrs.summary || null
+    });
+}
+
+function parseHit(hit) {
+    const type = getHitType(hit);
+    const attrs = hit.attributes;
+
+    attrs.type = type;
+
+    if (type === 'transcript') {
+        return Object.assign(attrs, {
+            title : attrs.maintitles || null,
+            description : attrs.description || attrs.summary
+        });
+    } else if (type === 'subtitle') {
+        return Object.assign(attrs, {
+            title : null,
+            description : attrs.TextField
+        });
+    }
+}
 
 export class MediaItem {
     constructor(item) {
-        item.tuple.forEach((tuple) => {
-            const type = tuple.class[0].replace('http://example.org/', '');
-            this[type] = tuple;
-        });
+        this.program = parseProgram(item.tuple[0]);
+        this.hit = parseHit(item.tuple[1]);
 
-        if (this.segment) {
-            this.item = this.segment.attributes;
-        } else if (this.program) {
+        if (this.program) {
             this.item = this.program.attributes;
         } else {
             throw new Error('Could not find a proper type for this item');
@@ -20,15 +56,9 @@ export class MediaItem {
 
     getData() {
         return {
-            'avtype' : this.avtype,
-            'date' : this.date,
-            'description' : this.description,
-            'externalId' : this.externalId,
-            'hasPublication' : this.hasPublication,
-            'publication' : this.publication,
-            'playerId' : this.playerId,
-            'startTime' : this.startTime,
-            'title' : this.title
+            hit : this.hit,
+            media : this.media,
+            program : this.program
         };
     }
 
@@ -37,10 +67,10 @@ export class MediaItem {
             return null;
         } else if (
             this.publication.distributionchannel === DIST_CHANNEL_TELEVISION &&
-            this.item.carrierreference
+            this.program.carrierreference
         ) {
             return AVTYPE_VIDEO;
-        } else if (this.item.dmguid) {
+        } else if (this.program.dmguid) {
             return AVTYPE_AUDIO;
         } else {
             return null;
@@ -55,47 +85,29 @@ export class MediaItem {
         }
     }
 
-    get description() {
-        const item = this.item;
-
-        if (item.maintitles && item.description) {
-            if (item.maintitles.length > item.description.length) {
-                return item.maintitles;
-            } else {
-                return item.description;
-            }
-        } else if (item.summary) {
-            return item.summary
-        } else if (item.description) {
-            return item.description;
-        } else if (item.maintitles) {
-            return item.maintitles;
-        } else if (item.program) {
-                if (item.program.summary) {
-                    return item.program.summary;
-                } else if (item.program.maintitles) {
-                    return item.program.maintitles;
-                } else {
-                    return null;
-                }
-        } else {
-            return null;
-        }
-    }
-
     get externalId() {
-        return this.item.externalID || null;
+        return this.program.externalID || null;
     }
 
     get hasPublication() {
-        return !!this.publicationType;
+        return this.program.publication &&
+               this.program.publication.length > 0;
+    }
+
+    get media() {
+        return {
+            avtype : this.avtype,
+            externalId : this.externalId,
+            playerId : this.playerId,
+            startInSeconds : this.startTime / 100
+        };
     }
 
     get playerId() {
         if (this.avtype === AVTYPE_VIDEO) {
-            return this.item.carrierreference;
+            return this.program.carrierreference;
         } else if (this.avtype === AVTYPE_AUDIO) {
-            return this.item.dmguid;
+            return this.program.dmguid;
         } else {
             return null;
         }
@@ -103,28 +115,7 @@ export class MediaItem {
 
     get publication() {
         if (this.hasPublication) {
-            if (this.publicationType === 'program') {
-                return this.item.program.publication[0];
-            } else {
-                return this.item.publication[0];
-            }
-        } else {
-            return null;
-        }
-    }
-
-    get publicationType() {
-        if (
-            this.item.program &&
-            this.item.program.publication &&
-            this.item.program.publication[0]
-        ) {
-            return 'program';
-        } else if(
-            this.item.publication &&
-            this.item.publication[0]
-        ) {
-            return 'publication';
+            return this.program.publication[0];
         } else {
             return null;
         }
@@ -132,23 +123,11 @@ export class MediaItem {
 
     get startTime() {
         if (this.playerId) {
-            let start = this.item.startoncarrier - this.item.startoffset;
-
-            if (isNaN(start)) {
-                start = 0;
+            if (this.hit.type === 'subtitle') {
+                return this.hit.TimeCodeIn;
+            } else if (this.hit.type === 'transcript') {
+                return this.hit.startoncarrier - this.hit.startoffset;
             }
-
-            return start;
-        } else {
-            return null;
-        }
-    }
-
-    get title() {
-        if (this.item.maintitles) {
-            return this.item.maintitles;
-        } else if (this.item.description) {
-            return this.item.description;
         } else {
             return null;
         }

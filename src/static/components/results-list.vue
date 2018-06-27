@@ -2,19 +2,36 @@
     <div class="results-list">
         <ul v-show="results && results.length">
             <li
-                v-for="(item, index) in results"
+                v-for="(record, index) in results"
                 v-bind:key="index"
             >
                 <button
-                    v-on:click="play(item.media)"
+                    v-on:click="play(record.media)"
                     class="results-list__item">
-                    <h3 v-html="highlight(item.title)"></h3>
+                    <p class="results-list__hint">In dit programma:</p>
 
-                    <time>
-                        {{item.date}}
-                    </time>
+                    <div class="results-list__inset">
+                        <h3 v-html="highlight(record.program.title)"></h3>
 
-                    <p v-html="trim(highlight(item.description))"></p>
+                        <time>
+                            {{record.program.date}}
+                        </time>
+
+                        <p v-html="trim(highlight(record.program.description))"></p>
+                    </div>
+
+                    <p class="results-list__hint">
+                        Vond ik
+                        <span v-if="typeLabel(record.hit.type)">
+                            op basis van {{typeLabel(record.hit.type)}}
+                        </span>
+                        dit fragment:
+                    </p>
+
+                    <div class="results-list__inset">
+                        <h3 v-html="highlight(record.hit.title)"></h3>
+                        <p v-html="highlight(record.hit.description)"></p>
+                    </div>
                 </button>
             </li>
         </ul>
@@ -43,6 +60,10 @@
                         word : term.term
                     }
                 });
+            },
+
+            messages() {
+                return this.$store.state.messages;
             },
 
             results() {
@@ -77,6 +98,16 @@
                     maxWords : this.$store.state.config.maxDescriptionWords,
                     string : str
                 });
+            },
+
+            typeLabel(type) {
+                if (type === 'transcript') {
+                    return this.messages.HIT_TRANSCRIPT;
+                } else if (type === 'subtitle') {
+                    return this.messages.HIT_SUBTITLES;
+                } else {
+                    return null;
+                }
             }
         }
     }

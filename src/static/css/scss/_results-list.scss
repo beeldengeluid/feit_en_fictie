@@ -2,7 +2,7 @@
     max-width: 100rem;
 
     ul {
-        @include child-margins(2rem);
+        @include child-margins(6rem);
     }
 
     li {
@@ -11,5 +11,16 @@
 
     &__item {
         text-align: left;
+        @include child-margins(1rem);
+    }
+
+    &__hint {
+        color: $c-3;
+    }
+
+    &__inset {
+        margin-left: 1rem;
+        padding: 1rem;
+        background: $c-4;
     }
 }
