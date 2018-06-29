@@ -146,7 +146,14 @@ export class MediaItem {
     get startTime() {
         if (this.playerId) {
             if (this.hit.type === 'subtitle') {
-                return this.hit.TimeCodeIn - this.publication.starttime;
+                // Okay, sometimes we need publication.starttime, but *sometimes*
+                // we need startoncarrier! Haha! Let's check which one is more
+                // feasible
+                if (this.hit.TimeCodeIn < this.publication.starttime) {
+                    return this.hit.TimeCodeIn - this.program.startoncarrier;
+                } else {
+                    return this.hit.TimeCodeIn - this.publication.starttime;
+                }
             } else if (this.hit.type === 'transcript') {
                 return this.hit.starttime - this.publication.starttime;
             }
