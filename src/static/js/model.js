@@ -1,4 +1,5 @@
 import Vuex from 'vuex';
+import { isEmpty } from 'lodash';
 import { warn } from 'loglevel';
 import {
     getFeedItems,
@@ -22,6 +23,10 @@ export default class {
             state : model.getInitialState(),
 
             getters : {
+                hasOpenGraph(state) {
+                    return state.results && !isEmpty(state.results.opengraph);
+                },
+
                 hasStaticTerms(state) {
                     if (state.route) {
                         return !!state.route.query.terms;

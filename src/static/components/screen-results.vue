@@ -89,10 +89,13 @@
             <div
                 class="results-header__metadata"
                 v-show="!loading">
-                <p>{{labelBasicOfArticle}}</p>
-                <opengraph-card class="site-card--small"></opengraph-card>
+                <template v-if="hasOpenGraph">
+                    <p>{{labelBasicOfArticle}}</p>
+                    <opengraph-card class="site-card--small"></opengraph-card>
 
-                <p>{{labelFoundTerms}}</p>
+                    <p>{{labelFoundTerms}}</p>
+                </template>
+
                 <terms-list type="inverted"></terms-list>
             </div>
         </header>
@@ -136,6 +139,10 @@
         computed : {
             error() {
                 return this.$store.state.error;
+            },
+
+            hasOpenGraph() {
+                return this.$store.getters.hasOpenGraph;
             },
 
             hasStaticTerms() {
@@ -194,6 +201,8 @@
         data() {
             const msg = this.$store.state.messages;
 
+            // FIXME: Using the `msg` object directly is easier, so we need
+            // to convert al these label at a leter time
             return {
                 extractsource : this.$store.state.extractsource,
                 labelBasicOfArticle : msg.ON_BASIS_OF_ARTCILE,
@@ -210,6 +219,7 @@
                 labelTermExtractorSpinque : msg.TERM_EXTRACTOR_SPINQUE,
                 labelTermExtractorTess: msg.TERM_EXTRACTOR_TESS,
                 media : null,
+                msg,
                 playerType : this.$store.state.playerType,
                 showSettings : false,
                 termextractor : this.$store.state.termextractor,
