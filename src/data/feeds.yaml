@@ -14,3 +14,9 @@ feeds:
   nrc:
     url: https://www.nrc.nl/rss/
     source: NRC
+  mediacourant:
+    url: http://www.mediacourant.nl/feed/
+    source: Mediacourant.nl
+  rtlnieuws:
+    url: http://www.rtlnieuws.nl/service/rss/nederland/index.xml
+    source: RTL Nieuws

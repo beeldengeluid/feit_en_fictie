@@ -24,8 +24,12 @@
         width: 25vw;
         max-width: 30rem;
         object-fit: cover;
-        display: block;
+        flex-shrink: 0;
         border: 1rem solid white;
+    }
+
+    &__image--missing {
+        background: $c-1;
     }
 
     &__title {

@@ -6,6 +6,9 @@
             alt=""
             class="site-card__image" />
 
+        <div class="site-card__image site-card__image--missing"
+             v-if="!site.image"></div>
+
         <figcaption class="site-card__caption">
             <h2
                 v-if="site.title"
