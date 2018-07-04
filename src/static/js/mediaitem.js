@@ -135,7 +135,11 @@ export class MediaItem {
     }
 
     get hitOffset() {
-        return (DAY_IN_MSEC - (this.program.startoncarrier - this.hit.TimeCodeIn)) / MS_IN_S;
+        if (this.hit.TimeCodeIn < this.program.startoncarrier) {
+            return (DAY_IN_MSEC - (this.program.startoncarrier - this.hit.TimeCodeIn)) / MS_IN_S;
+        } else {
+            return (this.hit.TimeCodeIn - this.program.startoncarrier) / MS_IN_S;
+        }
     }
 
     get media() {

@@ -4,71 +4,90 @@
             <li
                 v-for="(record, index) in results"
                 v-bind:key="index"
+                class="results-list__item"
             >
-                <button
-                    v-on:click="play(record.media)"
-                    class="results-list__item">
-                    <p class="results-list__hint">In dit programma:</p>
+                <p class="results-list__hint">In dit programma:</p>
 
-                    <div class="results-list__inset">
-                        <h3 v-if="record.program.title"
-                            v-html="highlight(record.program.title)"></h3>
+                <div class="results-list__inset">
+                    <h3 v-if="record.program.title"
+                        v-html="highlight(record.program.title)"></h3>
 
-                        <h3 v-if="!record.program.title">
-                            {{messages.NO_TITLE}}
-                        </h3>
+                    <h3 v-if="!record.program.title">
+                        {{messages.NO_TITLE}}
+                    </h3>
 
-                        <p
-                            class="results-list__description"
-                            v-html="trim(highlight(record.program.description))"></p>
+                    <button
+                        v-on:click="play(record.media)"
+                        class="results-list__button">
+                        {{messages.PLAY_MEDIA}}
+                    </button>
 
-                        <dl class="results-list__meta">
-                            <template v-if="record.media.date">
-                                <dt>{{messages.DATE}}</dt>
-                                <dd><time>{{record.media.date}}</time></dd>
+                    <p
+                        class="results-list__description"
+                        v-html="trim(highlight(record.program.description))"></p>
+
+                    <dl class="results-list__meta">
+                        <template v-if="record.media.date">
+                            <dt>{{messages.DATE}}</dt>
+                            <dd><time>{{record.media.date}}</time></dd>
+                        </template>
+
+                        <template v-if="record.media.broadcasters">
+                            <dt>{{messages.BROADCASTERS}}</dt>
+                            <dd>
+                                {{record.media.broadcasters.join(',')}}
+                            </dd>
+                        </template>
+
+                        <template v-if="record.media.distributionchannel">
+                            <dt>{{messages.DISTRIBUTION_CHANNEL}}</dt>
+                            <dd>{{record.media.distributionchannel}}</dd>
+                        </template>
+
+                        <template v-if="record.media.duration">
+                            <dt>{{messages.DURATION}}</dt>
+                            <dd>{{secondsToHms(record.media.duration)}}</dd>
+                        </template>
+
+                        <template v-if="record.media.carrierDuration">
+                            <dt>{{messages.CARRIER_DURATION}}</dt>
+                            <dd>{{secondsToHms(record.media.carrierDuration)}}</dd>
+                        </template>
+
+                        <button
+                            v-on:click="toggleFold(index)"
+                            class="results-list__button">
+                            {{messages.SHOW_ALL_METADATA}}
+                        </button>
+
+                        <div v-show="folded.includes(index)">
+                            <template v-for="type in ['program', 'hit', 'media']">
+                                <h3>{{type}}</h3>
+                                <template v-for="(val, key) in record[type]">
+                                    <dt>{{key}}</dt>
+                                    <dd>{{val}}</dd>
+                                </template>
                             </template>
+                        </div>
+                    </dl>
+                </div>
 
-                            <template v-if="record.media.broadcasters">
-                                <dt>{{messages.BROADCASTERS}}</dt>
-                                <dd>
-                                    {{record.media.broadcasters.join(',')}}
-                                </dd>
-                            </template>
+                <p class="results-list__hint">
+                    Vond ik
+                    <span v-if="typeLabel(record.hit.type)">
+                        op basis van {{typeLabel(record.hit.type)}}
+                    </span>
+                    dit fragment
+                    <span v-if="record.media.hitOffset">
+                        vanaf {{secondsToHms(record.media.hitOffset)}}
+                    </span>
+                </p>
 
-                            <template v-if="record.media.distributionchannel">
-                                <dt>{{messages.DISTRIBUTION_CHANNEL}}</dt>
-                                <dd>{{record.media.distributionchannel}}</dd>
-                            </template>
-
-                            <template v-if="record.media.duration">
-                                <dt>{{messages.DURATION}}</dt>
-                                <dd>{{secondsToHms(record.media.duration)}}</dd>
-                            </template>
-
-                            <template v-if="record.media.carrierDuration">
-                                <dt>{{messages.CARRIER_DURATION}}</dt>
-                                <dd>{{secondsToHms(record.media.carrierDuration)}}</dd>
-                            </template>
-                        </dl>
-                    </div>
-
-                    <p class="results-list__hint">
-                        Vond ik
-                        <span v-if="typeLabel(record.hit.type)">
-                            op basis van {{typeLabel(record.hit.type)}}
-                        </span>
-                        dit fragment
-                        <span v-if="record.media.hitOffset">
-                            vanaf {{secondsToHms(record.media.hitOffset)}}
-                        </span>
-                    </p>
-
-                    <div class="results-list__inset">
-                        <h3 v-html="highlight(record.hit.title)"></h3>
-                        <p class="results-list__description"
-                           v-html="highlight(record.hit.description)"></p>
-                    </div>
-                </button>
+                <div class="results-list__inset">
+                    <h3 v-html="highlight(record.hit.title)"></h3>
+                    <p class="results-list__description"
+                       v-html="highlight(record.hit.description)"></p>
+                </div>
             </li>
         </ul>
 
@@ -114,6 +133,7 @@
 
         data() {
             return {
+                folded : [],
                 labelNoResults : this.$store.state.messages.NO_RESULTS
             }
         },
@@ -131,6 +151,14 @@
             },
 
             secondsToHms,
+
+            toggleFold(index) {
+                if (this.folded.includes(index)) {
+                    this.folded = this.folded.filter(i => i !== index);
+                } else {
+                    this.folded.push(index);
+                }
+            },
 
             trim(str) {
                 return trim({

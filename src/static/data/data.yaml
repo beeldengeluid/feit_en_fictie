@@ -35,11 +35,13 @@ messages:
   NO_TITLE: Geen titel
   ON_BASIS_OF_ARTCILE: "Op basis van dit artikel:"
   PASTE_URL_HERE: Plak hier de link naar je nieuwsartikel
+  PLAY_MEDIA: Speel mediabestand
   PLAYER_TYPE : 'Speler'
   PLAYER_INTERNAL : 'B&G Intern'
   PLAYER_NPO : 'NPO'
   RESET_TERMS: Herstel termen
   SEARCH_LABEL: Zoek
+  SHOW_ALL_METADATA: Toon alle metadata
   TERM_EXTRACTOR: Termextractie
   TERM_EXTRACTOR_SPINQUE: Spinque
   TERM_EXTRACTOR_TESS: Tess

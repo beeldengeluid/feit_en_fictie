@@ -9,6 +9,11 @@
         list-style: none;
     }
 
+    &__button {
+        @include button;
+        margin-top: 1rem;
+    }
+
     &__item {
         text-align: left;
         @include child-margins(1rem);
