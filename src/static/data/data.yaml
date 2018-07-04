@@ -10,6 +10,7 @@ config:
 
 messages:
   BROADCASTERS: "Omroepen"
+  CARRIER_DURATION: "Dragerlengte"
   DATE: "Datum"
   DISTRIBUTION_CHANNEL: "Medium"
   DURATION: "Lengte"
@@ -25,6 +26,8 @@ messages:
   FOUND_TERMS: "Heb ik deze termen gevonden:"
   HEADER_LEAD: >
     Zoek door het archief van [Beeld&nbsp;en&nbsp;Geluid](https://www.beeldengeluid.nl/) op basis van nieuwsberichten.
+  HIT_SUBTITLES: ondertitels
+  HIT_TRANSCRIPT: transcriptie
   LOADING: Laden...
   NETWORK: Netwerk
   NO_DESCRIPTION: Geen beschrijving

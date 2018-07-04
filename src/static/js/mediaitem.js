@@ -1,8 +1,23 @@
 import { map } from 'lodash';
-import { secondsToHms } from './util.js';
+
+/*
+ * How durations are calculated
+ *
+ * startoffset   startoncarrier     TimeCodeIn      endoncarrier
+ * +-------------|------------------|---------------+
+ *
+ * 'broadcast' duration (use this for the NPO player): endoncarrier - startoncarrier
+ * 'carrier' duration (use this for B&G player): endoncarrier - startoffset
+ * 'subtitle' offset: seconds in a day - (startoncarrier - timecodeoffset)
+ *
+ * Note that all the values are in miliseconds, so you also need to divide by
+ * 1000 to get seconds
+ */
 
 const AVTYPE_AUDIO = 'audio';
 const AVTYPE_VIDEO = 'video';
+const MS_IN_S = 1000;
+const DAY_IN_MSEC = 60 * 60 * 24 * MS_IN_S;
 const DIST_CHANNEL_TELEVISION = 'televisie';
 const SUBTITLE_TYPE = 'http://example.org/tt888/subtitle';
 const TRANSCRIPT_TYPE = 'http://example.org/transcript';
@@ -86,6 +101,14 @@ export class MediaItem {
         }
     }
 
+    get carrierDuration() {
+        return (this.program.endoncarrier - this.program.startoffset) / MS_IN_S;
+    }
+
+    get carrierOffset() {
+        return (this.program.startoncarrier - this.program.startoffset) / MS_IN_S;
+    }
+
     get date() {
         if (this.hasPublication) {
             return this.publication.startdate.split('-').reverse().join('-');
@@ -99,7 +122,7 @@ export class MediaItem {
     }
 
     get duration() {
-        return this.program.duration ? secondsToHms(this.program.duration / 1000) : null;
+        return (this.program.endoncarrier - this.program.startoncarrier) / MS_IN_S;
     }
 
     get externalId() {
@@ -111,17 +134,22 @@ export class MediaItem {
                this.program.publication.length > 0;
     }
 
+    get hitOffset() {
+        return (DAY_IN_MSEC - (this.program.startoncarrier - this.hit.TimeCodeIn)) / MS_IN_S;
+    }
+
     get media() {
         return {
             avtype : this.avtype,
             broadcasters : this.broadcasters,
+            carrierDuration : this.carrierDuration,
+            carrierOffset : this.carrierOffset,
             distributionchannel : this.distributionchannel,
             date : this.date,
             duration : this.duration,
             externalId : this.externalId,
-            playerId : this.playerId,
-            startInSeconds : this.startTime / 1000,
-            startInHms : secondsToHms(this.startTime / 1000)
+            hitOffset : this.hitOffset,
+            playerId : this.playerId
         };
     }
 
@@ -138,25 +166,6 @@ export class MediaItem {
     get publication() {
         if (this.hasPublication) {
             return this.program.publication[0];
-        } else {
-            return null;
-        }
-    }
-
-    get startTime() {
-        if (this.playerId) {
-            if (this.hit.type === 'subtitle') {
-                // Okay, sometimes we need publication.starttime, but *sometimes*
-                // we need startoncarrier! Haha! Let's check which one is more
-                // feasible
-                if (this.hit.TimeCodeIn < this.publication.starttime) {
-                    return this.hit.TimeCodeIn - this.program.startoncarrier;
-                } else {
-                    return this.hit.TimeCodeIn - this.publication.starttime;
-                }
-            } else if (this.hit.type === 'transcript') {
-                return this.hit.starttime - this.publication.starttime;
-            }
         } else {
             return null;
         }

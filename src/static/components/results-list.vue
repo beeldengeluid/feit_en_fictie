@@ -42,7 +42,12 @@
 
                             <template v-if="record.media.duration">
                                 <dt>{{messages.DURATION}}</dt>
-                                <dd>{{record.media.duration}}</dd>
+                                <dd>{{secondsToHms(record.media.duration)}}</dd>
+                            </template>
+
+                            <template v-if="record.media.carrierDuration">
+                                <dt>{{messages.CARRIER_DURATION}}</dt>
+                                <dd>{{secondsToHms(record.media.carrierDuration)}}</dd>
                             </template>
                         </dl>
                     </div>
@@ -53,8 +58,8 @@
                             op basis van {{typeLabel(record.hit.type)}}
                         </span>
                         dit fragment
-                        <span v-if="record.media.startInHms">
-                            vanaf {{record.media.startInHms}}
+                        <span v-if="record.media.hitOffset">
+                            vanaf {{secondsToHms(record.media.hitOffset)}}
                         </span>
                     </p>
 
@@ -76,6 +81,7 @@
 <script>
     import { highlight } from '../js/highlight.js';
     import { trim } from '../js/trimwords.js';
+    import { secondsToHms } from '../js/util.js';
     import ErrorMessage from './error-message.vue';
 
     export default {
@@ -123,6 +129,8 @@
             play(media) {
                 this.$emit('playmedia', media);
             },
+
+            secondsToHms,
 
             trim(str) {
                 return trim({
