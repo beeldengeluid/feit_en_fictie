@@ -69,10 +69,7 @@ def json_response(data):
 
 @app.route('/')
 def home():
-    return render_template('index.html',
-       VIDEO_BASE_URL = app.config['VIDEO_BASE_URL'],
-       AUDIO_BASE_URL = app.config['AUDIO_BASE_URL']
-    )
+    return render_template('index.html')
 
 """
 Example:
